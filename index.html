@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -339,6 +339,24 @@ tr:hover{background:var(--gray-50)}
 .kt-modal{width:720px}
 .kt-parent-select hint{font-size:11px;color:var(--gray-500);margin-top:2px;display:block}
 
+/* ===== 知识主题输入区域 ===== */
+.kt-input-area-item{display:flex;align-items:flex-start;gap:8px;background:#fff;border:1px solid var(--gray-200);border-radius:8px;padding:10px 12px;transition:.15s}
+.kt-input-area-item:hover{border-color:var(--blue)}
+.kt-input-area-item .ia-index{width:24px;height:24px;background:var(--blue-light);color:var(--blue);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;margin-top:3px}
+.kt-input-area-item .ia-title{width:160px;min-width:140px;height:32px;border:1px solid var(--gray-300);border-radius:6px;padding:0 10px;font-size:13px;font-family:inherit;outline:none;transition:border-color .2s}
+.kt-input-area-item .ia-title:focus{border-color:var(--blue)}
+.kt-input-area-item .ia-content{flex:1;height:32px;border:1px solid var(--gray-300);border-radius:6px;padding:0 10px;font-size:13px;font-family:inherit;outline:none;transition:border-color .2s}
+.kt-input-area-item .ia-content:focus{border-color:var(--blue)}
+.kt-input-area-item .ia-remove{width:28px;height:28px;border:none;background:transparent;border-radius:6px;cursor:pointer;font-size:16px;color:var(--gray-500);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.kt-input-area-item .ia-remove:hover{background:#fce4ec;color:var(--red)}
+
+/* ===== 继承输入区域（叶子节点填写） ===== */
+.kt-inherit-area-block{margin-bottom:12px;background:#fafbfc;border:1px solid var(--gray-200);border-radius:8px;padding:12px 14px}
+.kt-inherit-area-block .kt-ia-label{font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.kt-inherit-area-block .kt-ia-label .required{color:var(--red);margin-left:2px}
+.kt-inherit-area-block textarea{width:100%;min-height:80px;padding:10px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:13px;font-family:inherit;outline:none;resize:vertical;transition:border-color .2s}
+.kt-inherit-area-block textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,115,232,.1)}
+
 /* ===== 通用Toggle开关 ===== */
 .toggle-switch{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0}
 .toggle-switch input{opacity:0;width:0;height:0}
@@ -481,17 +499,14 @@ tr:hover{background:var(--gray-50)}
           <div class="b-sub-item" onclick="switchBackendPage('insight',this)">会话洞察</div>
           <div class="b-sub-item" onclick="switchBackendPage('plan',this)">会话运维计划</div>
         </div>
-        <div class="b-menu-item" onclick="switchBackendPage('knowledge-topic',this);event.stopPropagation()">
-          <span class="icon">🧠</span> 知识管理
+        <div class="b-menu-item" onclick="toggleSubmenu(this)">
+          <span class="icon">💎</span> 知识资产 <span class="arrow">▶</span>
         </div>
-        <div class="b-menu-item" onclick="switchBackendPage('vocabulary',this);event.stopPropagation()">
-          <span class="icon">📖</span> 词库管理
-        </div>
-        <div class="b-menu-item" onclick="switchBackendPage('case-library',this);event.stopPropagation()">
-          <span class="icon">📚</span> 案例库
-        </div>
-        <div class="b-menu-item" onclick="switchBackendPage('dataset-list',this);event.stopPropagation()">
-          <span class="icon">🗂️</span> 数据集管理
+        <div class="b-submenu" id="sub-knowledge-asset">
+          <div class="b-sub-item" onclick="switchBackendPage('knowledge-topic',this)">知识管理</div>
+          <div class="b-sub-item" onclick="switchBackendPage('vocabulary',this)">词库管理</div>
+          <div class="b-sub-item" onclick="switchBackendPage('case-library',this)">案例库</div>
+          <div class="b-sub-item" onclick="switchBackendPage('dataset-list',this)">数据集管理</div>
         </div>
         <div class="b-menu-item" onclick="switchBackendPage('wecom',this);event.stopPropagation()">
           <span class="icon">🏢</span> 企业微信管理
@@ -897,28 +912,8 @@ tr:hover{background:var(--gray-50)}
               <div class="kt-detail-body" id="ktDetailBody">
                 <!-- 知识配置（仅知识节点显示） -->
                 <div id="ktLeafConfig" style="display:none">
-                  <!-- 匹配规则 -->
-                  <div style="margin-bottom:20px">
-                    <div style="font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:8px;display:flex;align-items:center;gap:6px">
-                      <span style="width:3px;height:14px;background:var(--blue);border-radius:2px;display:inline-block"></span>匹配规则
-                      <span style="font-size:11px;font-weight:400;color:var(--red);background:#fce4ec;padding:1px 6px;border-radius:3px">必填</span>
-                    </div>
-                    <div id="ktInfoRules"></div>
-                  </div>
-                  <!-- 核心关键词 -->
-                  <div style="margin-bottom:20px">
-                    <div style="font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:8px;display:flex;align-items:center;gap:6px">
-                      <span style="width:3px;height:14px;background:var(--primary);border-radius:2px;display:inline-block"></span>核心关键词
-                    </div>
-                    <div id="ktInfoKeywords"></div>
-                  </div>
-                  <!-- 排除条件 -->
-                  <div>
-                    <div style="font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:8px;display:flex;align-items:center;gap:6px">
-                      <span style="width:3px;height:14px;background:var(--orange);border-radius:2px;display:inline-block"></span>排除条件
-                    </div>
-                    <div id="ktInfoExcludes"></div>
-                  </div>
+                  <!-- 知识内容（继承输入区域） -->
+                  <div id="ktInfoRules"></div>
                 </div>
                 <!-- 知识主题：子节点概览 -->
                 <div id="ktFolderConfig" style="display:none">
@@ -1775,9 +1770,11 @@ tr:hover{background:var(--gray-50)}
         <div style="display:flex;gap:6px;margin-bottom:8px">
           <input id="vocabWordInput" placeholder="输入禁忌词，按回车或点击添加..." style="flex:1;height:36px;border:1px solid #d0d5dd;border-radius:8px;padding:0 12px;font-size:13px;font-family:inherit;outline:none" onkeydown="if(event.key==='Enter'){event.preventDefault();addVocabWord();}">
           <button class="btn btn-primary" style="height:36px;padding:0 16px;white-space:nowrap;font-size:13px" onclick="addVocabWord()">+ 添加</button>
+          <input type="file" id="vocabFileInput" accept=".txt,.csv" style="display:none" onchange="importVocabWords()">
+          <button class="btn btn-outline" style="height:36px;padding:0 14px;white-space:nowrap;font-size:13px" onclick="document.getElementById('vocabFileInput').click()" title="从文件批量导入禁忌词">📥 导入</button>
         </div>
         <div id="vocabWordList" style="display:flex;flex-wrap:wrap;gap:8px;min-height:40px;padding:8px;border:1px dashed var(--gray-200);border-radius:8px;background:var(--gray-50)"></div>
-        <div style="font-size:12px;color:var(--gray-400);margin-top:4px">点击已有禁忌词可编辑，悬停可删除</div>
+        <div style="font-size:12px;color:var(--gray-400);margin-top:4px">点击已有禁忌词可编辑，悬停可删除；支持从 .txt/.csv 文件批量导入</div>
       </div>
     </div>
     <div class="modal-footer">
@@ -1845,28 +1842,25 @@ tr:hover{background:var(--gray-50)}
         <select id="ktFormParent" onchange="updateKtDepthHint(this.value)"><option value="">-- 无（根节点）--</option></select>
         <span class="kt-parent-select hint" id="ktDepthHint"></span>
       </div>
-      <!-- 知识类型选择（仅在节点无子节点时显示） -->
+      <!-- 输入区域配置（仅第一层级节点显示） -->
+      <div id="ktInputAreaSection" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <label style="font-size:13px;font-weight:600;color:var(--gray-700)">📋 输入区域配置</label>
+          <button type="button" class="btn btn-outline btn-sm" onclick="addKtInputArea()">＋ 添加输入区域</button>
+        </div>
+        <div id="ktInputAreaList" style="display:flex;flex-direction:column;gap:10px"></div>
+        <div class="hint" style="margin-top:6px">配置该层级下知识节点需要填写的输入区域；子节点保存时将校验所有区域均已填写</div>
+      </div>
+
+      <!-- 知识类型选择（非根节点的节点下无子节点时显示；根节点不显示） -->
       <div class="form-group" id="ktIsLeafRow" style="margin-top:8px">
         <label style="font-size:13px;display:flex;align-items:center;gap:8px;cursor:pointer">
           <input type="checkbox" id="ktFormIsLeaf" onchange="toggleKtLeafForm()" style="width:auto">
-          标记为<strong>知识</strong>（最细粒度节点，可配置匹配规则和关键词；知识节点下不可再挂载子节点）
+          标记为<strong>知识</strong>（最细粒度节点，知识节点下不可再挂载子节点）
         </label>
       </div>
-      <!-- 知识节点额外配置 -->
-      <div id="ktLeafForm" style="display:none">
-        <div class="form-group" style="margin-top:4px">
-          <label>匹配规则 <span class="required">*</span></label>
-          <textarea id="ktRuleText" placeholder="请描述该知识的匹配规则..." style="width:100%;min-height:100px;padding:10px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:14px;font-family:inherit;outline:none;resize:vertical;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--gray-300)'"></textarea>
-        </div>
-        <div class="form-group" style="margin-top:4px">
-          <label>核心关键词</label>
-          <input type="text" id="ktKeywordInput" placeholder="多个关键词用逗号分隔" style="width:100%;padding:8px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--gray-300)'">
-        </div>
-        <div class="form-group" style="margin-top:4px">
-          <label>排除条件</label>
-          <textarea id="ktExcludeText" placeholder="请描述需要排除的条件..." style="width:100%;min-height:90px;padding:10px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:14px;font-family:inherit;outline:none;resize:vertical;transition:border-color .2s" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--gray-300)'"></textarea>
-        </div>
-      </div>
+      <!-- 叶子节点继承的输入区域填写 -->
+      <div id="ktInheritedAreas" style="display:none"></div>
     </div>
     <div class="modal-footer">
       <button id="ktDeleteBtn" class="btn btn-outline" style="color:var(--red);border-color:var(--red);display:none;margin-right:auto" onclick="deleteKtFromModal()">🗑️ 删除</button>
@@ -3832,6 +3826,7 @@ function openVocabModal(isEdit,id){
   document.getElementById('vocabWordInput').value='';
   vocabEditWords=[];
   vocabEditIndex=-1;
+  var fileInput=document.getElementById('vocabFileInput'); if(fileInput) fileInput.value='';
   if(isEdit&&id){
     var v=vocabData.find(function(x){return x.id===id;});if(v){
       document.getElementById('vocabNameInput').value=v.name;
@@ -3858,6 +3853,31 @@ function addVocabWord(){
     input.value='';
     renderVocabWordList();
   } catch(e) { alert('添加失败：'+e.message); }
+}
+
+function importVocabWords(){
+  var fileInput=document.getElementById('vocabFileInput');
+  if(!fileInput||!fileInput.files||fileInput.files.length===0) return;
+  var file=fileInput.files[0];
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var text=e.target.result;
+    // 按换行、逗号、中文逗号、顿号、空格、分号分割
+    var words=text.split(/[\r\n,，、\s;；]+/).map(function(w){return w.trim();}).filter(function(w){return w.length>0;});
+    if(words.length===0){alert('文件中未检测到有效词语');fileInput.value='';return;}
+    var added=0, skipped=0;
+    for(var i=0;i<words.length;i++){
+      if(vocabEditWords.indexOf(words[i])!==-1){skipped++; continue;}
+      vocabEditWords.push(words[i]);
+      added++;
+    }
+    fileInput.value='';
+    renderVocabWordList();
+    var msg='📥 导入完成：新增 '+added+' 个词语';
+    if(skipped>0) msg+='，跳过 '+skipped+' 个（已存在）';
+    alert(msg);
+  };
+  reader.readAsText(file,'UTF-8');
 }
 
 function editVocabWord(idx){
@@ -4305,25 +4325,90 @@ function closeCheckChatModal(){document.getElementById('checkChatModal').classLi
 // ===== 知识管理 =====
 // ============================================================
 const ktData = [
-  { id:'kt-1', name:'开户咨询', parentId:null, priority:1, isLeaf:false, code:'KHZX', matchRule:'', coreKeywords:'', excludeCondition:'' },
-  { id:'kt-2', name:'交易规则', parentId:null, priority:2, isLeaf:false, code:'JYGZ', matchRule:'', coreKeywords:'', excludeCondition:'' },
-  { id:'kt-3', name:'风险揭示', parentId:null, priority:3, isLeaf:false, code:'FXJS', matchRule:'', coreKeywords:'', excludeCondition:'' },
-  { id:'kt-4', name:'账户开通流程', parentId:'kt-1', priority:1, isLeaf:false, code:'KTLCT001', matchRule:'', coreKeywords:'', excludeCondition:'' },
-  { id:'kt-5', name:'开户所需材料', parentId:'kt-4', priority:1, isLeaf:true, code:'KHCL001', matchRule:'客户提到身份证、银行卡、开户相关词汇，且为首次询问开户材料', coreKeywords:'身份证,银行卡,手机号,期货账户', excludeCondition:'已销户的客户' },
-  { id:'kt-6', name:'线上开户指引', parentId:'kt-4', priority:2, isLeaf:true, code:'KHZY001', matchRule:'客户询问如何在线上或APP端办理开户，包含下载、注册等意图', coreKeywords:'下载APP,视频见证,银期签约', excludeCondition:'' },
-  { id:'kt-7', name:'手续费标准', parentId:'kt-2', priority:1, isLeaf:true, code:'SXFBZ001', matchRule:'客户询问交易手续费或佣金收取标准', coreKeywords:'手续费,佣金,交易所标准', excludeCondition:'涉及保证金相关问题' },
-  { id:'kt-8', name:'保证金制度', parentId:'kt-2', priority:2, isLeaf:false, code:'BZJZD', matchRule:'', coreKeywords:'', excludeCondition:'' },
-  { id:'kt-9', name:'涨跌停板规则', parentId:'kt-2', priority:3, isLeaf:true, code:'ZDTB001', matchRule:'客户询问涨跌停相关规则或涨跌幅限制', coreKeywords:'涨停,跌停,熔断', excludeCondition:'' },
-  { id:'kt-10', name:'交易时间', parentId:'kt-2', priority:4, isLeaf:true, code:'JYSJ001', matchRule:'客户询问开盘时间、收盘时间或夜盘交易时间', coreKeywords:'开盘,收盘,夜盘', excludeCondition:'' },
-  { id:'kt-11', name:'市场风险提示', parentId:'kt-3', priority:1, isLeaf:true, code:'FXTS001', matchRule:'客户提及风险相关内容，或需要风险提示告知', coreKeywords:'风险揭示书,保证金不足,强制平仓', excludeCondition:'' },
-  { id:'kt-12', name:'适当性管理', parentId:'kt-3', priority:2, isLeaf:true, code:'SDXGL001', matchRule:'客户询问投资者分类或适当性评估相关内容', coreKeywords:'C3,C4,C5,风险评估', excludeCondition:'' },
-  { id:'kt-13', name:'保证金计算方式', parentId:'kt-8', priority:1, isLeaf:true, code:'BZJJS001', matchRule:'客户询问如何计算保证金比例或维持保证金', coreKeywords:'保证金比例,维持保证金,追加保证金', excludeCondition:'' },
-  { id:'kt-14', name:'强制平仓规则', parentId:'kt-8', priority:2, isLeaf:true, code:'QZPC001', matchRule:'客户询问强制平仓触发条件或追保规则', coreKeywords:'强制平仓,穿仓,追保', excludeCondition:'' },
+  // ===== 客户情绪知识体系 =====
+  { id:'kt-e1', name:'客户情绪', parentId:null, priority:1, isLeaf:false, code:'KHQX',
+    inputAreas:[{title:'会话情绪特征描述',required:true},{title:'会话特征（关键词与例句）',required:true}] },
+  { id:'kt-e1-1', name:'积极乐观', parentId:'kt-e1', priority:1, isLeaf:false, code:'KHQX-01' },
+  { id:'kt-e1-1-1', name:'咨询购买', parentId:'kt-e1-1', priority:1, isLeaf:true, code:'KHQX-01-001',
+    inputAreaValues:{'会话情绪特征描述':'主动询问产品细节、费率、申购流程、表达明确的投资意向和购买意愿、语气积极，用词具体，关注操作细节，通常伴随对产品的兴趣和认可。','会话特征（关键词与例句）':'关键词：申购、购买、买入、投资、参与、起点金额、费率、收益、怎么样、想入手、如何买、如何买、什么时候、推荐、合适等；'} },
+  { id:'kt-e1-1-2', name:'盈利满意', parentId:'kt-e1-1', priority:2, isLeaf:true, code:'KHQX-01-002',
+    inputAreaValues:{'会话情绪特征描述':'表达对收益、服务或市场走势的满意，主动分享投资收益和喜悦，对服务效果表示认可和满意，语气兴奋，使用正面情感词汇。','会话特征（关键词与例句）':'关键词：赚钱、盈利、收益、满意、不错、挺好、感谢、开心、上涨、涨停、收益达到、收益不错、超出预期、很棒等；'} },
+  { id:'kt-e1-1-3', name:'感谢赞扬', parentId:'kt-e1-1', priority:3, isLeaf:true, code:'KHQX-01-003',
+    inputAreaValues:{'会话情绪特征描述':'对客户经理的专业服务表达谢意，具体描述服务亮点和帮助价值，语气真诚，体现良好客户关系，可能包含对个人能力的肯定。','会话特征（关键词与例句）':'关键词：谢谢、感谢、辛苦了、专业、帮大忙、负责、耐心、细心、很专业、服务真好、周到、靠谱、放心、信赖、继续合作、保持等；'} },
+  { id:'kt-e1-2', name:'中性理性', parentId:'kt-e1', priority:2, isLeaf:false, code:'KHQX-02' },
+  { id:'kt-e1-2-1', name:'常规咨询', parentId:'kt-e1-2', priority:1, isLeaf:true, code:'KHQX-02-001',
+    inputAreaValues:{'会话情绪特征描述':'语气平稳，主要是了解账户、流程、规则、信息查询等常规问题，无显著情绪色彩，问题直接，追求准确信息，通常为事实性问答','会话特征（关键词与例句）':'关键词：怎么、如何、什么时候、多久、多少、哪里、查询、修改、设置、开通、流程、步骤、条件等；'} },
+  { id:'kt-e1-2-2', name:'信息确认', parentId:'kt-e1-2', priority:2, isLeaf:true, code:'KHQX-02-002',
+    inputAreaValues:{'会话情绪特征描述':'对流程、交易、操作、通知等进行理性确认，不带明显情绪色彩。','会话特征（关键词与例句）':'关键词：对账、确认、核实、查收、确认、核对、是不是、对不对、是否、正确、准确、再次确认、确保、核实、明白、清楚等；'} },
+  { id:'kt-e1-2-3', name:'学习探讨', parentId:'kt-e1-2', priority:3, isLeaf:true, code:'KHQX-02-003',
+    inputAreaValues:{'会话情绪特征描述':'理性分析市场动态和投资逻辑、提出深入问题，寻求专业见解、语气求知，体现学习态度，关注分析过程和逻辑推理。','会话特征（关键词与例句）':'关键词：分析、研究、观点、逻辑、原因、影响、趋势、怎么看、为什么、分析一下、探讨、理解等；'} },
+  { id:'kt-e1-3', name:'消极焦虑', parentId:'kt-e1', priority:3, isLeaf:false, code:'KHQX-03' },
+  { id:'kt-e1-3-1', name:'套牢亏损', parentId:'kt-e1-3', priority:1, isLeaf:true, code:'KHQX-03-001',
+    inputAreaValues:{'会话情绪特征描述':'表达对账户亏损、市场下跌或产品表现不佳的焦虑和压力，语气焦虑，寻求解决方案，体现投资挫折感。','会话特征（关键词与例句）':'关键词：套牢、亏损、被套、跌、亏钱、割肉、止损、回本、压力、焦虑、担心、痛苦、套了、亏了、怎么办、不敢看等'} },
+  { id:'kt-e1-3-2', name:'服务投诉', parentId:'kt-e1-3', priority:2, isLeaf:true, code:'KHQX-03-002',
+    inputAreaValues:{'会话情绪特征描述':'对系统、流程或服务质量表达不满，语气抱怨，要求改进或解决，体现服务体验不佳。','会话特征（关键词与例句）':'关键词：投诉、问题、故障、错误、bug、卡顿、慢、不及时、解决、处理、改进、差评、不满意、太慢、一直出错等；'} },
+  { id:'kt-e1-3-3', name:'困惑不解', parentId:'kt-e1-3', priority:3, isLeaf:true, code:'KHQX-03-003',
+    inputAreaValues:{'会话情绪特征描述':'对复杂信息或产品条款感到困惑，表现为语气迷茫，寻求澄清和解释，反复询问同一问题，体现认知障碍。','会话特征（关键词与例句）':'关键词：不懂、不明白、不清楚、困惑、复杂、难、什么意思、为什么、怎么理解、解释一下、搞不懂等。'} },
+  { id:'kt-e1-3-4', name:'犹豫不决', parentId:'kt-e1-3', priority:4, isLeaf:true, code:'KHQX-03-004',
+    inputAreaValues:{'会话情绪特征描述':'在投资决策中反复摇摆，缺乏信心，表现出不确定性，反复权衡，难以做出决定，语气迟疑，寻求更多保证，体现决策困难。','会话特征（关键词与例句）':'关键词：犹豫、纠结、不确定、再看看、考虑、担心、怕、风险、合适吗、建议、帮忙决定、拿不准等；'} },
+  { id:'kt-e1-4', name:'恐慌急切', parentId:'kt-e1', priority:4, isLeaf:false, code:'KHQX-04' },
+  { id:'kt-e1-4-1', name:'紧急求助', parentId:'kt-e1-4', priority:1, isLeaf:true, code:'KHQX-04-001',
+    inputAreaValues:{'会话情绪特征描述':'遇到账户或交易异常，寻求立即解决问题，语气急切，要求快速响应，可能包含多个感叹号或重复发送，体现时间紧迫性。','会话特征（关键词与例句）':'关键词：紧急、急、快点、马上、立刻、赶紧、现在、立即、快帮、救命、着急、迫切、立刻解决等；'} },
+  { id:'kt-e1-4-2', name:'风险预警', parentId:'kt-e1-4', priority:2, isLeaf:true, code:'KHQX-04-002',
+    inputAreaValues:{'会话情绪特征描述':'面临重大风险时的极度恐惧，表达对市场暴跌、产品巨亏的极度担忧，语气恐慌，寻求紧急救助，可能涉及爆仓、强平等极端情况，体现危机状态。','会话特征（关键词与例句）':'关键词：爆仓、强平、保证金、预警、危险、风险、大跌、暴跌、崩盘、救急、追加、平仓、紧急、完了、崩了等。'} },
+  { id:'kt-e1-5', name:'冷淡流失', parentId:'kt-e1', priority:5, isLeaf:false, code:'KHQX-05' },
+  { id:'kt-e1-5-1', name:'拒绝营销', parentId:'kt-e1-5', priority:1, isLeaf:true, code:'KHQX-05-001',
+    inputAreaValues:{'会话情绪特征描述':'明确或隐晦地拒绝产品或服务推荐，语气冷淡，体现抵触情绪，可能直接打断或终止话题，体现营销抗拒。','会话特征（关键词与例句）':'关键词：不用、不需要、别发、停止、取消、退订、勿扰、没兴趣、暂时不要、以后再说、算了、不考虑、不买等；'} },
+  { id:'kt-e1-5-2', name:'响应敷衍', parentId:'kt-e1-5', priority:2, isLeaf:true, code:'KHQX-05-002',
+    inputAreaValues:{'会话情绪特征描述':'回复简短，缺乏实质性内容，响应延迟，互动积极性低，语气冷淡，缺乏情感投入，体现关系疏远。','会话特征（关键词与例句）':'关键词：嗯、哦、好的、知道、收到、谢谢、再看、考虑、行、可以、没问题、随便等；'} },
+  { id:'kt-e1-5-3', name:'沟通终止', parentId:'kt-e1-5', priority:3, isLeaf:true, code:'KHQX-05-003',
+    inputAreaValues:{'会话情绪特征描述':'长期未回复、明确表示不再沟通。','会话特征（关键词与例句）':'关键词：忙、改天、下次、以后再说等；'} },
+
+  // ===== 业务类别知识体系 =====
+  { id:'kt-e2', name:'业务类别', parentId:null, priority:2, isLeaf:false, code:'YWLB',
+    inputAreas:[{title:'业务类别名称',required:true},{title:'业务类别ID',required:true},{title:'业务特征说明',required:true},{title:'同义词',required:true}] },
+  { id:'kt-e2-1', name:'私募合格投资者', parentId:'kt-e2', priority:1, isLeaf:true, code:'YWLB-100001',
+    inputAreaValues:{'业务类别名称':'私募合格投资者','业务类别ID':'100001','业务特征说明':'询问或办理私募合格投资者认定及权限开通','同义词':'私募合格投资者认定、私募合格证明、合格投资者开通、私募权限'} },
+  { id:'kt-e2-2', name:'私募基金', parentId:'kt-e2', priority:2, isLeaf:true, code:'YWLB-100002',
+    inputAreaValues:{'业务类别名称':'私募基金','业务类别ID':'100002','业务特征说明':'涉及私募基金产品购买、查询或签约','同义词':'私募产品、私募理财、买私募、私募签约、私募份额'} },
+  { id:'kt-e2-3', name:'财管计划', parentId:'kt-e2', priority:3, isLeaf:true, code:'YWLB-100003',
+    inputAreaValues:{'业务类别名称':'财管计划','业务类别ID':'100003','业务特征说明':'涉及财富管理计划服务签约或咨询','同义词':'财富管理计划、财管服务、理财规划、资产配置方案'} },
+  { id:'kt-e2-4', name:'基金投顾', parentId:'kt-e2', priority:4, isLeaf:true, code:'YWLB-100004',
+    inputAreaValues:{'业务类别名称':'基金投顾','业务类别ID':'100004','业务特征说明':'涉及基金投资顾问服务授权或策略咨询','同义词':'基金投顾策略、授权投顾、自动调仓、投顾服务'} },
+  { id:'kt-e2-5', name:'加鑫宝', parentId:'kt-e2', priority:5, isLeaf:true, code:'YWLB-100005',
+    inputAreaValues:{'业务类别名称':'加鑫宝','业务类别ID':'100005','业务特征说明':'询问或开通加鑫宝现金理财余额增值服务','同义词':'加鑫宝签约、余额理财、开通加薪宝、加鑫宝设置'} },
+  { id:'kt-e2-6', name:'天添利', parentId:'kt-e2', priority:6, isLeaf:true, code:'YWLB-100006',
+    inputAreaValues:{'业务类别名称':'天添利','业务类别ID':'100006','业务特征说明':'询问或开通天添利保证金现金管理产品','同义词':'天添利开通、保证金理财、闲置资金理财、天添利签约'} },
+  { id:'kt-e2-7', name:'股票期权', parentId:'kt-e2', priority:7, isLeaf:true, code:'YWLB-100007',
+    inputAreaValues:{'业务类别名称':'股票期权','业务类别ID':'100007','业务特征说明':'涉及个股期权、ETF期权账户开立或交易权限','同义词':'期权开户、期权交易权限、个股期权、ETF期权、期权账户'} },
+  { id:'kt-e2-8', name:'融资融券', parentId:'kt-e2', priority:8, isLeaf:true, code:'YWLB-100008',
+    inputAreaValues:{'业务类别名称':'融资融券','业务类别ID':'100008','业务特征说明':'涉及融资融券信用账户开立、额度调整或规则咨询','同义词':'两融、两融开户、融资融券账户、信用账户、融资额度、融券'} },
+  { id:'kt-e2-9', name:'港股通', parentId:'kt-e2', priority:9, isLeaf:true, code:'YWLB-100009',
+    inputAreaValues:{'业务类别名称':'港股通','业务类别ID':'100009','业务特征说明':'询问或开通沪港通、深港通交易权限','同义词':'港股通开通、港股通权限、买港股、港股交易'} },
+  { id:'kt-e2-10', name:'科创板', parentId:'kt-e2', priority:10, isLeaf:true, code:'YWLB-100010',
+    inputAreaValues:{'业务类别名称':'科创板','业务类别ID':'100010','业务特征说明':'询问或开通科创板股票交易权限','同义词':'科创版、科创板权限、科创权限开通、买科创板'} },
+  { id:'kt-e2-11', name:'北交所', parentId:'kt-e2', priority:11, isLeaf:true, code:'YWLB-100011',
+    inputAreaValues:{'业务类别名称':'北交所','业务类别ID':'100011','业务特征说明':'询问或开通北京证券交易所股票交易权限','同义词':'北交所权限、新三板、新三版、北交所开通、新三板精选层、北交所交易'} },
+  { id:'kt-e2-12', name:'创业板', parentId:'kt-e2', priority:12, isLeaf:true, code:'YWLB-100012',
+    inputAreaValues:{'业务类别名称':'创业板','业务类别ID':'100012','业务特征说明':'询问或开通创业板股票交易权限','同义词':'创业版、创业板权限、创业板开通、300开头股票'} },
+  { id:'kt-e2-13', name:'可转债', parentId:'kt-e2', priority:13, isLeaf:true, code:'YWLB-100013',
+    inputAreaValues:{'业务类别名称':'可转债','业务类别ID':'100013','业务特征说明':'涉及可转换公司债券申购、交易或规则咨询','同义词':'可转债权限、可转债打新、可转债申购、可转债交易、打新债'} },
+  { id:'kt-e2-14', name:'我要开户', parentId:'kt-e2', priority:14, isLeaf:true, code:'YWLB-100014',
+    inputAreaValues:{'业务类别名称':'我要开户','业务类别ID':'100014','业务特征说明':'表达证券账户或基金账户开立意愿','同义词':'开证券账户、开股票账户、新开户、开通账户'} },
+  { id:'kt-e2-15', name:'更新身份信息', parentId:'kt-e2', priority:15, isLeaf:true, code:'YWLB-100015',
+    inputAreaValues:{'业务类别名称':'更新身份信息','业务类别ID':'100015','业务特征说明':'涉及身份证件有效期更新或个人信息变更','同义词':'更新身份证、证件过期更新、修改个人信息、身份信息变更'} },
+  { id:'kt-e2-16', name:'重置密码', parentId:'kt-e2', priority:16, isLeaf:true, code:'YWLB-100016',
+    inputAreaValues:{'业务类别名称':'重置密码','业务类别ID':'100016','业务特征说明':'涉及交易密码、资金密码、账户密码修改重置','同义词':'密码忘了、密码重置、找回密码、修改交易密码'} },
+  { id:'kt-e2-17', name:'风险测评', parentId:'kt-e2', priority:17, isLeaf:true, code:'YWLB-100017',
+    inputAreaValues:{'业务类别名称':'风险测评','业务类别ID':'100017','业务特征说明':'涉及投资者风险承受能力评估问卷填写或更新','同义词':'风险测评过期、重做测评、风险评估问卷、更新风险等级'} },
+  { id:'kt-e2-18', name:'期货开户', parentId:'kt-e2', priority:18, isLeaf:true, code:'YWLB-100018',
+    inputAreaValues:{'业务类别名称':'期货开户','业务类别ID':'100018','业务特征说明':'表达期货账户开立或期货交易权限申请意愿','同义词':'开期货账户、期货开户、开通期货、期货交易开户'} }
 ];
-var ktNextId = 15;
+var ktNextId = 100;
 var ktSelectedNode = null;
 var ktEditNodeId = null;
-var ktSearchKeyword = ''; // 当前搜索关键词
+var ktSearchKeyword = '';
+var ktTempInputAreas = []; // 用于模态框中临时管理输入区域
 
 // 获取节点
 function getKtNode(id) { return ktData.find(function(n){ return n.id===id; }); }
@@ -4335,7 +4420,26 @@ function getKtDepth(nodeId) {
   return depth;
 }
 
-// 获取节点的所有子孙节点ID（递归）
+// 获取根祖先节点（parentId为null的顶层节点）
+function getKtRootAncestor(nodeId) {
+  var current = getKtNode(nodeId);
+  if(!current) return null;
+  while(current.parentId) {
+    var parent = getKtNode(current.parentId);
+    if(!parent) return current;
+    current = parent;
+  }
+  return current;
+}
+
+// 获取节点继承的输入区域定义（从根祖先继承）
+function getKtInheritedAreas(nodeId) {
+  var root = getKtRootAncestor(nodeId);
+  if(root && root.inputAreas && root.inputAreas.length > 0) return root.inputAreas;
+  return null;
+}
+
+// 获取节点的所有子孙节点ID
 function getKtDescendants(nodeId) {
   var result = [];
   ktData.forEach(function(n){
@@ -4354,20 +4458,16 @@ function hasKtChildren(nodeId) {
   return ktData.some(function(n){ return n.parentId===nodeId; });
 }
 
-// 搜索框输入事件
+// 搜索框
 function onKtSearchInput(val) {
   var clearBtn = document.getElementById('ktSearchClear');
   if(clearBtn) clearBtn.style.display = val ? 'inline-flex' : 'none';
 }
-
-// 执行搜索
 function doKtSearch() {
   var input = document.getElementById('ktSearchInput');
   ktSearchKeyword = input ? input.value.trim() : '';
   renderKtTree();
 }
-
-// 清空搜索
 function clearKtSearch() {
   var input = document.getElementById('ktSearchInput');
   var clearBtn = document.getElementById('ktSearchClear');
@@ -4376,20 +4476,15 @@ function clearKtSearch() {
   ktSearchKeyword = '';
   renderKtTree();
 }
-
-// 判断节点或其子节点是否命中搜索关键词（用于过滤树）
 function ktNodeMatchesSearch(nodeId, keyword) {
-  var node = getKtNode(nodeId);
-  if(!node) return false;
+  var node = getKtNode(nodeId); if(!node) return false;
   if(node.name.indexOf(keyword) !== -1) return true;
   var children = getKtChildren(nodeId);
-  for(var i=0;i<children.length;i++) {
-    if(ktNodeMatchesSearch(children[i].id, keyword)) return true;
-  }
+  for(var i=0;i<children.length;i++) { if(ktNodeMatchesSearch(children[i].id, keyword)) return true; }
   return false;
 }
 
-// 渲染知识主题树
+// 渲染知识树
 function renderKtTree() {
   var container = document.getElementById('ktTreeBody');
   var countEl = document.getElementById('ktCount');
@@ -4398,7 +4493,6 @@ function renderKtTree() {
   countEl.textContent = '共 '+ktData.length+' 条';
   var html = '';
   var keyword = ktSearchKeyword;
-  // 过滤：搜索状态下只显示命中节点的根链
   var filteredRoots = keyword ? roots.filter(function(n){ return ktNodeMatchesSearch(n.id, keyword); }) : roots;
   if(filteredRoots.length===0) {
     html = '<div style="text-align:center;padding:40px 0;color:var(--gray-400);font-size:13px">'+(keyword?'未找到匹配的节点':'暂无数据，点击"新建知识主题"开始')+'</div>';
@@ -4408,27 +4502,32 @@ function renderKtTree() {
   container.innerHTML = html;
 }
 
-// 递归渲染单个节点
+// 递归渲染节点
 function renderKtNode(node, keyword) {
   var children = getKtChildren(node.id);
   var hasChild = children.length > 0;
   var isLeaf = node.isLeaf;
   var isSelected = ktSelectedNode === node.id;
   var isExpanded = node._expanded !== false;
-  // 搜索模式下强制展开
   if(keyword) isExpanded = true;
-  // 搜索模式下过滤子节点
   var filteredChildren = keyword ? children.filter(function(c){ return ktNodeMatchesSearch(c.id, keyword); }) : children;
   var canExpand = hasChild && !isLeaf;
+  var depth = getKtDepth(node.id);
+  var maxDepth = node.parentId ? 6 : 6;
 
   var innerCls = 'kt-tree-node-inner';
   if(isSelected) innerCls += ' active';
   if(canExpand) innerCls += ' has-children';
 
-  // 搜索高亮
   var displayName = node.name;
   if(keyword && node.name.indexOf(keyword)!==-1) {
     displayName = node.name.replace(new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g'), '<mark style="background:#fff3a3;border-radius:2px;padding:0 1px">'+keyword+'</mark>');
+  }
+
+  // 显示输入区域配置标识（根节点有inputAreas时显示）
+  var iaBadge = '';
+  if(!node.parentId && node.inputAreas && node.inputAreas.length > 0) {
+    iaBadge = '<span style="font-size:10px;background:#e8f4fd;color:var(--blue);padding:1px 5px;border-radius:3px;font-weight:500;margin-left:4px">'+node.inputAreas.length+'区</span>';
   }
 
   var html = '<div class="kt-tree-node" data-id="'+node.id+'">';
@@ -4439,7 +4538,7 @@ function renderKtNode(node, keyword) {
     html += '<span style="width:18px;flex-shrink:0"></span>';
   }
   html += '<span class="kt-node-dot"></span>';
-  html += '<span class="kt-node-name" title="'+node.name+'">'+displayName+'</span>';
+  html += '<span class="kt-node-name" title="'+node.name+'">'+displayName+'</span>'+iaBadge;
   if(node.code) {
     html += '<span style="font-size:11px;color:var(--gray-400);font-family:monospace">'+node.code+'</span>';
   }
@@ -4448,9 +4547,8 @@ function renderKtNode(node, keyword) {
   } else if(hasChild) {
     html += '<span class="kt-node-badge folder">'+children.length+'项</span>';
   }
-  // 操作按钮（知识节点不显示添加子节点按钮）
   html += '<span class="kt-tree-node-actions">';
-  if(!isLeaf && getKtDepth(node.id) < 5) {
+  if(!isLeaf && depth < maxDepth) {
     html += '<button onclick="event.stopPropagation();openKtAddChildModal(\''+node.id+'\')" title="添加子节点">＋</button>';
   }
   html += '<button onclick="event.stopPropagation();openKtEditModal(\''+node.id+'\')" title="编辑">✏️</button>';
@@ -4458,7 +4556,6 @@ function renderKtNode(node, keyword) {
   html += '</span>';
   html += '</div>';
 
-  // 子节点
   if(hasChild && !isLeaf) {
     html += '<div class="kt-tree-children'+(isExpanded?' expanded':'')+'">';
     filteredChildren.forEach(function(child){ html += renderKtNode(child, keyword); });
@@ -4468,7 +4565,6 @@ function renderKtNode(node, keyword) {
   return html;
 }
 
-// 展开/折叠节点
 function toggleKtNode(nodeId) {
   var node = getKtNode(nodeId);
   if(!node) return;
@@ -4476,7 +4572,7 @@ function toggleKtNode(nodeId) {
   renderKtTree();
 }
 
-// 选中节点，展示右侧详情
+// 选中节点
 function selectKtNode(nodeId, e) {
   if(e && e.target.closest('.kt-tree-node-actions')) return;
   ktSelectedNode = nodeId;
@@ -4486,10 +4582,9 @@ function selectKtNode(nodeId, e) {
   document.getElementById('ktEmptyState').style.display = 'none';
   document.getElementById('ktDetailContent').classList.add('active');
 
-  var typeName = node.isLeaf ? '知识' : '知识主题';
+  var typeName = node.isLeaf ? '知识' : (node.parentId ? '知识主题' : '知识体系');
   document.getElementById('ktDetailTitle').innerHTML = (node.isLeaf?'📄 ':'📁 ')+node.name;
 
-  // 更新紧凑元信息条
   document.getElementById('ktMetaParent').textContent = node.parentId ? (getKtNode(node.parentId)||{name:'根节点'}).name : '根节点';
   document.getElementById('ktMetaPriority').textContent = node.priority;
   document.getElementById('ktMetaDepth').textContent = '第'+(getKtDepth(node.id)+1)+'层';
@@ -4505,30 +4600,49 @@ function selectKtNode(nodeId, e) {
     document.getElementById('ktMetaChildren').textContent = getKtChildren(node.id).length + ' 个';
   }
 
-  // 知识配置（仅知识节点显示）
   var leafConfig = document.getElementById('ktLeafConfig');
   var folderConfig = document.getElementById('ktFolderConfig');
+  // 显示继承的输入区域内容（叶子节点）
+  var inheritedContent = '';
+  var inheritedAreas = getKtInheritedAreas(nodeId);
+  if(node.isLeaf && inheritedAreas && node.inputAreaValues) {
+    inheritedContent = '<div class="kt-section"><div class="kt-section-title">📋 知识内容</div>';
+    inheritedAreas.forEach(function(ia){
+      var val = node.inputAreaValues[ia.title] || '';
+      var showVal = val.length > 120 ? val.substring(0,120)+'...' : val;
+      var reqBadge = ia.required ? ' <span style="font-size:11px;color:var(--red);font-weight:400">必填</span>' : '';
+      inheritedContent += '<div class="kt-inherit-area-block"><div class="kt-ia-label">'+ia.title+reqBadge+'</div><div style="font-size:13px;color:var(--gray-700);line-height:1.8;white-space:pre-wrap">'+showVal+'</div></div>';
+    });
+    inheritedContent += '</div>';
+  }
+  // 显示根节点的输入区域配置信息
+  var rootIADisplay = '';
+  if(!node.parentId && node.inputAreas && node.inputAreas.length > 0) {
+    rootIADisplay = '<div class="kt-section"><div class="kt-section-title">📋 输入区域配置（'+node.inputAreas.length+'个）</div>';
+    rootIADisplay += '<div style="display:flex;flex-wrap:wrap;gap:6px">';
+    node.inputAreas.forEach(function(ia){
+      rootIADisplay += '<span class="kt-tag-item">'+ia.title+'</span>';
+    });
+    rootIADisplay += '</div></div>';
+  }
+
   if(node.isLeaf) {
     leafConfig.style.display = 'block';
     folderConfig.style.display = 'none';
-    document.getElementById('ktInfoRules').innerHTML = node.matchRule
-      ? '<div style="background:#fafbfc;border:1px solid var(--gray-200);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--gray-700);line-height:1.8">'+node.matchRule+'</div>'
-      : '<div style="color:var(--gray-400);font-size:13px;padding:4px 0">暂无匹配规则</div>';
-    document.getElementById('ktInfoKeywords').innerHTML = node.coreKeywords
-      ? '<div style="display:flex;flex-wrap:wrap;gap:6px">'+(node.coreKeywords.split(',').map(function(k){ return '<span style="display:inline-flex;align-items:center;padding:3px 10px;background:#e8f4fd;color:var(--blue);border-radius:4px;font-size:13px">'+k.trim()+'</span>'; }).join(''))+'</div>'
-      : '<span style="color:var(--gray-400);font-size:13px">暂无关键词</span>';
-    document.getElementById('ktInfoExcludes').innerHTML = node.excludeCondition
-      ? '<div style="background:#fafbfc;border:1px solid var(--gray-200);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--gray-700);line-height:1.8">'+node.excludeCondition+'</div>'
-      : '<div style="color:var(--gray-400);font-size:13px;padding:4px 0">暂无排除条件</div>';
+    // 仅展示知识内容（继承输入区域）
+    document.getElementById('ktInfoRules').innerHTML = inheritedContent || '<div style="color:var(--gray-400);font-size:13px;padding:12px 0">暂无知识内容</div>';
   } else {
     leafConfig.style.display = 'none';
     folderConfig.style.display = 'block';
-    var children = getKtChildren(node.id);
     var fc = document.getElementById('ktFolderChildren');
+    // 显示输入区域配置 + 下级节点
+    var folderHeader = rootIADisplay;
+    var children = getKtChildren(node.id);
+    folderHeader += '<div class="kt-section"><div class="kt-section-title">下级节点</div>';
     if(children.length === 0) {
-      fc.innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:12px 0">暂无下级节点，可在左侧树操作区点击 ➕ 添加</div>';
+      folderHeader += '<div style="color:var(--gray-400);font-size:13px;padding:12px 0">暂无下级节点，可在左侧树操作区点击 ➕ 添加</div></div>';
     } else {
-      fc.innerHTML = children.map(function(c){
+      folderHeader += children.map(function(c){
         var badge = c.isLeaf
           ? '<span style="font-size:11px;background:#e8f5e9;color:#2e7d32;padding:1px 7px;border-radius:3px;font-weight:500">知识</span>'
           : '<span style="font-size:11px;background:#fff3e0;color:#e65100;padding:1px 7px;border-radius:3px;font-weight:500">知识主题</span>';
@@ -4536,31 +4650,85 @@ function selectKtNode(nodeId, e) {
         var sub = c.isLeaf ? '' : '<span style="font-size:12px;color:var(--gray-400);margin-left:auto">'+getKtChildren(c.id).length+' 个下级</span>';
         return '<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#fafbfc;border:1px solid var(--gray-200);border-radius:6px;margin-bottom:8px;cursor:pointer;transition:.15s" onmouseenter="this.style.background=\'#f0f7ff\'" onmouseleave="this.style.background=\'#fafbfc\'" onclick="selectKtNode(\''+c.id+'\')">'
           +(c.isLeaf?'📄':'📁')+'<span style="font-size:13px;color:var(--gray-800);font-weight:500">'+c.name+'</span>'+badge+codeTag+sub+'</div>';
-      }).join('');
+      }).join('')+'</div>';
     }
+    fc.innerHTML = folderHeader;
   }
 
   renderKtTree();
 }
 
-// ===== 新建知识主题 Modal =====
+// ===== 输入区域管理 =====
+function addKtInputArea() {
+  var idx = ktTempInputAreas.length + 1;
+  ktTempInputAreas.push({title:'输入区域'+idx, content:'', required:false});
+  renderKtInputAreas();
+}
+function removeKtInputArea(idx) {
+  ktTempInputAreas.splice(idx, 1);
+  renderKtInputAreas();
+}
+function renderKtInputAreas() {
+  var container = document.getElementById('ktInputAreaList');
+  if(!container) return;
+  if(ktTempInputAreas.length === 0) {
+    container.innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:8px 0">暂无输入区域，点击"添加输入区域"开始配置</div>';
+    return;
+  }
+  var html = '';
+  ktTempInputAreas.forEach(function(ia, idx){
+    html += '<div class="kt-input-area-item">';
+    html += '<div class="ia-index">'+(idx+1)+'</div>';
+    html += '<input type="text" class="ia-title" value="'+ia.title.replace(/"/g,'&quot;')+'" placeholder="区域标题" onchange="ktTempInputAreas['+idx+'].title=this.value" maxlength="20">';
+    html += '<input type="text" class="ia-content" value="'+(ia.content||'').replace(/"/g,'&quot;')+'" placeholder="默认内容（可选）" onchange="ktTempInputAreas['+idx+'].content=this.value">';
+    html += '<label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--gray-600);white-space:nowrap">必填<select style="height:32px;border:1px solid #d0d5dd;border-radius:6px;padding:0 4px;font-size:13px;color:var(--gray-700);background:#fff;min-width:50px" onchange="ktTempInputAreas['+idx+'].required=this.value===\'是\'">';
+    html += '<option value="是"'+(ia.required?' selected':'')+'>是</option>';
+    html += '<option value="否"'+(ia.required?'':' selected')+'>否</option>';
+    html += '</select></label>';
+    html += '<button type="button" class="ia-remove" onclick="removeKtInputArea('+idx+')" title="删除">×</button>';
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+// 渲染继承输入区域（叶子节点表单）
+function renderInheritedAreas(areas, existingValues) {
+  var container = document.getElementById('ktInheritedAreas');
+  if(!container) return;
+  if(!areas || areas.length === 0) { container.style.display = 'none'; container.innerHTML = ''; return; }
+  container.style.display = 'block';
+  existingValues = existingValues || {};
+  var html = '<div style="margin-top:16px;border-top:1px solid var(--gray-200);padding-top:16px">';
+  html += '<label style="font-size:13px;font-weight:600;color:var(--gray-700);display:block;margin-bottom:12px">📋 继承输入区域（需全部填写）</label>';
+  areas.forEach(function(ia, idx){
+    var val = existingValues[ia.title] || '';
+    html += '<div class="kt-inherit-area-block">';
+    html += '<div class="kt-ia-label">'+ia.title+' <span class="required">*</span></div>';
+    html += '<textarea id="ktInheritArea_'+idx+'" placeholder="请输入'+ia.title+'...">'+val.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')+'</textarea>';
+    html += '</div>';
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// ===== 新建/编辑 Modal =====
 function openKtAddModal() {
   ktEditNodeId = null;
-  document.getElementById('ktModalTitle').textContent = '新建知识主题';
+  ktTempInputAreas = [];
+  document.getElementById('ktModalTitle').textContent = '新建知识体系 / 主题';
   document.getElementById('ktFormNameLabel').innerHTML = '名称 <span class="required">*</span>';
   document.getElementById('ktFormName').value = '';
   document.getElementById('ktFormCode').value = '';
   document.getElementById('ktFormPriority').value = '1';
   document.getElementById('ktFormIsLeaf').checked = false;
-  document.getElementById('ktLeafForm').style.display = 'none';
   document.getElementById('ktDeleteBtn').style.display = 'none';
-  document.getElementById('ktIsLeafRow').style.display = 'block';
-  // 清空知识表单
-  var ruleText = document.getElementById('ktRuleText'); if(ruleText) ruleText.value = '';
-  var kwInput = document.getElementById('ktKeywordInput'); if(kwInput) kwInput.value = '';
-  var excText = document.getElementById('ktExcludeText'); if(excText) excText.value = '';
+  document.getElementById('ktIsLeafRow').style.display = 'none'; // 新建时默认作为根节点，隐藏"标记为知识"
+  document.getElementById('ktInputAreaSection').style.display = 'block'; // 新建时默认是第一层级
+  document.getElementById('ktInheritedAreas').style.display = 'none';
+  document.getElementById('ktInheritedAreas').innerHTML = '';
   populateKtParentSelect(null);
   updateKtDepthHint('');
+  renderKtInputAreas();
   document.getElementById('ktModal').classList.add('open');
 }
 
@@ -4568,30 +4736,33 @@ function openKtAddChildModal(parentId) {
   var parent = getKtNode(parentId);
   if(!parent) return;
   ktEditNodeId = null;
+  var isRootChild = !parent.parentId; // 父节点为根节点（第一层级下创建）
+  ktTempInputAreas = [];
   document.getElementById('ktModalTitle').textContent = '新建子节点（上级：'+parent.name+'）';
   document.getElementById('ktFormNameLabel').innerHTML = '名称 <span class="required">*</span>';
   document.getElementById('ktFormName').value = '';
   document.getElementById('ktFormCode').value = '';
   document.getElementById('ktFormPriority').value = String(getKtChildren(parentId).length + 1);
   document.getElementById('ktFormIsLeaf').checked = false;
-  document.getElementById('ktLeafForm').style.display = 'none';
   document.getElementById('ktDeleteBtn').style.display = 'none';
+  // 非第一层级下不显示输入区域配置，不隐藏"标记为知识"
+  document.getElementById('ktInputAreaSection').style.display = 'none';
   document.getElementById('ktIsLeafRow').style.display = 'block';
-  var ruleText = document.getElementById('ktRuleText'); if(ruleText) ruleText.value = '';
-  var kwInput = document.getElementById('ktKeywordInput'); if(kwInput) kwInput.value = '';
-  var excText = document.getElementById('ktExcludeText'); if(excText) excText.value = '';
+  document.getElementById('ktInheritedAreas').style.display = 'none';
+  document.getElementById('ktInheritedAreas').innerHTML = '';
   populateKtParentSelect(null);
   document.getElementById('ktFormParent').value = parentId;
   updateKtDepthHint(parentId);
   document.getElementById('ktModal').classList.add('open');
 }
 
-// ===== 编辑 Modal =====
 function openKtEditModal(nodeId) {
   var node = getKtNode(nodeId);
   if(!node) return;
   ktEditNodeId = nodeId;
-  var typeName = node.isLeaf ? '知识' : '知识主题';
+  var isRootLevel = !node.parentId; // 第一层级（根节点下）
+
+  var typeName = node.isLeaf ? '知识' : (isRootLevel ? '知识体系' : '知识主题');
   document.getElementById('ktModalTitle').textContent = '编辑'+typeName+' - '+node.name;
   document.getElementById('ktFormNameLabel').innerHTML = '名称 <span class="required">*</span>';
   document.getElementById('ktFormName').value = node.name;
@@ -4599,28 +4770,45 @@ function openKtEditModal(nodeId) {
   document.getElementById('ktFormPriority').value = node.priority;
   document.getElementById('ktFormIsLeaf').checked = node.isLeaf;
   document.getElementById('ktDeleteBtn').style.display = 'inline-block';
-  // 知识节点不可变更为知识主题；有子节点时不允许标记为知识（两种情况均隐藏该选项）
-  var canBeLeaf = !node.isLeaf && !hasKtChildren(nodeId);
-  document.getElementById('ktIsLeafRow').style.display = canBeLeaf ? 'block' : 'none';
-  // 填充知识配置
-  var ruleText = document.getElementById('ktRuleText'); if(ruleText) ruleText.value = node.matchRule || '';
-  var kwInput = document.getElementById('ktKeywordInput'); if(kwInput) kwInput.value = node.coreKeywords || '';
-  var excText = document.getElementById('ktExcludeText'); if(excText) excText.value = node.excludeCondition || '';
-  toggleKtLeafForm();
+
+  // 输入区域配置：仅第一层级（parentId为null）显示
+  var showInputAreas = isRootLevel;
+  document.getElementById('ktInputAreaSection').style.display = showInputAreas ? 'block' : 'none';
+  ktTempInputAreas = showInputAreas ? (node.inputAreas ? JSON.parse(JSON.stringify(node.inputAreas)) : []) : [];
+  if(showInputAreas) renderKtInputAreas();
+
+  // "标记为知识"：根节点隐藏；有子节点时也隐藏
+  var isLeafRow = document.getElementById('ktIsLeafRow');
+  isLeafRow.style.display = 'none'; // 默认隐藏
+  if(!isRootLevel) {
+    var canBeLeaf = !node.isLeaf && !hasKtChildren(nodeId);
+    isLeafRow.style.display = canBeLeaf ? 'block' : 'none';
+  }
+
+  // 知识配置已简化为仅保留"知识内容"，匹配规则/关键词/排除条件已移除
+
+  // 继承输入区域（叶子节点才显示）
+  var inheritedAreas = getKtInheritedAreas(nodeId);
+  if(node.isLeaf && inheritedAreas) {
+    renderInheritedAreas(inheritedAreas, node.inputAreaValues || {});
+  } else {
+    document.getElementById('ktInheritedAreas').style.display = 'none';
+    document.getElementById('ktInheritedAreas').innerHTML = '';
+  }
+
   populateKtParentSelect(nodeId);
   document.getElementById('ktFormParent').value = node.parentId || '';
   updateKtDepthHint(node.parentId || '');
   document.getElementById('ktModal').classList.add('open');
 }
 
-// 填充上级节点下拉框（排除自身及子孙节点，排除知识节点）
 function populateKtParentSelect(excludeId) {
   var sel = document.getElementById('ktFormParent');
   var excludeIds = excludeId ? [excludeId].concat(getKtDescendants(excludeId)) : [];
   sel.innerHTML = '<option value="">-- 无（根节点）--</option>';
   function addOptions(parentId, depth) {
     var children = ktData.filter(function(n){
-      return n.parentId===parentId && excludeIds.indexOf(n.id)===-1 && !n.isLeaf; // 知识节点不能作为上级
+      return n.parentId===parentId && excludeIds.indexOf(n.id)===-1 && !n.isLeaf;
     }).sort(function(a,b){ return a.priority-b.priority; });
     children.forEach(function(n){
       var prefix = depth>0 ? '\u00a0'.repeat(depth*4)+'└ ' : '';
@@ -4631,7 +4819,6 @@ function populateKtParentSelect(excludeId) {
   addOptions(null, 0);
 }
 
-// 更新层级提示
 function updateKtDepthHint(parentId) {
   var hint = document.getElementById('ktDepthHint');
   if(!hint) return;
@@ -4645,29 +4832,58 @@ function updateKtDepthHint(parentId) {
   }
 }
 
-// 切换知识表单显示
 function toggleKtLeafForm() {
   var isLeaf = document.getElementById('ktFormIsLeaf').checked;
-  document.getElementById('ktLeafForm').style.display = isLeaf ? 'block' : 'none';
+  var inheritedAreas = document.getElementById('ktInheritedAreas');
+  // 如果叶子节点且有继承输入区域，显示
+  if(isLeaf && ktEditNodeId) {
+    var areas = getKtInheritedAreas(ktEditNodeId);
+    if(areas) renderInheritedAreas(areas, getKtNode(ktEditNodeId).inputAreaValues || {});
+  } else if(isLeaf) {
+    // 新增节点：查看是否有根层级祖先
+    var parentId = document.getElementById('ktFormParent').value;
+    if(parentId) {
+      var rootAnc = getKtRootAncestor(parentId);
+      if(rootAnc && rootAnc.inputAreas) renderInheritedAreas(rootAnc.inputAreas, {});
+      else { inheritedAreas.style.display = 'none'; inheritedAreas.innerHTML = ''; }
+    } else {
+      inheritedAreas.style.display = 'none';
+      inheritedAreas.innerHTML = '';
+    }
+  } else {
+    inheritedAreas.style.display = 'none';
+    inheritedAreas.innerHTML = '';
+  }
 }
 
-// ===== 提交保存 =====
+// ===== 提交 =====
 function submitKt() {
   var name = document.getElementById('ktFormName').value.trim();
   var code = document.getElementById('ktFormCode').value.trim();
   var priority = parseInt(document.getElementById('ktFormPriority').value) || 1;
   var parentId = document.getElementById('ktFormParent').value || null;
   var isLeaf = document.getElementById('ktFormIsLeaf').checked;
-  var ruleText = document.getElementById('ktRuleText');
-  var kwInput = document.getElementById('ktKeywordInput');
-  var excText = document.getElementById('ktExcludeText');
-  var matchRule = ruleText ? ruleText.value.trim() : '';
-  var coreKeywords = kwInput ? kwInput.value.trim() : '';
-  var excludeCondition = excText ? excText.value.trim() : '';
 
   if(!name) { alert('请输入名称'); return; }
   if(!code) { alert('请输入编码'); return; }
-  if(isLeaf && !matchRule) { alert('匹配规则为必填项'); return; }
+
+  // 处理继承输入区域（叶子节点）
+  var inputAreaValues = {};
+  var inheritedAreas = getKtInheritedAreas(ktEditNodeId || parentId);
+  // 如果是新增节点，检查父节点链上是否有inputAreas
+  if(!inheritedAreas && parentId) {
+    var rootAnc = getKtRootAncestor(parentId);
+    if(rootAnc && rootAnc.inputAreas && rootAnc.inputAreas.length > 0) inheritedAreas = rootAnc.inputAreas;
+  }
+  if(isLeaf && inheritedAreas && inheritedAreas.length > 0) {
+    for(var ii=0; ii<inheritedAreas.length; ii++) {
+      var el = document.getElementById('ktInheritArea_'+ii);
+      if(!el) continue;
+      var v = el.value.trim();
+      if(!v) { alert('请填写"'+inheritedAreas[ii].title+'"（继承输入区域必须全部填写）'); return; }
+      inputAreaValues[inheritedAreas[ii].title] = v;
+    }
+  }
 
   if(ktEditNodeId) {
     var node = getKtNode(ktEditNodeId);
@@ -4678,26 +4894,30 @@ function submitKt() {
         alert('不能选择自身或子节点作为上级节点'); return;
       }
     }
-    // 若尝试将有子节点的节点改为知识，拦截
     if(isLeaf && hasKtChildren(ktEditNodeId)) {
       alert('该节点下存在子节点，不能标记为知识节点'); return;
     }
-    node.name = name;
-    node.code = code;
-    node.parentId = parentId;
-    node.priority = priority;
-    node.isLeaf = isLeaf;
-    node.matchRule = matchRule;
-    node.coreKeywords = coreKeywords;
-    node.excludeCondition = excludeCondition;
+    node.name = name; node.code = code; node.parentId = parentId;
+    node.priority = priority; node.isLeaf = isLeaf;
+    // 保存输入区域定义（仅根层级）
+    if(!parentId) {
+      node.inputAreas = ktTempInputAreas.map(function(ia){ return {title: ia.title, required: !!ia.required}; });
+    }
+    // 保存继承输入区域值
+    if(Object.keys(inputAreaValues).length > 0) node.inputAreaValues = inputAreaValues;
   } else {
-    var newId = 'kt-'+ktNextId;
-    ktNextId++;
-    ktData.push({
+    var newId = 'kt-'+ktNextId; ktNextId++;
+    var newNode = {
       id: newId, name: name, code: code, parentId: parentId, priority: priority, isLeaf: isLeaf,
-      matchRule: matchRule, coreKeywords: coreKeywords, excludeCondition: excludeCondition,
       _expanded: true
-    });
+    };
+    // 根层级保存inputAreas
+    if(!parentId && ktTempInputAreas.length > 0) {
+      newNode.inputAreas = ktTempInputAreas.map(function(ia){ return {title: ia.title, required: !!ia.required}; });
+    }
+    // 叶子节点保存继承输入区域值
+    if(Object.keys(inputAreaValues).length > 0) newNode.inputAreaValues = inputAreaValues;
+    ktData.push(newNode);
     ktSelectedNode = newId;
   }
 
@@ -4717,7 +4937,6 @@ function deleteKtNode(nodeId) {
   document.getElementById('ktDeleteMsg').textContent = msg;
   document.getElementById('ktDeleteModal').classList.add('open');
 }
-
 function deleteKtFromModal() {
   if(!ktEditNodeId) return;
   ktDeleteTargetId = ktEditNodeId;
@@ -4727,9 +4946,7 @@ function deleteKtFromModal() {
   document.getElementById('ktDeleteMsg').textContent = msg;
   document.getElementById('ktDeleteModal').classList.add('open');
 }
-
 function closeKtDeleteModal() { document.getElementById('ktDeleteModal').classList.remove('open'); }
-
 function confirmKtDelete() {
   if(!ktDeleteTargetId) return;
   var allIds = [ktDeleteTargetId].concat(getKtDescendants(ktDeleteTargetId));
@@ -4750,13 +4967,12 @@ function confirmKtDelete() {
   renderKtTree();
 }
 
-// ===== Modal 关闭 =====
 function closeKtModal() {
   document.getElementById('ktModal').classList.remove('open');
   ktEditNodeId = null;
+  ktTempInputAreas = [];
 }
 
-// 点击overlay关闭
 document.addEventListener('click', function(e) {
   if(e.target === document.getElementById('ktModal')) closeKtModal();
   if(e.target === document.getElementById('ktDeleteModal')) closeKtDeleteModal();
@@ -5510,7 +5726,7 @@ function switchCaseMainTab(tab, el) {
 }
 
 function goBackToCaseLibrary() {
-  var menuItem = document.querySelector('.b-menu-item[onclick*="case-library"]');
+  var menuItem = document.querySelector('.b-sub-item[onclick*="case-library"]');
   switchBackendPage('case-library', menuItem);
   if (menuItem) menuItem.classList.add('active');
   renderCaseList();
@@ -6117,12 +6333,14 @@ var pageAnnotations = {
   },
   'knowledge-topic': {
     title: '知识管理',
-    content: '<h4>更新日期：2026.06.16</h4>' +
+    content: '<h4>更新日期：2026.06.17</h4>' +
       '<ul>' +
-      '<li>知识管理分为两个层级：<br>' +
-      '<span style="padding-left:1em">（1）<b>知识</b>：支持配置匹配规则、核心关键词、排除条件；知识层级下不可下挂任何节点</span><br>' +
-      '<span style="padding-left:1em">（2）<b>知识主题</b>：可以下挂知识主题和知识两个层级节点</span></li>' +
+      '<li>知识管理分为三个层级节点：<br>' +
+      '<span style="padding-left:1em">（1）<b>知识体系</b>（第一层级/根节点）：可配置多个输入区域（如"会话情绪特征描述""会话特征（关键词与例句）"），下挂知识主题和知识节点</span><br>' +
+      '<span style="padding-left:1em">（2）<b>知识主题</b>（中间层级）：可下挂子知识主题和知识节点</span><br>' +
+      '<span style="padding-left:1em">（3）<b>知识节点</b>（最细粒度）：需填写继承的输入区域内容（知识内容）</span></li>' +
       '<li>最多创建<b>6个层级</b></li>' +
+      '<li>预设两类知识体系：客户情绪（2个输入区域，15个细分情绪）和业务类别（4个输入区域，18个业务类别）</li>' +
       '</ul>'
   },
   'insight': {
@@ -6354,7 +6572,7 @@ function openDsRecords(dsId) {
 function goBackToDatasetList() {
   currentDsId = null;
   dsSelectedRecords = [];
-  switchBackendPage('dataset-list', document.querySelector('.b-menu-item[onclick*="dataset-list"]'));
+  switchBackendPage('dataset-list', document.querySelector('.b-sub-item[onclick*="dataset-list"]'));
 }
 
 function initDsTagFilter() {
