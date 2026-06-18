@@ -17,7 +17,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 .main-wrap{position:relative;display:flex;align-items:flex-start;justify-content:center;height:calc(100vh - 56px);overflow:auto}
 
 /* ===== 前端视图 ===== */
-.frontend-view{display:flex;align-items:flex-start;flex-shrink:0;width:100%}
+.frontend-view{width:100%;height:calc(100vh - 56px);overflow:hidden}
 .frontend-view.hidden{display:none}
 /* 版本面板 */
 .version-panel{width:200px;flex-shrink:0;background:#fff;border-right:1px solid #e0e0e0;height:calc(100vh - 56px);overflow-y:auto;padding:12px 0}
@@ -450,25 +450,7 @@ tr:hover{background:var(--gray-50)}
 
   <!-- ===== 前端视图 ===== -->
   <div class="frontend-view" id="frontendView">
-    <!-- 版本切换面板 -->
-    <div class="version-panel" id="versionPanel">
-      <div class="version-panel-title">📱 前端版本</div>
-      <div id="versionList"></div>
-    </div>
-    <!-- 左上角：原始聊天区图片（隐藏） -->
-    <div class="left-col">
-      <img src="left_chat.png" alt="企微对话框" style="display:none">
-    </div>
-    <!-- 右侧侧边栏 -->
-    <div class="right-col" id="rightCol" style="display:flex;flex-direction:column;overflow:auto">
-      <div id="versionImageArea" style="display:flex;flex-direction:column;width:100%">
-        <div class="version-image-group active" data-vid="v1">
-          <img src="frontend_new.png" alt="前端视图" style="width:auto;max-width:100%;height:auto;max-height:calc(100vh - 56px)">
-        </div>
-      </div>
-      <!-- ☰ 热区 -->
-      <div class="hot-area" id="hotArea" onclick="toggleMenu(event)"></div>
-    </div>
+    <iframe id="modaoFrame" src="https://modao.cc/proto/rFtfU0Ztgrt1tPJynbuYN/sharing?view_mode=device&screen=rbpVMnH23ToY4MKQX&canvasId=rcVMnH23UUvpDtII" style="width:100%;height:calc(100vh - 56px);border:none"></iframe>
   </div>
 
   <!-- ===== 后台视图 ===== -->
