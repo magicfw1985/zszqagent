@@ -478,7 +478,7 @@ tr:hover{background:var(--gray-50)}
           <span class="icon">📊</span> 会话洞察 <span class="arrow">▶</span>
         </div>
         <div class="b-submenu" id="sub-insight">
-          <div class="b-sub-item" onclick="switchBackendPage('insight',this)">会话洞察</div>
+          <div class="b-sub-item" onclick="switchBackendPage('insight',this)">单聊会话洞察</div>
           <div class="b-sub-item" onclick="switchBackendPage('plan',this)">会话运维计划</div>
         </div>
         <div class="b-menu-item" onclick="toggleSubmenu(this)">
@@ -755,34 +755,38 @@ tr:hover{background:var(--gray-50)}
 
       <!-- 会话洞察 -->
       <div class="b-page" id="page-insight">
-        <div class="b-page-header"><h2>会话洞察</h2><div class="actions"><button class="btn btn-outline" onclick="alert('数据已刷新')">🔄 刷新</button></div></div>
-        <!-- 统计卡片 -->
-        <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap">
-          <div style="flex:1;min-width:180px;background:#fff;border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm)">
-            <div style="font-size:13px;color:var(--gray-500);margin-bottom:8px">昨日洞察会话次数</div>
+        <div class="b-page-header"><h2>单聊会话洞察</h2><div class="actions"><button class="btn btn-outline" onclick="alert('数据已刷新')">🔄 刷新</button></div></div>
+        <!-- 统计卡片（整合一行） -->
+        <div style="display:flex;gap:16px;margin-bottom:20px;background:#fff;border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm);flex-wrap:wrap">
+          <div style="flex:1;min-width:100px;text-align:center;border-right:1px solid var(--gray-200)">
+            <div style="font-size:13px;color:var(--gray-500);margin-bottom:6px">昨日洞察会话次数</div>
             <div style="font-size:28px;font-weight:700;color:var(--blue)">6</div>
           </div>
-          <div style="flex:1;min-width:180px;background:#fff;border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm)">
-            <div style="font-size:13px;color:var(--gray-500);margin-bottom:8px">昨日提取待办</div>
+          <div style="flex:1;min-width:100px;text-align:center;border-right:1px solid var(--gray-200)">
+            <div style="font-size:13px;color:var(--gray-500);margin-bottom:6px">昨日提取待办</div>
             <div style="font-size:28px;font-weight:700;color:var(--gray-900)">4</div>
           </div>
-          <div style="flex:1;min-width:180px;background:#fff;border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm)">
-            <div style="font-size:13px;color:var(--gray-500);margin-bottom:8px">昨日提取商机</div>
+          <div style="flex:1;min-width:100px;text-align:center;border-right:1px solid var(--gray-200)">
+            <div style="font-size:13px;color:var(--gray-500);margin-bottom:6px">昨日提取商机</div>
             <div style="font-size:28px;font-weight:700;color:#e67e22">3</div>
           </div>
-          <div style="flex:1;min-width:180px;background:#fff;border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm)">
-            <div style="font-size:13px;color:var(--gray-500);margin-bottom:8px">累计洞察</div>
+          <div style="flex:1;min-width:100px;text-align:center;border-right:1px solid var(--gray-200)">
+            <div style="font-size:13px;color:var(--gray-500);margin-bottom:6px">累计洞察</div>
             <div style="font-size:28px;font-weight:700;color:var(--gray-900)">128<span style="font-size:14px;font-weight:400;color:var(--gray-500);margin-left:4px">次</span></div>
           </div>
-          <div style="flex:1;min-width:180px;background:#fff;border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm)">
-            <div style="font-size:13px;color:var(--gray-500);margin-bottom:8px">累计待办</div>
+          <div style="flex:1;min-width:100px;text-align:center;border-right:1px solid var(--gray-200)">
+            <div style="font-size:13px;color:var(--gray-500);margin-bottom:6px">累计待办</div>
             <div style="font-size:28px;font-weight:700;color:var(--gray-900)">84<span style="font-size:14px;font-weight:400;color:var(--gray-500);margin-left:4px">条</span></div>
+          </div>
+          <div style="flex:1;min-width:100px;text-align:center">
+            <div style="font-size:13px;color:var(--gray-500);margin-bottom:6px">累计商机</div>
+            <div style="font-size:28px;font-weight:700;color:#e67e22">52<span style="font-size:14px;font-weight:400;color:var(--gray-500);margin-left:4px">条</span></div>
           </div>
         </div>
         <div class="rule-tabs" id="insightTabs">
-          <button class="rule-tab active" onclick="switchInsightTab('all',this)">全部<span class="count">(36)</span></button>
-          <button class="rule-tab" onclick="switchInsightTab('todo',this)">待办<span class="count">(12)</span></button>
-          <button class="rule-tab" onclick="switchInsightTab('opportunity',this)">商机<span class="count">(6)</span></button>
+          <button class="rule-tab active" onclick="switchInsightTab('all',this)">全部<span class="count">(10)</span></button>
+          <button class="rule-tab" onclick="switchInsightTab('todo',this)">待办<span class="count">(4)</span></button>
+          <button class="rule-tab" onclick="switchInsightTab('opportunity',this)">商机<span class="count">(2)</span></button>
         </div>
         <div class="b-table-wrap">
           <div class="b-table-toolbar" style="gap:12px">
@@ -802,7 +806,7 @@ tr:hover{background:var(--gray-50)}
             </div>
           </div>
           <table>
-            <thead><tr><th>会话ID</th><th>员工</th><th>会话日期</th><th>沟通主题</th><th>客户情绪</th><th>满意度</th><th>待办事项</th><th>商机</th><th>操作</th></tr></thead>
+            <thead><tr><th>会话ID</th><th>员工</th><th>会话日期</th><th>沟通主题</th><th>客户情绪</th><th>满意度</th><th>待办事项</th><th style="width:120px">商机</th><th>操作</th></tr></thead>
             <tbody id="insightTableBody"></tbody>
           </table>
           <div class="pagination" id="insightPagination"></div>
@@ -921,7 +925,7 @@ tr:hover{background:var(--gray-50)}
         <div class="b-table-wrap">
           <div class="b-table-toolbar" style="gap:12px">
             <div class="filter-group">
-              <select id="asstStrategyFilter"><option value="">全部召回策略</option><option value="规则匹配">规则匹配</option><option value="向量召回">向量召回</option></select>
+              <select id="asstStrategyFilter"><option value="">全部召回策略</option><option value="大模型推理召回">大模型推理召回</option><option value="规则匹配">规则匹配</option><option value="向量召回">向量召回</option></select>
             </div>
             <div class="filter-group">
               <select id="asstAppFilter"><option value="">全部伴随应用</option></select>
@@ -1125,7 +1129,7 @@ tr:hover{background:var(--gray-50)}
         <div style="display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap">
           <div style="flex:1;min-width:180px;background:#fff;border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm)">
             <div style="font-size:13px;color:var(--gray-500);margin-bottom:8px">总词库数</div>
-            <div style="font-size:28px;font-weight:700;color:var(--gray-900)">3<span style="font-size:14px;font-weight:400;color:var(--gray-500);margin-left:4px">个</span></div>
+            <div style="font-size:28px;font-weight:700;color:var(--gray-900)">2<span style="font-size:14px;font-weight:400;color:var(--gray-500);margin-left:4px">个</span></div>
           </div>
           <div style="flex:1;min-width:180px;background:#fff;border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm)">
             <div style="font-size:13px;color:var(--gray-500);margin-bottom:8px">启用中</div>
@@ -1133,7 +1137,7 @@ tr:hover{background:var(--gray-50)}
           </div>
           <div style="flex:1;min-width:180px;background:#fff;border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm)">
             <div style="font-size:13px;color:var(--gray-500);margin-bottom:8px">已停用</div>
-            <div style="font-size:28px;font-weight:700;color:var(--red)">1<span style="font-size:14px;font-weight:400;color:var(--gray-500);margin-left:4px">个</span></div>
+            <div style="font-size:28px;font-weight:700;color:var(--red)">0<span style="font-size:14px;font-weight:400;color:var(--gray-500);margin-left:4px">个</span></div>
           </div>
         </div>
         <div class="b-table-wrap">
@@ -1397,15 +1401,15 @@ tr:hover{background:var(--gray-50)}
     <div class="modal-header"><h3>创建质检规则</h3><button class="modal-close" onclick="closeCreateModal()">×</button></div>
     <div class="modal-body">
       <div class="create-tabs">
-        <button class="create-tab active" onclick="switchCreateMode('expert',this)">🔑 专家创建</button>
-        <button class="create-tab" onclick="switchCreateMode('llm',this)">🤖 大模型创建</button>
+        <button class="create-tab active" onclick="switchCreateMode('expert',this)">专家创建</button>
+        <button class="create-tab" onclick="switchCreateMode('llm',this)">大模型创建</button>
       </div>
 
       <!-- ===== 专家模式 ===== -->
       <div class="create-panel active" id="create-expert">
         <div class="form-row">
           <div class="form-group"><label>规则名称 <span class="required">*</span></label><input id="ruleName" placeholder="例如：禁止承诺收益"></div>
-          <div class="form-group"><label>所属分类 <span class="required">*</span></label><select id="ruleCategorySelect"><option>营销合规</option><option>客户服务</option><option>信息披露</option></select></div>
+          <div class="form-group"><label>所属分类 <span class="required">*</span></label><select id="ruleCategorySelect"><option value="">请选择</option><option>违规承诺与虚假宣传</option><option>适当性管理与风险揭示</option><option>代客理财与账户违规</option><option>利益冲突与廉洁从业</option><option>合规展业与服务规范</option><option>其他</option></select></div>
         </div>
 
         <!-- 条件关系 -->
@@ -1416,28 +1420,31 @@ tr:hover{background:var(--gray-50)}
           </div>
         </div>
 
-        <!-- 条件A: 专家规则 -->
-        <div class="rule-condition-block">
-          <div class="cond-header"><span class="cond-label">条件 A：专家规则</span></div>
-          <div class="form-group"><label>关键词 <span class="required">*</span></label>
-            <div style="display:flex;gap:8px;align-items:flex-start">
-              <textarea id="expertKeywords" placeholder="多个关键词，以英文逗号分隔" style="flex:1;min-height:80px"></textarea>
-              <button class="btn-import" style="white-space:nowrap;margin-top:0;height:36px">📥 导入</button>
+        <!-- 动态条件容器 -->
+        <div id="expertCondContainer">
+          <!-- 默认条件A -->
+          <div class="rule-condition-block" id="condA_default">
+            <div class="cond-header"><span class="cond-label">条件 A：专家规则</span></div>
+            <div class="form-group"><label>关键词 <span class="required">*</span></label>
+              <div style="display:flex;gap:8px;align-items:flex-start">
+                <textarea id="expertKeywordsA" placeholder="多个关键词，以英文逗号分隔" style="flex:1;min-height:80px"></textarea>
+                <button class="btn-import" style="white-space:nowrap;margin-top:0;height:36px">📥 导入</button>
+              </div>
             </div>
-          </div>
-          <div class="form-group"><label>关联词库</label>
-            <select style="width:100%"><option value="">未选择</option><option>禁止承诺收益</option><option>诱导话术库</option><option>合规术语</option></select>
-          </div>
-          <div class="form-group"><label>命中规则</label>
-            <div class="radio-group">
-              <label><input type="radio" name="hitRule1" value="any" checked> 包含任意一个关键词</label>
-              <label><input type="radio" name="hitRule1" value="all"> 包含所有关键词</label>
+            <div class="form-group"><label>关联词库</label>
+              <select style="width:100%"><option value="">未选择</option><option>禁止承诺收益</option><option>诱导话术库</option><option>合规术语</option><option>违禁词库</option></select>
+            </div>
+            <div class="form-group"><label>命中规则</label>
+              <div class="radio-group">
+                <label><input type="radio" name="hitRule_A" value="any" checked> 包含任意一个关键词</label>
+                <label><input type="radio" name="hitRule_A" value="all"> 包含所有关键词</label>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- +添加质检规则 按钮 -->
-        <button class="btn-add-rule" onclick="alert('可继续添加更多条件组（B/C/D...）')">＋ 添加质检规则</button>
+        <!-- 添加专家规则按钮 -->
+        <button class="btn-add-rule" onclick="addExpertCond()" style="margin-top:12px;width:100%;padding:10px;border:1px dashed var(--blue);border-radius:8px;background:transparent;color:var(--blue);font-size:13px;cursor:pointer">＋ 添加专家规则</button>
 
         <div class="form-group" style="margin-top:16px"><label>严重程度</label><select><option value="severe">高危</option><option value="moderate">中危</option><option selected value="low">低危</option></select></div>
       </div>
@@ -1446,15 +1453,14 @@ tr:hover{background:var(--gray-50)}
       <div class="create-panel" id="create-llm">
         <div class="form-row">
           <div class="form-group"><label>规则名称 <span class="required">*</span></label><input placeholder="例如：产品违规宣传检测" style="width:100%"></div>
-          <div class="form-group"><label>所属分类 <span class="required">*</span></label><select style="width:100%"><option>营销合规</option><option>客户服务</option><option>信息披露</option></select></div>
+          <div class="form-group"><label>所属分类 <span class="required">*</span></label><select style="width:100%"><option value="">请选择</option><option>违规承诺与虚假宣传</option><option>适当性管理与风险揭示</option><option>代客理财与账户违规</option><option>利益冲突与廉洁从业</option><option>合规展业与服务规范</option><option>其他</option></select></div>
         </div>
 
-        <!-- 条件A: 大模型型规则 -->
+        <!-- 大模型规则 -->
         <div class="rule-condition-block">
-          <div class="cond-header"><span class="cond-label" style="background:#e8f4fd;color:var(--blue)">条件 A：大模型型规则</span></div>
           <div class="form-group">
             <label>知识背景 <span style="color:var(--blue);font-size:11px;cursor:pointer">ⓘ</span></label>
-            <select style="width:100%"><option>自定义</option><option>金融合规知识库</option><option>客服话术规范</option></select>
+            <select style="width:100%"><option>自定义</option><option>金融合规知识库</option><option>客服话术规范</option><option>敏感词库</option></select>
           </div>
           <div class="form-group"><label></label><textarea placeholder="请输入背景知识..." style="width:100%;min-height:60px"></textarea></div>
           <div class="form-group"><label>命中规则 <span class="required">*</span></label><textarea placeholder="质检过程中输入给大模型，用于判断什么情况下，该规则应被命中&#10;&#10;请输入命中规则..." style="width:100%;min-height:80px"></textarea></div>
@@ -1483,7 +1489,7 @@ tr:hover{background:var(--gray-50)}
       <div class="form-row">
         <div class="form-group"><label>规则名称 <span class="required">*</span></label><input id="editRuleName" placeholder="规则名称"></div>
         <div class="form-group"><label>所属分类 <span class="required">*</span></label>
-          <select id="editRuleCategory"><option>营销合规</option><option>客户服务</option><option>信息披露</option></select>
+          <select id="editRuleCategory"><option>违规承诺与虚假宣传</option><option>适当性管理与风险揭示</option><option>代客理财与账户违规</option><option>利益冲突与廉洁从业</option><option>合规展业与服务规范</option><option>其他</option></select>
         </div>
       </div>
       <div class="form-row">
@@ -1503,19 +1509,39 @@ tr:hover{background:var(--gray-50)}
             <label><input type="radio" name="editCondRel" value="all"> 满足以下全部条件</label>
           </div>
         </div>
+
+        <!-- 条件A -->
         <div class="rule-condition-block">
-          <div class="cond-header"><span class="cond-label">专家规则配置</span></div>
+          <div class="cond-header"><span class="cond-label">条件A：专家规则</span></div>
           <div class="form-group"><label>匹配关键词 <span class="required">*</span></label>
             <div style="display:flex;gap:8px;align-items:flex-start">
-              <textarea id="editExpertKeywords" placeholder="多个关键词，以英文逗号分隔或每行一个" style="flex:1;min-height:80px"></textarea>
+              <textarea id="editExpertKeywordsA" placeholder="多个关键词，以英文逗号分隔或每行一个" style="flex:1;min-height:80px"></textarea>
               <button class="btn-import" style="white-space:nowrap;height:36px">📥 导入</button>
             </div>
           </div>
-          <div class="form-group"><label>关联词库</label><select id="editVocabSelect" style="width:100%"><option value="">未选择</option><option>禁止承诺收益</option><option>诱导话术库</option><option>合规术语</option></select></div>
+          <div class="form-group"><label>关联词库</label><select id="editVocabSelectA" style="width:100%"><option value="">未选择</option><option>禁止承诺收益</option><option>诱导话术库</option><option>合规术语</option><option>违禁词库</option></select></div>
           <div class="form-group"><label>命中规则</label>
             <div class="radio-group">
-              <label><input type="radio" name="editHitRule" value="any" checked> 包含任意一个关键词</label>
-              <label><input type="radio" name="editHitRule" value="all"> 包含所有关键词</label>
+              <label><input type="radio" name="editHitRuleA" value="any" checked> 包含任意一个关键词</label>
+              <label><input type="radio" name="editHitRuleA" value="all"> 包含所有关键词</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 条件B -->
+        <div class="rule-condition-block" style="margin-top:12px">
+          <div class="cond-header"><span class="cond-label">条件B：专家规则</span></div>
+          <div class="form-group"><label>匹配关键词 <span class="required">*</span></label>
+            <div style="display:flex;gap:8px;align-items:flex-start">
+              <textarea id="editExpertKeywordsB" placeholder="多个关键词，以英文逗号分隔或每行一个" style="flex:1;min-height:80px"></textarea>
+              <button class="btn-import" style="white-space:nowrap;height:36px">📥 导入</button>
+            </div>
+          </div>
+          <div class="form-group"><label>关联词库</label><select id="editVocabSelectB" style="width:100%"><option value="">未选择</option><option>禁止承诺收益</option><option>诱导话术库</option><option>合规术语</option><option>违禁词库</option></select></div>
+          <div class="form-group"><label>命中规则</label>
+            <div class="radio-group">
+              <label><input type="radio" name="editHitRuleB" value="any" checked> 包含任意一个关键词</label>
+              <label><input type="radio" name="editHitRuleB" value="all"> 包含所有关键词</label>
             </div>
           </div>
         </div>
@@ -1525,7 +1551,7 @@ tr:hover{background:var(--gray-50)}
       <div id="editLlmPanel" style="display:none">
         <div class="rule-condition-block">
           <div class="cond-header"><span class="cond-label" style="background:#e8f4fd;color:var(--blue)">大模型规则配置</span></div>
-          <div class="form-group"><label>知识背景</label><select id="editKbSelect" style="width:100%"><option>自定义</option><option>金融合规知识库</option><option>客服话术规范</option></select></div>
+          <div class="form-group"><label>知识背景</label><select id="editKbSelect" style="width:100%"><option>自定义</option><option>金融合规知识库</option><option>客服话术规范</option><option>敏感词库</option></select></div>
           <div class="form-group"><label></label><textarea id="editKbCustom" placeholder="请输入背景知识..." style="width:100%;min-height:60px"></textarea></div>
           <div class="form-group"><label>命中规则 <span class="required">*</span></label><textarea id="editLlmHitRule" placeholder="请输入命中规则描述..." style="width:100%;min-height:80px"></textarea></div>
           <div class="form-group"><label>排除条件（选填）</label><textarea id="editLlmExcludeRule" placeholder="请输入排除条件..." style="width:100%;min-height:60px"></textarea></div>
@@ -1579,18 +1605,21 @@ tr:hover{background:var(--gray-50)}
 
 <!-- ===== 质检方案：添加/编辑方案弹窗 ===== -->
 <div class="modal-overlay" id="planModal">
-  <div class="modal" style="width:720px;max-height:85vh">
+  <div class="modal" style="width:880px;max-height:90vh">
     <div class="modal-header"><h3 id="planModalTitle">添加质检方案</h3><button class="modal-close" onclick="closePlanModal()">×</button></div>
     <div class="modal-body">
       <div class="form-group"><label>方案名称 <span class="required">*</span></label><input id="planNameInput" placeholder="请输入方案名称（不超过50字）" maxlength="50"></div>
+      <div class="form-group"><label>方案描述</label><input id="planDescInput" placeholder="请输入方案描述（选填）" maxlength="100"></div>
       <div class="form-group">
-        <div style="display:flex;gap:8px;margin-bottom:10px">
-          <input id="planRuleSearch" placeholder="搜索规则ID/名称..." style="flex:1">
+        <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+          <input id="planRuleSearch" placeholder="搜索规则ID/名称..." style="flex:1;min-width:160px">
+          <select id="planCategoryFilter" style="width:150px"><option value="">全部分类</option></select>
+          <select id="planTypeFilter" style="width:140px"><option value="">全部类型</option><option value="expert">专家规则</option><option value="llm">大模型规则</option></select>
           <button class="btn btn-primary btn-sm" onclick="filterPlanRuleList(1)">查询</button>
-          <button class="btn btn-outline btn-sm" onclick="document.getElementById('planRuleSearch').value='';filterPlanRuleList(1)">重置</button>
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('planRuleSearch').value='';document.getElementById('planCategoryFilter').value='';document.getElementById('planTypeFilter').value='';filterPlanRuleList(1)">重置</button>
         </div>
         <table style="border:1px solid var(--gray-200);border-radius:8px">
-          <thead style="background:var(--gray-50)"><tr><th width="36"><input type="checkbox" onclick="togglePlanRulesAll(this)"></th><th>规则ID</th><th style="color:var(--orange)">规则名称</th><th>类型</th><th>违规程度</th></tr></thead>
+          <thead style="background:var(--gray-50)"><tr><th width="36"><input type="checkbox" onclick="togglePlanRulesAll(this)"></th><th>规则ID</th><th style="color:var(--orange)">规则名称</th><th>规则分类</th><th>类型</th><th>违规程度</th></tr></thead>
           <tbody id="planRuleTableBody"></tbody>
         </table>
         <div class="pagination" id="planRulePagination" style="padding-top:8px"></div>
@@ -1732,31 +1761,31 @@ tr:hover{background:var(--gray-50)}
   </div>
 </div>
 
-<!-- ===== 词库：新建/编辑弹窗 ===== -->
+<!-- ===== 词库：新建/编辑弹窗（页面样式） ===== -->
 <div class="modal-overlay" id="vocabModal">
-  <div class="modal" style="width:560px">
+  <div class="modal" style="width:680px;max-height:90vh">
     <div class="modal-header" style="align-items:center">
       <div style="display:flex;align-items:center;gap:8px"><span style="font-size:18px;color:var(--primary)">+</span><h3 id="vocabModalTitle">新建词库</h3><span style="font-size:12px;background:#e3f2fd;color:#1565c0;padding:2px 8px;border-radius:4px;font-weight:500">创建模式</span></div>
       <button class="modal-close" onclick="closeVocabModal()">×</button>
     </div>
     <div class="modal-body" style="padding:20px 24px">
       <input type="hidden" id="editVocabId">
-      <div class="form-group"><label>词库名称 <span class="required">*</span></label><input id="vocabNameInput" placeholder="请输入词库名称，如：产品推广禁用词"><div style="font-size:12px;color:var(--gray-400);margin-top:4px">建议使用简洁明了的名称，便于识别和管理</div></div>
+      <div class="form-group"><label>词库名称 <span class="required">*</span></label><input id="vocabNameInput" placeholder="请输入词库名称，如：违禁词库"><div style="font-size:12px;color:var(--gray-400);margin-top:4px">建议使用简洁明了的名称，便于识别和管理</div></div>
       <div class="form-group"><label>词库状态</label>
         <div style="display:flex;gap:24px;padding:8px 0">
           <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--gray-700);white-space:nowrap"><input type="radio" name="vocabStatus" value="enabled" checked> 启用</label>
           <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:14px;color:var(--gray-700);white-space:nowrap"><input type="radio" name="vocabStatus" value="disabled"> 停用</label>
         </div>
       </div>
-      <div class="form-group"><label>禁忌词列表 <span class="required">*</span></label>
+      <div class="form-group"><label>词汇列表 <span class="required">*</span></label>
         <div style="display:flex;gap:6px;margin-bottom:8px">
-          <input id="vocabWordInput" placeholder="输入禁忌词，按回车或点击添加..." style="flex:1;height:36px;border:1px solid #d0d5dd;border-radius:8px;padding:0 12px;font-size:13px;font-family:inherit;outline:none" onkeydown="if(event.key==='Enter'){event.preventDefault();addVocabWord();}">
+          <input id="vocabWordInput" placeholder="输入词汇，按回车或点击添加..." style="flex:1;height:36px;border:1px solid #d0d5dd;border-radius:8px;padding:0 12px;font-size:13px;font-family:inherit;outline:none" onkeydown="if(event.key==='Enter'){event.preventDefault();addVocabWord();}">
           <button class="btn btn-primary" style="height:36px;padding:0 16px;white-space:nowrap;font-size:13px" onclick="addVocabWord()">+ 添加</button>
           <input type="file" id="vocabFileInput" accept=".txt,.csv" style="display:none" onchange="importVocabWords()">
-          <button class="btn btn-outline" style="height:36px;padding:0 14px;white-space:nowrap;font-size:13px" onclick="document.getElementById('vocabFileInput').click()" title="从文件批量导入禁忌词">📥 导入</button>
+          <button class="btn btn-outline" style="height:36px;padding:0 14px;white-space:nowrap;font-size:13px" onclick="document.getElementById('vocabFileInput').click()" title="从文件批量导入词汇">📥 导入</button>
         </div>
-        <div id="vocabWordList" style="display:flex;flex-wrap:wrap;gap:8px;min-height:40px;padding:8px;border:1px dashed var(--gray-200);border-radius:8px;background:var(--gray-50)"></div>
-        <div style="font-size:12px;color:var(--gray-400);margin-top:4px">点击已有禁忌词可编辑，悬停可删除；支持从 .txt/.csv 文件批量导入</div>
+        <div id="vocabWordList" style="min-height:200px;padding:8px;border:1px solid var(--gray-200);border-radius:8px;background:var(--gray-50)"></div>
+        <div style="font-size:12px;color:var(--gray-400);margin-top:4px">点击已有词汇可编辑，悬停可删除；支持从 .txt/.csv 文件批量导入</div>
       </div>
     </div>
     <div class="modal-footer">
@@ -1886,6 +1915,7 @@ tr:hover{background:var(--gray-50)}
         <div class="form-group">
           <label>伴随召回策略 <span class="required">*</span></label>
           <div id="asstStrategyChecks" style="display:flex;flex-wrap:wrap;gap:12px;padding:4px 0">
+            <label style="font-size:13px;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" name="asstStrategy" value="大模型推理召回" style="width:auto" onchange="onAsstStrategyChange()"> 大模型推理召回</label>
             <label style="font-size:13px;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" name="asstStrategy" value="规则匹配" style="width:auto" onchange="onAsstStrategyChange()"> 规则匹配</label>
             <label style="font-size:13px;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" name="asstStrategy" value="向量召回" style="width:auto" onchange="onAsstStrategyChange()"> 向量召回</label>
           </div>
@@ -2291,14 +2321,12 @@ function toggleSubmenu(el) {
 
 // ===== 质检规则数据 =====
 const ruleData = [
-  { id:1, ruleId:'R001', name:'禁止承诺收益', category:'营销合规', type:'expert', severity:'severe', status:'enabled' },
-  { id:2, ruleId:'R002', name:'诱导话术检测', category:'营销合规', type:'llm', severity:'severe', status:'enabled' },
-  { id:3, ruleId:'R003', name:'代客理财检测', category:'客户服务', type:'llm', severity:'moderate', status:'enabled' },
-  { id:4, ruleId:'R004', name:'风险提示缺失', category:'信息披露', type:'expert', severity:'moderate', status:'disabled' },
-  { id:5, ruleId:'R005', name:'私加联系方式', category:'客户服务', type:'expert', severity:'severe', status:'enabled' },
-  { id:6, ruleId:'R006', name:'挪用资金话术', category:'营销合规', type:'llm', severity:'severe', status:'enabled' },
-  { id:7, ruleId:'R007', name:'夸大收益检测', category:'营销合规', type:'expert', severity:'moderate', status:'disabled' },
-  { id:8, ruleId:'R008', name:'不当承诺', category:'信息披露', type:'expert', severity:'low', status:'enabled' },
+  { id:1, ruleId:'R001', name:'禁止承诺收益', category:'违规承诺与虚假宣传', type:'llm', severity:'severe', status:'enabled', desc:'检测投顾是否对客户做出任何形式的收益承诺或保本保证，覆盖"保本""稳赚"等违规用语', condRelation:'any', knowledge:'营销场景中投顾不得以任何形式承诺未来收益，不得使用绝对化表述。依据《证券投资顾问业务暂行规定》第十九条。', hitRule:'投顾在对话中出现承诺未来收益或保本的话术则判定命中规则', excludeRule:'投顾仅引用历史数据并明确说明历史成绩不代表未来表现时可豁免' },
+  { id:2, ruleId:'R002', name:'适当性匹配缺失', category:'适当性管理与风险揭示', type:'expert', severity:'severe', status:'enabled', desc:'检测投顾推介产品前是否完成客户风险承受能力与产品风险等级的匹配告知', condRelation:'all', conditions:[{keywords:'风险等级,R3,R4,R5,高风险,中高风险',vocab:'',hitRule:'any'},{keywords:'适合您,适合你,建议配置',vocab:'',hitRule:'any'}] },
+  { id:3, ruleId:'R003', name:'合规话术缺失', category:'合规展业与服务规范', type:'llm', severity:'moderate', status:'enabled', desc:'检测开户流程中投顾是否遗漏风险测评提示、三方存管告知等合规节点', knowledge:'', hitRule:'投顾在开户对话中未主动提示客户完成风险测评，或未说明三方存管签约要求则命中', excludeRule:'客户明确表示已完成风险测评时排除', kbSource:'敏感词库' },
+  { id:4, ruleId:'R004', name:'违规承诺收益', category:'违规承诺与虚假宣传', type:'expert', severity:'moderate', status:'disabled', desc:'检测投顾在打新咨询中是否做出超额收益承诺', condRelation:'any', conditions:[{keywords:'稳赚,必赚,高收益,翻倍,暴涨',vocab:'违禁词库',hitRule:'any'}] },
+  { id:5, ruleId:'R005', name:'代客操作指引', category:'代客理财与账户违规', type:'llm', severity:'severe', status:'enabled', desc:'检测投顾是否引导客户代操作账户或帮客户决策交易', knowledge:'依据《证券法》第142条，证券公司及从业人员不得接受客户全权委托从事证券交易', hitRule:'投顾在对话中出现"我帮你操作""我替你买""听我的就行"等代客理财话术则命中', excludeRule:'投顾仅提供标准化操作指引（如APP开通流程图）时可排除' },
+  { id:6, ruleId:'R006', name:'适当性回访缺失', category:'适当性管理与风险揭示', type:'expert', severity:'severe', status:'enabled', desc:'检测投顾是否在规定周期内完成客户适当性回访', condRelation:'all', conditions:[{keywords:'回访,适当性,测评更新,有效期',vocab:'',hitRule:'any'}] }
 ];
 var filteredRules = [].concat(ruleData);
 var pagingCur = 1;
@@ -2445,18 +2473,31 @@ function openEditModal(id) {
   if (rule.type === 'llm') {
     document.getElementById('editExpertPanel').style.display = 'none';
     document.getElementById('editLlmPanel').style.display = 'block';
-    // 模拟填充大模型字段
-    document.getElementById('editKbSelect').value = '自定义';
-    document.getElementById('editKbCustom').value = '金融行业合规检测知识背景';
-    document.getElementById('editLlmHitRule').value = '当客户经理使用夸大收益、隐瞒风险等话术时触发';
-    document.getElementById('editLlmExcludeRule').value = '正常的产品介绍和风险提示不触发';
+    document.getElementById('editKbSelect').value = rule.kbSource || '自定义';
+    document.getElementById('editKbCustom').value = rule.knowledge || '金融行业合规检测知识背景';
+    document.getElementById('editLlmHitRule').value = rule.hitRule || '当客户经理使用夸大收益、隐瞒风险等话术时触发';
+    document.getElementById('editLlmExcludeRule').value = rule.excludeRule || '正常的产品介绍和风险提示不触发';
   } else {
     document.getElementById('editExpertPanel').style.display = 'block';
     document.getElementById('editLlmPanel').style.display = 'none';
-    // 模拟填充专家字段
-    var kwMap = {'R001':'保证收益,年化收益,稳赚不赔','R005':'微信,QQ,电话,私人'};
-    document.getElementById('editExpertKeywords').value = kwMap[rule.ruleId] || '保证收益,年化收益';
-    document.getElementById('editVocabSelect').value = '';
+    // 从数据中读取专家字段（条件A / 条件B）
+    var elKwA = document.getElementById('editExpertKeywordsA');
+    var elKwB = document.getElementById('editExpertKeywordsB');
+    if(rule.conditions && rule.conditions.length > 0) {
+      elKwA.value = rule.conditions[0] ? rule.conditions[0].keywords : '';
+      elKwB.value = rule.conditions[1] ? rule.conditions[1].keywords : '';
+    } else {
+      elKwA.value = '保证收益,年化收益,稳赚不赔';
+      elKwB.value = '';
+    }
+    document.getElementById('editVocabSelectA').value = (rule.conditions && rule.conditions[0] && rule.conditions[0].vocab) ? rule.conditions[0].vocab : '';
+    document.getElementById('editVocabSelectB').value = (rule.conditions && rule.conditions[1] && rule.conditions[1].vocab) ? rule.conditions[1].vocab : '';
+    // 设置条件关系
+    if(rule.condRelation === 'all') {
+      document.querySelector('input[name="editCondRel"][value="all"]').checked = true;
+    } else {
+      document.querySelector('input[name="editCondRel"][value="any"]').checked = true;
+    }
   }
 
   document.getElementById('editModal').classList.add('open');
@@ -2472,12 +2513,54 @@ function saveEditRule() {
   rule.category = document.getElementById('editRuleCategory').value;
   rule.severity = document.getElementById('editRuleSeverity').value;
   rule.status = document.getElementById('editRuleStatus').value;
+  // 保存专家规则的条件A/B
+  if (rule.type === 'expert') {
+    var kwA = document.getElementById('editExpertKeywordsA').value;
+    var kwB = document.getElementById('editExpertKeywordsB').value;
+    var vocabA = document.getElementById('editVocabSelectA').value;
+    var vocabB = document.getElementById('editVocabSelectB').value;
+    rule.conditions = [];
+    if (kwA.trim()) rule.conditions.push({keywords:kwA.trim(), vocab:vocabA, hitRule:'any'});
+    if (kwB.trim()) rule.conditions.push({keywords:kwB.trim(), vocab:vocabB, hitRule:'any'});
+    // 保存条件关系
+    var selRel = document.querySelector('input[name="editCondRel"]:checked');
+    rule.condRelation = selRel ? selRel.value : 'any';
+  }
   filterRules(); closeEditModal();
   alert('✅ 规则「' + rule.name + '」已更新');
 }
 
 // ===== Modal =====
-function openCreateModal() { document.getElementById('createModal').classList.add('open'); }
+function openCreateModal() {
+  // 重置：只保留默认条件A，清除动态添加的B/C/D...
+  expertCondCounter = 1;
+  var container = document.getElementById('expertCondContainer');
+  var condADefault = container.querySelector('#condA_default');
+  container.innerHTML = '';
+  if (condADefault) {
+    // 重新插入默认条件A（重置textarea内容）
+    container.innerHTML =
+      '<div class="rule-condition-block" id="condA_default">' +
+        '<div class="cond-header"><span class="cond-label">条件 A：专家规则</span></div>' +
+        '<div class="form-group"><label>关键词 <span class="required">*</span></label>' +
+          '<div style="display:flex;gap:8px;align-items:flex-start">' +
+            '<textarea id="expertKeywordsA" placeholder="多个关键词，以英文逗号分隔" style="flex:1;min-height:80px"></textarea>' +
+            '<button class="btn-import" style="white-space:nowrap;margin-top:0;height:36px">📥 导入</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="form-group"><label>关联词库</label>' +
+          '<select style="width:100%"><option value="">未选择</option><option>禁止承诺收益</option><option>诱导话术库</option><option>合规术语</option><option>违禁词库</option></select>' +
+        '</div>' +
+        '<div class="form-group"><label>命中规则</label>' +
+          '<div class="radio-group">' +
+            '<label><input type="radio" name="hitRule_A" value="any" checked> 包含任意一个关键词</label>' +
+            '<label><input type="radio" name="hitRule_A" value="all"> 包含所有关键词</label>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+  document.getElementById('createModal').classList.add('open');
+}
 function closeCreateModal() { document.getElementById('createModal').classList.remove('open'); }
 function switchCreateMode(mode, el) {
   document.querySelectorAll('.create-tab').forEach(function(t) { t.classList.remove('active'); });
@@ -2485,6 +2568,35 @@ function switchCreateMode(mode, el) {
   document.querySelectorAll('.create-panel').forEach(function(p) { p.classList.remove('active'); });
   document.getElementById('create-' + mode).classList.add('active');
 }
+var expertCondCounter = 1; // B=1, C=2, D=3 ...
+
+function addExpertCond() {
+  var container = document.getElementById('expertCondContainer');
+  var idx = expertCondCounter++;
+  var label = String.fromCharCode(66 + idx - 1); // B, C, D...
+  var blockId = 'expertCond_' + idx;
+  var html =
+    '<div class="rule-condition-block" id="' + blockId + '" style="margin-top:12px">' +
+      '<div class="cond-header"><span class="cond-label">条件 ' + label + '：专家规则</span></div>' +
+      '<div class="form-group"><label>关键词 <span class="required">*</span></label>' +
+        '<div style="display:flex;gap:8px;align-items:flex-start">' +
+          '<textarea placeholder="多个关键词，以英文逗号分隔" style="flex:1;min-height:80px"></textarea>' +
+          '<button class="btn-import" style="white-space:nowrap;margin-top:0;height:36px">📥 导入</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="form-group"><label>关联词库</label>' +
+        '<select style="width:100%"><option value="">未选择</option><option>禁止承诺收益</option><option>诱导话术库</option><option>合规术语</option><option>违禁词库</option></select>' +
+      '</div>' +
+      '<div class="form-group"><label>命中规则</label>' +
+        '<div class="radio-group">' +
+          '<label><input type="radio" name="hitRule_' + idx + '" value="any" checked> 包含任意一个关键词</label>' +
+          '<label><input type="radio" name="hitRule_' + idx + '" value="all"> 包含所有关键词</label>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  container.insertAdjacentHTML('beforeend', html);
+}
+
 function submitRule() {
   var name = document.getElementById('ruleName').value || '新规则';
   ruleData.unshift({ id: ruleData.length+1, name: name, category:'营销合规', type:'expert', severity:'low', status:'enabled' });
@@ -2498,9 +2610,10 @@ document.getElementById('createModal').addEventListener('click', function(e) { i
 // ===== 质检方案管理 =====
 // ============================================================
 const planData = [
-  { id:1, planId:'P001', name:'日常质检方案', ruleCount:8, scenario:'日常客服会话', status:'enabled', creator:'管理员', createTime:'2026-06-01 10:00', ruleIds:[1,2,3,5,6] },
-  { id:2, planId:'P002', name:'合规专项方案', ruleCount:12, scenario:'合规审计场景', status:'enabled', creator:'管理员', createTime:'2026-05-20 14:30', ruleIds:[1,2,3,4,7] },
-  { id:3, planId:'P003', name:'新人质检方案', ruleCount:5, scenario:'新员工培训', status:'disabled', creator:'质检组', createTime:'2026-05-10 09:15', ruleIds:[3,5] },
+  { id:1, planId:'P001', name:'财富管理质检方案', ruleCount:2, scenario:'财富管理', status:'enabled', creator:'管理员', createTime:'2026-06-01 10:00', ruleIds:[1,2] },
+  { id:2, planId:'P002', name:'资产管理质检方案', ruleCount:1, scenario:'资产管理', status:'enabled', creator:'管理员', createTime:'2026-05-20 14:30', ruleIds:[3] },
+  { id:3, planId:'P003', name:'信用业务质检方案', ruleCount:1, scenario:'信用业务', status:'disabled', creator:'质检组', createTime:'2026-05-10 09:15', ruleIds:[5] },
+  { id:4, planId:'P004', name:'财富管理质检方案', ruleCount:1, scenario:'财富管理', status:'enabled', creator:'管理员', createTime:'2026-06-15 09:00', ruleIds:[2] },
 ];
 var planDeleteTarget = null;
 var currentEditPlanRules = []; // 当前编辑方案已关联的规则ID列表
@@ -2564,7 +2677,15 @@ function confirmDeletePlan(){
 function openPlanModal(){
   document.getElementById('planModalTitle').textContent='添加质检方案';
   document.getElementById('planNameInput').value='';
+  document.getElementById('planDescInput').value='';
   currentEditPlanRules = [];
+  // 填充分类筛选下拉
+  var cats=[], catSel=document.getElementById('planCategoryFilter');
+  if(catSel){
+    catSel.innerHTML='<option value="">全部分类</option>';
+    ruleData.forEach(function(r){ if(r.category && cats.indexOf(r.category)===-1) cats.push(r.category); });
+    cats.sort().forEach(function(c){ catSel.innerHTML+='<option value="'+c+'">'+c+'</option>'; });
+  }
   filterPlanRuleList(1);
   document.getElementById('planModal').classList.add('open');
 }
@@ -2579,8 +2700,12 @@ function filterPlanRuleList(page){
   page = page || 1;
   var pageSize = 8;
   var search=(document.getElementById('planRuleSearch')?document.getElementById('planRuleSearch').value:'').toLowerCase();
+  var catFilter=document.getElementById('planCategoryFilter')?document.getElementById('planCategoryFilter').value:'';
+  var typeFilter=document.getElementById('planTypeFilter')?document.getElementById('planTypeFilter').value:'';
   var filtered=ruleData.filter(function(r){
     if(search&&r.name.indexOf(search)===-1&&r.ruleId.indexOf(search)===-1)return false;
+    if(catFilter && r.category!==catFilter)return false;
+    if(typeFilter && r.type!==typeFilter)return false;
     return true;
   });
   if(selectedIds.length){
@@ -2600,7 +2725,7 @@ function filterPlanRuleList(page){
   var typeMap={expert:'专家质检规则',llm:'大模型质检规则'};
   document.getElementById('planRuleTableBody').innerHTML=pageData.map(function(r){
     var checked = selectedIds.indexOf(r.id)!==-1 ? ' checked' : '';
-    return'<tr><td><input type="checkbox"' + checked + ' data-rid="' + r.id + '"></td><td>'+r.ruleId+'</td><td style="color:var(--orange)">'+r.name+'</td><td><span class="status-tag '+(r.type==='llm'?'info':'')+'">'+typeMap[r.type]+'</span></td><td><span class="severity-tag '+r.severity+'">'+severityMap[r.severity]+'</span></td></tr>';
+    return'<tr><td><input type="checkbox"' + checked + ' data-rid="' + r.id + '"></td><td>'+r.ruleId+'</td><td style="color:var(--orange)">'+r.name+'</td><td style="font-size:12px;color:var(--gray-600)">'+(r.category||'-')+'</td><td><span class="status-tag '+(r.type==='llm'?'info':'')+'">'+typeMap[r.type]+'</span></td><td><span class="severity-tag '+r.severity+'">'+severityMap[r.severity]+'</span></td></tr>';
   }).join('');
   // 分页按钮
   var pghtml = '';
@@ -2630,7 +2755,15 @@ function editPlan(id){
   var p=planData.find(function(r){return r.id===id;});if(!p)return;
   document.getElementById('planModalTitle').textContent='编辑质检方案';
   document.getElementById('planNameInput').value=p.name;
+  document.getElementById('planDescInput').value=p.desc||'';
   currentEditPlanRules = p.ruleIds ? p.ruleIds.slice() : [];
+  // 填充分类筛选下拉
+  var cats=[], catSel=document.getElementById('planCategoryFilter');
+  if(catSel){
+    catSel.innerHTML='<option value="">全部分类</option>';
+    ruleData.forEach(function(r){ if(r.category && cats.indexOf(r.category)===-1) cats.push(r.category); });
+    cats.sort().forEach(function(c){ catSel.innerHTML+='<option value="'+c+'">'+c+'</option>'; });
+  }
   filterPlanRuleList(1);
   document.getElementById('planModal').classList.add('open');
 }
@@ -2639,9 +2772,12 @@ function editPlan(id){
 // ===== 质检分类管理 =====
 // ============================================================
 const categoryData = [
-  { id:1, name:'营销合规', desc:'用于检测营销话术中的合规问题，包括承诺收益、夸大宣传等。', updater:'张三', updateTime:'2026-06-08 11:20' },
-  { id:2, name:'客户服务', desc:'客户服务质量相关规则分类。', updater:'李四', updateTime:'2026-06-05 16:30' },
-  { id:3, name:'信息披露', desc:'金融信息披露规范性检查规则。', updater:'王五', updateTime:'2026-05-28 09:45' },
+  { id:1, name:'适当性管理与风险揭示', desc:'检测投顾在产品推介中是否履行适当性匹配义务和风险告知', updater:'张三', updateTime:'2026-06-08 11:20' },
+  { id:2, name:'违规承诺与虚假宣传', desc:'监控投顾是否存在收益承诺、保本承诺、虚假宣传等违规行为', updater:'李四', updateTime:'2026-06-05 16:30' },
+  { id:3, name:'代客理财与账户违规', desc:'检测投顾是否存在代客操作账户、全权委托交易等违规行为', updater:'王五', updateTime:'2026-05-28 09:45' },
+  { id:4, name:'利益冲突与廉洁从业', desc:'识别投顾是否存在利益输送、内幕信息暗示等廉洁从业违规', updater:'张三', updateTime:'2026-06-10 14:00' },
+  { id:5, name:'合规展业与服务规范', desc:'核查投顾展业流程中合规节点履行的完整性与规范性', updater:'李四', updateTime:'2026-06-12 09:30' },
+  { id:6, name:'其他', desc:'其他暂未归类的质检规则分类', updater:'管理员', updateTime:'2026-06-15 10:00' },
 ];
 var catDeleteTarget=null;
 
@@ -3309,7 +3445,7 @@ function renderStars(score){
 
 // ============================================================
 const insightData = [
-  { id:1, convId:'C001', employee:'陈经理', date:'2026-06-10', time:'14:30-15:05', duration:35, topic:'期货开户咨询', summary:'客户林悦然咨询期货开户条件及流程，对产品兴趣浓厚，需及时跟进发送开户链接并预约后续面谈。', todo:'发送开户链接', opportunity:'有投资意向', emotion:'positive', satisfaction:4,
+  { id:1, convId:'C001', employee:'陈经理', date:'2026-06-10', time:'14:30-15:05', duration:35, topic:'期货开户咨询', summary:'客户林悦然咨询期货开户条件及流程，对产品兴趣浓厚，需及时跟进发送开户链接并预约后续面谈。', todo:'发送开户链接', opportunity:'', emotion:'positive', satisfaction:4,
     sessions:[
       {time:'14:30:25', summary:'客户咨询期货开户条件，询问开户所需资料'},
       {time:'14:35:12', summary:'员工介绍开户流程、所需材料及注意事项'},
@@ -3323,7 +3459,7 @@ const insightData = [
       {time:'09:22:10', summary:'员工详细讲解产品结构及收益规则'},
       {time:'09:35:00', summary:'客户部分疑虑消除，但仍需进一步考虑'}
     ] },
-  { id:3, convId:'C003', employee:'李经理', date:'2026-06-10', time:'10:00-10:40', duration:40, topic:'基金定投签约确认', summary:'客户陈美丽已完成基金定投签约，下一步需确认扣款账户信息是否正确。', todo:'确认银行卡信息', opportunity:'已转化', emotion:'positive', satisfaction:5,
+  { id:3, convId:'C003', employee:'李经理', date:'2026-06-10', time:'10:00-10:40', duration:40, topic:'基金定投签约确认', summary:'客户陈美丽已完成基金定投签约，下一步需确认扣款账户信息是否正确。', todo:'确认银行卡信息', opportunity:'', emotion:'positive', satisfaction:5,
     sessions:[
       {time:'10:02:18', summary:'客户确认基金定投签约意愿'},
       {time:'10:10:35', summary:'员工协助填写定投签约信息表格'},
@@ -3336,30 +3472,30 @@ const insightData = [
       {time:'15:35:00', summary:'员工解释现有风险揭示材料内容及合规要求'},
       {time:'15:50:15', summary:'客户认为披露不够充分，要求更详细的说明'}
     ] },
-  { id:5, convId:'C005', employee:'刘经理', date:'2026-06-09', time:'11:00-11:25', duration:25, topic:'新客首次沟通', summary:'新客户周女士首次咨询，表现出较强购买意愿，应尽快发送产品资料并安排专人跟进。', todo:'发送产品资料', opportunity:'高意向', emotion:'positive', satisfaction:4,
+  { id:5, convId:'C005', employee:'刘经理', date:'2026-06-09', time:'11:00-11:25', duration:25, topic:'新客首次沟通', summary:'新客户周女士首次咨询，表现出较强购买意愿，应尽快发送产品资料并安排专人跟进。', todo:'发送产品资料', opportunity:'', emotion:'positive', satisfaction:4,
     sessions:[
       {time:'11:02:10', summary:'新客户周女士首次联系，咨询金融产品'},
       {time:'11:08:45', summary:'员工了解客户基本情况及投资偏好'},
       {time:'11:15:00', summary:'客户明确表达购买意愿，提出具体需求'},
       {time:'11:20:30', summary:'员工确认后续跟进安排，承诺发送详细资料'}
     ] },
-  { id:6, convId:'C006', employee:'陈经理', date:'2026-06-09', time:'16:40-17:05', duration:25, topic:'追加投资方案建议', summary:'老客户李先生咨询追加投资事宜，对现有产品收益满意，希望了解更多高收益产品。', todo:'', opportunity:'有投资意向', emotion:'positive', satisfaction:4,
+  { id:6, convId:'C006', employee:'陈经理', date:'2026-06-09', time:'16:40-17:05', duration:25, topic:'追加投资方案建议', summary:'老客户李先生咨询追加投资事宜，对现有产品收益满意，希望了解更多高收益产品。', todo:'', opportunity:'', emotion:'positive', satisfaction:4,
     sessions:[
       {time:'16:41:05', summary:'老客户李先生联系，对现有投资产品收益表示满意'},
       {time:'16:48:20', summary:'员工介绍可选的追加投资方案及对比分析'},
       {time:'17:02:00', summary:'客户选定感兴趣的产品，等待方案详情发送'}
     ] },
-  { id:7, convId:'C007', employee:'张经理', date:'2026-06-09', time:'14:00-14:30', duration:30, topic:'投诉处理跟进', summary:'客户赵女士投诉产品服务体验不佳，员工积极沟通安抚并提供补偿方案。', todo:'发送补偿方案确认', opportunity:'', emotion:'negative', satisfaction:2,
+  { id:7, convId:'C007', employee:'张经理', date:'2026-06-09', time:'14:00-14:30', duration:30, topic:'三方存管签约指导', summary:'客户咨询三方存管签约相关事宜，需要指导操作流程。', todo:'', opportunity:'客户提及近期有大额理财需求，可推荐结构化存款产品', emotion:'positive', satisfaction:4,
     sessions:[
-      {time:'14:01:30', summary:'客户赵女士投诉客服响应慢，服务体验差'},
-      {time:'14:10:15', summary:'员工致歉并了解客户具体诉求'},
-      {time:'14:22:00', summary:'员工提出补偿方案，客户情绪有所缓和'}
+      {time:'14:01:30', summary:'客户咨询三方存管签约流程'},
+      {time:'14:10:15', summary:'员工详细讲解签约步骤及注意事项'},
+      {time:'14:22:00', summary:'客户表示理解并确认后续操作'}
     ] },
-  { id:8, convId:'C008', employee:'李经理', date:'2026-06-08', time:'09:30-10:15', duration:45, topic:'产品到期续约咨询', summary:'客户钱先生产品即将到期，咨询续约政策及优惠条件。', todo:'跟进续约签约', opportunity:'已转化', emotion:'positive', satisfaction:5,
+  { id:8, convId:'C008', employee:'李经理', date:'2026-06-08', time:'09:30-10:15', duration:45, topic:'适当性管理回访', summary:'对客户进行适当性管理回访，了解客户投资需求变化。', todo:'', opportunity:'客户提及近期有大额理财需求，可推荐结构化存款产品客户对权益类产品兴趣浓厚，可推荐沪深300指数增强基金', emotion:'positive', satisfaction:5,
     sessions:[
-      {time:'09:31:20', summary:'客户确认产品即将到期，咨询续约政策'},
-      {time:'09:40:00', summary:'员工详细介绍续约优惠方案及新政策'},
-      {time:'10:10:00', summary:'客户表示满意，确认续约意愿'}
+      {time:'09:31:20', summary:'员工进行适当性管理回访'},
+      {time:'09:40:00', summary:'了解客户最新的投资需求和风险承受能力'},
+      {time:'10:10:00', summary:'客户表示有兴趣了解更多的产品信息'}
     ] },
   { id:9, convId:'C009', employee:'王经理', date:'2026-06-08', time:'13:30-13:55', duration:25, topic:'基金收益异常咨询', summary:'客户孙先生发现近期基金收益显示异常，员工核实后确认是系统显示错误。', todo:'', opportunity:'', emotion:'neutral', satisfaction:3,
     sessions:[
@@ -3367,7 +3503,7 @@ const insightData = [
       {time:'13:40:00', summary:'员工后台核实并确认为系统显示错误'},
       {time:'13:50:45', summary:'员工承诺联系技术人员修复，客户表示理解'}
     ] },
-  { id:10, convId:'C010', employee:'刘经理', date:'2026-06-08', time:'16:00-16:20', duration:20, topic:'理财知识普及', summary:'客户吴女士希望了解基础理财知识，员工耐心讲解各类产品特点及适用场景。', todo:'发送理财入门资料', opportunity:'高意向', emotion:'positive', satisfaction:4,
+  { id:10, convId:'C010', employee:'刘经理', date:'2026-06-08', time:'16:00-16:20', duration:20, topic:'理财知识普及', summary:'客户吴女士希望了解基础理财知识，员工耐心讲解各类产品特点及适用场景。', todo:'发送理财入门资料', opportunity:'', emotion:'positive', satisfaction:4,
     sessions:[
       {time:'16:01:40', summary:'客户吴女士希望系统了解基础理财知识'},
       {time:'16:10:20', summary:'员工分类介绍各类型产品及适用场景'},
@@ -3385,7 +3521,7 @@ function renderInsight(){
   });
   var emotionMap={positive:'<span class="status-tag enabled">😊 积极</span>', neutral:'<span class="status-tag pending">😐 中性</span>', negative:'<span class="status-tag disabled">😞 消极</span>' };
   tbody.innerHTML=list.map(function(d){
-    var oppCell = d.opportunity ? '<span style="display:inline-block;background:#fff3e0;color:#e67e22;padding:2px 8px;border-radius:10px;font-size:12px;font-weight:500;white-space:nowrap">'+d.opportunity+'</span>' : '<span style="color:var(--gray-400);font-size:13px">--</span>';
+    var oppCell = d.opportunity ? '<span style="display:inline-block;background:#fff3e0;color:#e67e22;padding:2px 8px;border-radius:10px;font-size:12px;font-weight:500;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle" title="'+d.opportunity+'">'+d.opportunity+'</span>' : '<span style="color:var(--gray-400);font-size:13px">--</span>';
     return '<tr>'+
       '<td style="color:var(--gray-500);font-family:monospace;white-space:nowrap">'+d.convId+'</td>'+
       '<td style="white-space:nowrap">'+d.employee+'</td>'+
@@ -3481,11 +3617,11 @@ var opsAllEmployees = [
 ];
 
 const opsData = [
-  { id:1, taskId:'OPT-001', type:'每日会话总结', desc:'全量员工昨日会话AI摘要，推送洞察报告至群聊', duration:'~5min', timeRange:'2026-06-10 23:00 ~ 2026-06-10 23:05', status:'running', creator:'梁栋', createTime:'2026-06-01 10:00', scope:'all', employees:[] },
-  { id:2, taskId:'OPT-002', type:'每日会话总结', desc:'业务一部每日沟通质量分析，检测合规及满意度', duration:'~8min', timeRange:'2026-06-10 22:30 ~ 2026-06-10 22:38', status:'running', creator:'梁栋', createTime:'2026-06-03 14:20', scope:'specific', employees:['陈经理','张经理','周经理'] },
-  { id:3, taskId:'OPT-003', type:'每日会话总结', desc:'业务二部专属会话运维，覆盖全员沟通数据', duration:'~6min', timeRange:'2026-06-11 09:00 ~ 2026-06-11 09:06', status:'pending', creator:'管理员', createTime:'2026-06-05 09:00', scope:'specific', employees:['李经理','王经理','钱经理','孙经理'] },
-  { id:4, taskId:'OPT-004', type:'每日会话总结', desc:'全量员工月度会话巡检，生成质检报告', duration:'~45min', timeRange:'2026-06-01 02:00 ~ 2026-06-01 02:45', status:'done', creator:'管理员', createTime:'2026-05-15 16:30', scope:'all', employees:[] },
-  { id:5, taskId:'OPT-005', type:'每日会话总结', desc:'高风险客户专项会话回顾，每周执行', duration:'~12min', timeRange:'—', status:'stopped', creator:'梁栋', createTime:'2026-05-20 11:00', scope:'specific', employees:['刘经理','郑经理'] },
+  { id:1, taskId:'OPT-001', type:'每日会话总结', desc:'针对全量员工的每日会话进行AI摘要，自动推送洞察报告至企微群聊', duration:'~5min', timeRange:'2026-06-10 23:00 ~ 2026-06-10 23:05', status:'running', creator:'梁栋', createTime:'2026-06-01 10:00', scope:'all', employees:[] },
+  { id:2, taskId:'OPT-002', type:'每日会话总结', desc:'针对业务一部进行每日沟通质量分析，检测合规风险及客户满意度', duration:'~8min', timeRange:'2026-06-10 22:30 ~ 2026-06-10 22:38', status:'running', creator:'梁栋', createTime:'2026-06-03 14:20', scope:'specific', employees:['陈经理','张经理','周经理'] },
+  { id:3, taskId:'OPT-003', type:'每日会话总结', desc:'针对业务二部进行专属会话运维，覆盖全员沟通数据并生成报告', duration:'--', timeRange:'-- ~ --', status:'pending', creator:'管理员', createTime:'2026-06-05 09:00', scope:'specific', employees:['李经理','王经理','钱经理','孙经理'] },
+  { id:4, taskId:'OPT-004', type:'每日会话总结', desc:'针对全量员工进行月度会话巡检，生成月度质检报告并归档', duration:'~45min', timeRange:'2026-06-01 02:00 ~ 2026-06-01 02:45', status:'done', creator:'管理员', createTime:'2026-05-15 16:30', scope:'all', employees:[] },
+  { id:5, taskId:'OPT-005', type:'每日会话总结', desc:'针对高风险客户进行专项会话回顾，按周执行并生成周报', duration:'--', timeRange:'-- ~ --', status:'stopped', creator:'梁栋', createTime:'2026-05-20 11:00', scope:'specific', employees:['刘经理','郑经理'] },
 ];
 var opsCurTab='all';
 
@@ -3591,7 +3727,7 @@ function terminateOps(id){
 function closeOpsTerminateModal(){document.getElementById('opsTerminateModal').classList.remove('open');}
 function confirmOpsTerminate(){
   var o=opsData.find(function(x){return x.id===opsCurrentActionId;});
-  if(o){ o.status='stopped'; o.timeRange='—'; o.execTime='—';}
+  if(o){ o.status='stopped'; o.timeRange='-- ~ --'; o.duration='--';}
   closeOpsTerminateModal(); renderOps(); opsCurrentActionId=null;
 }
 
@@ -3762,9 +3898,8 @@ const wecomData = [
 ];
 
 const vocabData = [
-  { id:1, name:'禁止承诺收益', count:15, category:'营销合规', status:'enabled', creator:'梁栋', updateTime:'2026-06-08 14:20', words:['保证收益','年化xx%','稳赚不赔','零风险','保本'] },
-  { id:2, name:'诱导话术库', count:22, category:'营销合规', status:'enabled', creator:'管理员', updateTime:'2026-06-05 10:30', words:['限时优惠','仅剩名额','赶紧下单','错过再等一年'] },
-  { id:3, name:'合规术语', count:30, category:'信息披露', status:'disabled', creator:'梁栋', updateTime:'2026-05-20 16:00', words:['预期收益率','过往业绩不代表未来'] },
+  { id:1, name:'违禁词库', count:18, category:'营销合规', status:'enabled', creator:'梁栋', updateTime:'2026-06-08 14:20', words:['本金无忧','保收益','承诺收益','保证不亏','翻倍','暴涨','天天涨停','年化收益保证','翻番','保证收益','稳赚','稳赚不赔','本金安全','保本保息','保底','无风险','零风险','绝对不亏'] },
+  { id:2, name:'敏感词库', count:18, category:'营销合规', status:'enabled', creator:'管理员', updateTime:'2026-06-05 10:30', words:['固定收益','涨停板敢死队','最高收益','历史收益未来表现','收益冠军','过往业绩好','账号发给我','帮你买股票','跟单操作','锁仓','套现','多账户','分仓','变相T+0','创业板开通','科创板','北交所','无需面签'] },
 ];
 
 function renderVocab(){
@@ -3797,7 +3932,7 @@ function toggleVocabAll(el){
   var cbs=document.querySelectorAll('#vocabTableBody input[type=checkbox]');
   for(var i=0;i<cbs.length;i++)cbs[i].checked=el.checked;
 }
-var vocabEditWords=[]; // 编辑中的禁忌词列表
+var vocabEditWords=[]; // 编辑中的词汇列表
 var vocabEditIndex=-1; // 正在编辑的词的索引，-1表示没有在编辑
 
 function openVocabModal(isEdit,id){
@@ -3829,8 +3964,8 @@ function addVocabWord(){
     var input=document.getElementById('vocabWordInput');
     if(!input){alert('错误：找不到输入框');return;}
     var word=input.value.trim();
-    if(!word){alert('请输入禁忌词内容');return;}
-    if(vocabEditWords.indexOf(word)!==-1){alert('该禁忌词已存在');return;}
+    if(!word){alert('请输入词汇内容');return;}
+    if(vocabEditWords.indexOf(word)!==-1){alert('该词汇已存在');return;}
     vocabEditWords.push(word);
     input.value='';
     renderVocabWordList();
@@ -3871,7 +4006,7 @@ function saveVocabWord(idx){
   if(!el) return;
   var newWord=el.value.trim();
   if(!newWord) return;
-  if(vocabEditWords.indexOf(newWord)!==-1 && vocabEditWords[idx]!==newWord){alert('该禁忌词已存在');return;}
+  if(vocabEditWords.indexOf(newWord)!==-1 && vocabEditWords[idx]!==newWord){alert('该词汇已存在');return;}
   vocabEditWords[idx]=newWord;
   vocabEditIndex=-1;
   renderVocabWordList();
@@ -3885,25 +4020,28 @@ function deleteVocabWord(idx){
 function renderVocabWordList(){
   var container=document.getElementById('vocabWordList');
   if(!container) return;
-  container.innerHTML=vocabEditWords.map(function(w,i){
+  if(vocabEditWords.length===0){
+    container.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--gray-400);font-size:14px">暂无词汇，请在上方输入并添加</div>';
+    return;
+  }
+  var html='<table style="width:100%;border-collapse:collapse">'+
+    '<thead><tr style="background:var(--gray-100);font-size:12px;color:var(--gray-600)"><th style="padding:8px 12px;text-align:left;border-bottom:1px solid var(--gray-200);width:40px">#</th><th style="padding:8px 12px;text-align:left;border-bottom:1px solid var(--gray-200)">词汇内容</th><th style="padding:8px 12px;text-align:right;border-bottom:1px solid var(--gray-200);width:100px">操作</th></tr></thead><tbody>';
+  vocabEditWords.forEach(function(w,i){
     if(vocabEditIndex===i){
-      return '<div style="display:flex;align-items:center;gap:4px;padding:4px 8px;background:#fff;border:1px solid var(--primary);border-radius:6px;width:100%">'+
-        '<input id="vocabWordEdit_'+i+'" value="'+w.replace(/"/g,'&quot;')+'" style="flex:1;border:none;outline:none;font-size:13px;font-family:inherit;padding:2px 0" onkeydown="if(event.key===\'Enter\')saveVocabWord('+i+')" onblur="saveVocabWord('+i+')">'+
-        '</div>';
+      html+='<tr><td style="padding:6px 12px;color:var(--gray-500)">'+(i+1)+'</td><td style="padding:4px 12px"><input id="vocabWordEdit_'+i+'" value="'+w.replace(/"/g,'&quot;')+'" style="width:100%;border:1px solid var(--primary);border-radius:4px;padding:4px 8px;font-size:13px;font-family:inherit;outline:none" onkeydown="if(event.key===\'Enter\')saveVocabWord('+i+')" onblur="saveVocabWord('+i+')"></td><td style="padding:6px 12px;text-align:right"><span style="cursor:pointer;color:var(--blue);font-size:12px" onclick="saveVocabWord('+i+')">保存</span> <span style="cursor:pointer;color:var(--gray-400);font-size:12px" onclick="vocabEditIndex=-1;renderVocabWordList()">取消</span></td></tr>';
+    } else {
+      html+='<tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:8px 12px;color:var(--gray-400);font-size:12px">'+(i+1)+'</td><td style="padding:8px 12px;font-size:13px;color:var(--gray-800);cursor:pointer" onclick="editVocabWord('+i+')" title="点击编辑">'+w+'</td><td style="padding:8px 12px;text-align:right"><span style="cursor:pointer;color:var(--gray-400);font-size:12px" onclick="editVocabWord('+i+')" title="编辑">✏️</span> <span style="cursor:pointer;color:var(--gray-400);font-size:12px" onclick="deleteVocabWord('+i+')" title="删除">🗑️</span></td></tr>';
     }
-    return '<div style="display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:#fff;border:1px solid var(--gray-200);border-radius:6px;font-size:13px;transition:0.15s" onmouseover="this.style.borderColor=\'var(--gray-400)\'" onmouseout="this.style.borderColor=\'var(--gray-200)\'">'+
-      '<span style="cursor:pointer" onclick="editVocabWord('+i+')" title="编辑">✏️</span>'+
-      '<span style="color:var(--gray-700)">'+w+'</span>'+
-      '<span style="cursor:pointer;color:var(--gray-400)" onclick="deleteVocabWord('+i+')" title="删除">🗑️</span>'+
-      '</div>';
-  }).join('')+'<span style="flex:1"></span>'; // 占位让flex-wrap生效
+  });
+  html+='</tbody></table>';
+  container.innerHTML=html;
 }
 
 function submitVocab(){
   var name=document.getElementById('vocabNameInput').value.trim();
   var status=document.querySelector('input[name=vocabStatus]:checked').value;
   if(!name){alert('请输入词库名称');return;}
-  if(vocabEditWords.length===0){alert('请至少添加一个禁忌词');return;}
+  if(vocabEditWords.length===0){alert('请至少添加一个词汇');return;}
   var editId=parseInt(document.getElementById('editVocabId').value);
   if(editId){
     var v=vocabData.find(function(x){return x.id===editId;});if(v){
@@ -4029,54 +4167,33 @@ function switchWecomTab(tab,btn){
 // ===== 质检核查管理 =====
 // ============================================================
 const checkData = [
-  { id:1, employee:'王建国', date:'2026-06-08', plan:'日常质检方案', hitCount:5, severity:'severe', checkTime:'2026-06-10 08:20',
-    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'expert',hitCount:2,severity:'severe'},{ruleId:'R002',name:'诱导话术检测',type:'llm',hitCount:2,severity:'severe'},{ruleId:'R005',name:'私加联系方式',type:'expert',hitCount:1,severity:'severe'}] },
-  { id:2, employee:'陈美丽', date:'2026-06-09', plan:'合规专项方案', hitCount:3, severity:'moderate', checkTime:'2026-06-10 10:25',
-    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'expert',hitCount:2,severity:'severe'},{ruleId:'R003',name:'代客理财检测',type:'llm',hitCount:1,severity:'moderate'}] },
-  { id:3, employee:'赵大勇', date:'2026-06-10', plan:'日常质检方案', hitCount:8, severity:'severe', checkTime:'2026-06-10 14:12',
-    rules:[{ruleId:'R002',name:'诱导话术检测',type:'llm',hitCount:3,severity:'severe'},{ruleId:'R001',name:'禁止承诺收益',type:'expert',hitCount:2,severity:'severe'},{ruleId:'R005',name:'私加联系方式',type:'expert',hitCount:2,severity:'severe'},{ruleId:'R007',name:'夸大收益检测',type:'expert',hitCount:1,severity:'moderate'}] },
-  { id:4, employee:'李小明', date:'2026-06-07', plan:'新人质检方案', hitCount:2, severity:'light', checkTime:'2026-06-10 16:30',
-    rules:[{ruleId:'R003',name:'代客理财检测',type:'llm',hitCount:1,severity:'moderate'},{ruleId:'R008',name:'不当承诺',type:'expert',hitCount:1,severity:'low'}] },
-  { id:5, employee:'张伟华', date:'2026-06-10', plan:'合规专项方案', hitCount:6, severity:'severe', checkTime:'2026-06-11 08:15',
-    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'expert',hitCount:3,severity:'severe'},{ruleId:'R007',name:'夸大收益检测',type:'expert',hitCount:2,severity:'moderate'},{ruleId:'R004',name:'风险提示缺失',type:'expert',hitCount:1,severity:'moderate'}] },
-  { id:6, employee:'刘芳', date:'2026-06-09', plan:'日常质检方案', hitCount:4, severity:'moderate', checkTime:'2026-06-11 09:00',
-    rules:[{ruleId:'R002',name:'诱导话术检测',type:'llm',hitCount:2,severity:'severe'},{ruleId:'R005',name:'私加联系方式',type:'expert',hitCount:2,severity:'severe'}] },
-  { id:7, employee:'孙建国', date:'2026-06-10', plan:'新人质检方案', hitCount:1, severity:'light', checkTime:'2026-06-11 09:45',
-    rules:[{ruleId:'R006',name:'挪用资金话术',type:'llm',hitCount:1,severity:'severe'}] },
-  { id:8, employee:'周丽丽', date:'2026-06-08', plan:'合规专项方案', hitCount:7, severity:'severe', checkTime:'2026-06-11 10:10',
-    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'expert',hitCount:3,severity:'severe'},{ruleId:'R003',name:'代客理财检测',type:'llm',hitCount:2,severity:'moderate'},{ruleId:'R004',name:'风险提示缺失',type:'expert',hitCount:2,severity:'moderate'}] },
-  { id:9, employee:'吴志强', date:'2026-06-10', plan:'日常质检方案', hitCount:3, severity:'moderate', checkTime:'2026-06-11 10:35',
-    rules:[{ruleId:'R005',name:'私加联系方式',type:'expert',hitCount:2,severity:'severe'},{ruleId:'R008',name:'不当承诺',type:'expert',hitCount:1,severity:'low'}] },
-  { id:10,employee:'黄晓明', date:'2026-06-09', plan:'新人质检方案', hitCount:2, severity:'light', checkTime:'2026-06-11 11:00',
-    rules:[{ruleId:'R002',name:'诱导话术检测',type:'llm',hitCount:1,severity:'severe'},{ruleId:'R008',name:'不当承诺',type:'expert',hitCount:1,severity:'low'}] },
-  { id:11,employee:'钱小华', date:'2026-06-10', plan:'合规专项方案', hitCount:9, severity:'severe', checkTime:'2026-06-10 09:42',
-    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'expert',hitCount:4,severity:'severe'},{ruleId:'R003',name:'代客理财检测',type:'llm',hitCount:3,severity:'moderate'},{ruleId:'R007',name:'夸大收益检测',type:'expert',hitCount:2,severity:'moderate'}] },
-  { id:12,employee:'杨丽', date:'2026-06-08', plan:'日常质检方案', hitCount:4, severity:'moderate', checkTime:'2026-06-10 13:18',
-    rules:[{ruleId:'R002',name:'诱导话术检测',type:'llm',hitCount:2,severity:'severe'},{ruleId:'R005',name:'私加联系方式',type:'expert',hitCount:2,severity:'severe'}] },
-  { id:13,employee:'马建国', date:'2026-06-07', plan:'新人质检方案', hitCount:3, severity:'moderate', checkTime:'2026-06-10 15:05',
-    rules:[{ruleId:'R006',name:'挪用资金话术',type:'llm',hitCount:2,severity:'severe'},{ruleId:'R002',name:'诱导话术检测',type:'llm',hitCount:1,severity:'severe'}] },
-  { id:14,employee:'朱芳芳', date:'2026-06-10', plan:'合规专项方案', hitCount:11, severity:'severe', checkTime:'2026-06-10 16:48',
-    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'expert',hitCount:5,severity:'severe'},{ruleId:'R004',name:'风险提示缺失',type:'expert',hitCount:3,severity:'moderate'},{ruleId:'R007',name:'夸大收益检测',type:'expert',hitCount:2,severity:'moderate'},{ruleId:'R003',name:'代客理财检测',type:'llm',hitCount:1,severity:'moderate'}] },
-  { id:15,employee:'胡明轩', date:'2026-06-09', plan:'日常质检方案', hitCount:2, severity:'light', checkTime:'2026-06-11 07:22',
-    rules:[{ruleId:'R008',name:'不当承诺',type:'expert',hitCount:2,severity:'low'}] },
-  { id:16,employee:'林志远', date:'2026-06-10', plan:'新人质检方案', hitCount:6, severity:'severe', checkTime:'2026-06-10 17:10',
-    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'expert',hitCount:3,severity:'severe'},{ruleId:'R003',name:'代客理财检测',type:'llm',hitCount:2,severity:'moderate'},{ruleId:'R005',name:'私加联系方式',type:'expert',hitCount:1,severity:'severe'}] },
-  { id:17,employee:'何美兰', date:'2026-06-09', plan:'合规专项方案', hitCount:5, severity:'moderate', checkTime:'2026-06-10 14:55',
-    rules:[{ruleId:'R002',name:'诱导话术检测',type:'llm',hitCount:2,severity:'severe'},{ruleId:'R005',name:'私加联系方式',type:'expert',hitCount:2,severity:'severe'},{ruleId:'R008',name:'不当承诺',type:'expert',hitCount:1,severity:'low'}] },
-  { id:18,employee:'郭玉华', date:'2026-06-08', plan:'日常质检方案', hitCount:7, severity:'severe', checkTime:'2026-06-10 09:30',
-    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'expert',hitCount:4,severity:'severe'},{ruleId:'R007',name:'夸大收益检测',type:'expert',hitCount:2,severity:'moderate'},{ruleId:'R002',name:'诱导话术检测',type:'llm',hitCount:1,severity:'severe'}] },
-  { id:19,employee:'高强', date:'2026-06-10', plan:'新人质检方案', hitCount:1, severity:'light', checkTime:'2026-06-11 08:40',
-    rules:[{ruleId:'R006',name:'挪用资金话术',type:'llm',hitCount:1,severity:'severe'}] },
-  { id:20,employee:'罗晓琳', date:'2026-06-09', plan:'合规专项方案', hitCount:4, severity:'moderate', checkTime:'2026-06-11 10:50',
-    rules:[{ruleId:'R003',name:'代客理财检测',type:'llm',hitCount:2,severity:'moderate'},{ruleId:'R004',name:'风险提示缺失',type:'expert',hitCount:2,severity:'moderate'}] },
-  { id:21,employee:'梁伟豪', date:'2026-06-10', plan:'日常质检方案', hitCount:10, severity:'severe', checkTime:'2026-06-10 11:35',
-    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'expert',hitCount:4,severity:'severe'},{ruleId:'R003',name:'代客理财检测',type:'llm',hitCount:3,severity:'moderate'},{ruleId:'R002',name:'诱导话术检测',type:'llm',hitCount:2,severity:'severe'},{ruleId:'R005',name:'私加联系方式',type:'expert',hitCount:1,severity:'severe'}] },
-  { id:22,employee:'宋佳慧', date:'2026-06-07', plan:'新人质检方案', hitCount:2, severity:'light', checkTime:'2026-06-11 09:12',
-    rules:[{ruleId:'R006',name:'挪用资金话术',type:'llm',hitCount:1,severity:'severe'},{ruleId:'R002',name:'诱导话术检测',type:'llm',hitCount:1,severity:'severe'}] },
-  { id:23,employee:'谢志明', date:'2026-06-08', plan:'合规专项方案', hitCount:8, severity:'severe', checkTime:'2026-06-10 15:40',
-    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'expert',hitCount:3,severity:'severe'},{ruleId:'R004',name:'风险提示缺失',type:'expert',hitCount:3,severity:'moderate'},{ruleId:'R003',name:'代客理财检测',type:'llm',hitCount:2,severity:'moderate'}] },
-  { id:24,employee:'韩雪琴', date:'2026-06-09', plan:'日常质检方案', hitCount:3, severity:'moderate', checkTime:'2026-06-10 17:55',
-    rules:[{ruleId:'R005',name:'私加联系方式',type:'expert',hitCount:2,severity:'severe'},{ruleId:'R006',name:'挪用资金话术',type:'llm',hitCount:1,severity:'severe'}] },
+  // === 财富管理质检方案（P001：禁止承诺收益R001 + 适当性匹配缺失R002）===
+  { id:1, employee:'王建国', date:'2026-06-08', plan:'财富管理质检方案', hitCount:3, severity:'severe', checkTime:'2026-06-10 08:20',
+    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'llm',hitCount:2,severity:'severe'},{ruleId:'R002',name:'适当性匹配缺失',type:'expert',hitCount:1,severity:'severe'}] },
+  { id:2, employee:'赵大勇', date:'2026-06-10', plan:'财富管理质检方案', hitCount:4, severity:'severe', checkTime:'2026-06-10 14:12',
+    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'llm',hitCount:2,severity:'severe'},{ruleId:'R002',name:'适当性匹配缺失',type:'expert',hitCount:2,severity:'severe'}] },
+  { id:3, employee:'张伟华', date:'2026-06-10', plan:'财富管理质检方案', hitCount:2, severity:'moderate', checkTime:'2026-06-11 08:15',
+    rules:[{ruleId:'R001',name:'禁止承诺收益',type:'llm',hitCount:1,severity:'severe'},{ruleId:'R002',name:'适当性匹配缺失',type:'expert',hitCount:1,severity:'moderate'}] },
+
+  // === 资产管理质检方案（P002：合规话术缺失R003）===
+  { id:4, employee:'陈美丽', date:'2026-06-09', plan:'资产管理质检方案', hitCount:2, severity:'moderate', checkTime:'2026-06-10 10:25',
+    rules:[{ruleId:'R003',name:'合规话术缺失',type:'llm',hitCount:2,severity:'moderate'}] },
+  { id:5, employee:'李小明', date:'2026-06-07', plan:'资产管理质检方案', hitCount:1, severity:'light', checkTime:'2026-06-10 16:30',
+    rules:[{ruleId:'R003',name:'合规话术缺失',type:'llm',hitCount:1,severity:'light'}] },
+
+  // === 信用业务质检方案（P003：代客操作指引R005）===
+  { id:6, employee:'刘芳', date:'2026-06-09', plan:'信用业务质检方案', hitCount:3, severity:'severe', checkTime:'2026-06-11 09:00',
+    rules:[{ruleId:'R005',name:'代客操作指引',type:'llm',hitCount:3,severity:'severe'}] },
+  { id:7, employee:'孙建国', date:'2026-06-10', plan:'信用业务质检方案', hitCount:1, severity:'moderate', checkTime:'2026-06-11 09:45',
+    rules:[{ruleId:'R005',name:'代客操作指引',type:'llm',hitCount:1,severity:'moderate'}] },
+  { id:8, employee:'周丽丽', date:'2026-06-08', plan:'信用业务质检方案', hitCount:2, severity:'severe', checkTime:'2026-06-11 10:10',
+    rules:[{ruleId:'R005',name:'代客操作指引',type:'llm',hitCount:2,severity:'severe'}] },
+
+  // === 财富管理质检方案（P004：适当性匹配缺失R002）===
+  { id:9, employee:'吴志强', date:'2026-06-10', plan:'财富管理质检方案', hitCount:1, severity:'moderate', checkTime:'2026-06-11 10:35',
+    rules:[{ruleId:'R002',name:'适当性匹配缺失',type:'expert',hitCount:1,severity:'moderate'}] },
+  { id:10,employee:'黄晓明', date:'2026-06-09', plan:'财富管理质检方案', hitCount:2, severity:'severe', checkTime:'2026-06-11 11:00',
+    rules:[{ruleId:'R002',name:'适当性匹配缺失',type:'expert',hitCount:2,severity:'severe'}] },
 ];
 var checkCurPage = 1;
 var checkPageSize = 10;
@@ -4218,23 +4335,34 @@ function openCheckRuleDetail(ruleId){
     '</div>';
 
   if(r.type==='expert'){
+    var condRelText = r.condRelation==='all' ? '满足以下全部条件' : '满足以下任一条件';
+    var condHtml = '';
+    if(r.conditions && r.conditions.length > 0) {
+      r.conditions.forEach(function(c, i){
+        var label = '条件' + String.fromCharCode(65+i) + '：关键词检测';
+        var kwHtml = c.keywords.split(',').map(function(k){ return '"' + k.trim() + '"'; }).join(' ');
+        var hitText = c.hitRule==='all' ? '包含所有关键词' : '包含任意一个关键词';
+        condHtml += '<div style="margin-bottom:8px"><span style="color:var(--gray-500);font-size:12px">' + label + '</span><div style="font-weight:500;color:var(--gray-700)">' + kwHtml + '</div><div style="font-size:11px;color:var(--gray-500);margin-top:2px">命中规则：' + hitText + '</div></div>';
+      });
+    } else {
+      condHtml = '<div style="margin-bottom:8px"><span style="color:var(--gray-500);font-size:12px">条件A：关键词检测</span><div style="font-weight:500;color:var(--gray-700)">"保证收益" "年化收益" "稳赚不赔" "零风险"</div></div>';
+    }
     html += '<div style="border:1px solid var(--gray-200);border-radius:8px;padding:16px;margin-bottom:12px;background:var(--gray-50)">'+
       '<div style="font-weight:600;color:var(--gray-700);margin-bottom:12px">检测条件</div>'+
-      '<div style="margin-bottom:8px"><span style="color:var(--gray-500);font-size:12px">条件关系</span><div style="font-weight:500">满足以下任一条件</div></div>'+
-      '<div style="margin-bottom:8px"><span style="color:var(--gray-500);font-size:12px">条件A：关键词检测</span><div style="font-weight:500;color:var(--gray-700)">"保证收益" "年化收益" "稳赚不赔" "零风险"</div></div>'+
-      '<div><span style="color:var(--gray-500);font-size:12px">条件B：正则匹配</span><div style="font-weight:500;color:var(--gray-700)">\\d{1,2}%\s*以\s*上</div></div>'+
+      '<div style="margin-bottom:8px"><span style="color:var(--gray-500);font-size:12px">条件关系</span><div style="font-weight:500">' + condRelText + '</div></div>'+
+      condHtml +
       '</div>';
     html += '<div style="border:1px solid var(--gray-200);border-radius:8px;padding:16px;margin-bottom:12px;background:var(--gray-50)">'+
       '<div style="font-weight:600;color:var(--gray-700);margin-bottom:12px">命中处理</div>'+
       '<div style="margin-bottom:8px"><span style="color:var(--gray-500);font-size:12px">命中规则</span><div style="font-weight:500">包含任意一个关键词</div></div>'+
-      '<div><span style="color:var(--gray-500);font-size:12px">关联词库</span><div style="font-weight:500;color:var(--gray-700)">营销违规词库、证券法规词库</div></div>'+
+      '<div><span style="color:var(--gray-500);font-size:12px">关联词库</span><div style="font-weight:500;color:var(--gray-700)">未选择</div></div>'+
       '</div>';
   } else {
     html += '<div style="border:1px solid var(--gray-200);border-radius:8px;padding:16px;margin-bottom:12px;background:var(--gray-50)">'+
       '<div style="font-weight:600;color:var(--gray-700);margin-bottom:12px">大模型检测配置</div>'+
-      '<div style="margin-bottom:8px"><span style="color:var(--gray-500);font-size:12px">知识背景</span><div style="font-weight:500;color:var(--gray-700)">检测业务员在沟通中是否承诺客户固定收益、保本信息等违规表述</div></div>'+
-      '<div style="margin-bottom:8px"><span style="color:var(--gray-500);font-size:12px">命中规则</span><div style="font-weight:500;color:var(--gray-700)">当检测到使用保本、承诺收益、无风险等词汇或语义时，判定为命中</div></div>'+
-      '<div><span style="color:var(--gray-500);font-size:12px">排除条件</span><div style="font-weight:500;color:var(--gray-700)">排除客户主动询问收益率等场景</div></div>'+
+      '<div style="margin-bottom:8px"><span style="color:var(--gray-500);font-size:12px">知识背景</span><div style="font-weight:500;color:var(--gray-700)">'+(r.knowledge||'检测业务员在沟通中是否承诺客户固定收益、保本信息等违规表述')+'</div></div>'+
+      '<div style="margin-bottom:8px"><span style="color:var(--gray-500);font-size:12px">命中规则</span><div style="font-weight:500;color:var(--gray-700)">'+(r.hitRule||'当检测到使用保本、承诺收益、无风险等词汇或语义时，判定为命中')+'</div></div>'+
+      '<div><span style="color:var(--gray-500);font-size:12px">排除条件</span><div style="font-weight:500;color:var(--gray-700)">'+(r.excludeRule||'排除客户主动询问收益率等场景')+'</div></div>'+
       '</div>';
   }
 
@@ -4983,25 +5111,23 @@ var caseLibList = [
 
 // ---- 伴随应用管理 ----
 var appData = [
-  { id:'app-001', name:'产品智能推荐', scope:'不限', status:true, trigger:'始终触发', creator:'梁栋', createTime:'2025-12-15 10:30', priority:1, datasetId:'', triggerMode:'始终触发', desc:'根据会话意图智能推荐产品', ability:'识别客户咨询中涉及的产品关键词和意图，自动推荐匹配的金融产品信息卡片', knowledge:'期货产品基础知识库、产品对比数据', hitRule:'客户消息中包含产品名称或类比描述，且上下文为咨询或对比场景', msgInst:'提取产品关键词→检索产品库→生成产品卡片→嵌入侧边栏展示', caseLibId:'product-kb', regex:'' },
-  { id:'app-002', name:'合规话术助手', scope:'不限', status:true, trigger:'始终触发', creator:'张明', createTime:'2025-12-20 14:15', priority:2, datasetId:'', triggerMode:'始终触发', desc:'提供合规话术辅助', ability:'实时分析客户消息，当触发合规风险关键词时自动弹出合规话术建议，辅助员工快速响应', knowledge:'期货行业合规法规库、公司合规手册', hitRule:'触发金融监管相关关键词如"保本""承诺收益""内幕""操纵"等', msgInst:'匹配关键词→检索合规话术→生成话术建议→侧边栏高亮提示', caseLibId:'', regex:'合规风险关键词正则' },
-  { id:'app-003', name:'营销素材展示', scope:'客户', status:true, trigger:'按会话意图触发', creator:'梁栋', createTime:'2026-01-05 09:00', priority:3, datasetId:'', triggerMode:'按会话意图触发', desc:'向客户展示营销素材', ability:'当检测到客户有了解产品的意向时，自动推送相关营销海报和活动信息', knowledge:'营销活动信息库、产品宣传素材库', hitRule:'客户表达"了解""介绍""有什么"等探索性意图', msgInst:'识别探索意图→检索活动素材→匹配客户标签→推送素材', caseLibId:'', regex:'' },
-  { id:'app-004', name:'交易规则速查', scope:'员工', status:false, trigger:'按会话意图触发', creator:'李芳', createTime:'2026-02-10 11:20', priority:4, datasetId:'', triggerMode:'按会话意图触发', desc:'快速查询交易规则', ability:'实时解析用户消息中的元素（如交易品种、规则类型等），自动查询并展示对应交易规则', knowledge:'交易所交易规则库', hitRule:'客户消息中出现"手续费""保证金""限仓"等交易规则关键词', msgInst:'提取规则类型→查询规则库→格式化展示→侧边栏呈现', caseLibId:'', regex:'' },
-  { id:'app-005', name:'开户引导卡片', scope:'客户', status:true, trigger:'按会话意图触发', creator:'王强', createTime:'2026-03-18 16:45', priority:5, datasetId:'', triggerMode:'按会话意图触发', desc:'开户流程引导', ability:'自动识别潜在开户客户，推送开户流程引导卡片，包含所需材料、步骤说明和线上开户链接', knowledge:'开户流程文档库', hitRule:'客户首次咨询开户相关问题，如"怎么开户""需要什么材料"', msgInst:'识别开户意图→检索开户资料→生成引导卡片→推送展示', caseLibId:'', regex:'' },
-  { id:'app-006', name:'风险揭示提示', scope:'不限', status:true, trigger:'按会话意图触发', creator:'张明', createTime:'2026-04-02 08:30', priority:6, datasetId:'', triggerMode:'按会话意图触发', desc:'自动风险揭示', ability:'在交易咨询和开户场景中，自动触发风险揭示信息展示，确保合规', knowledge:'风险揭示书模板库', hitRule:'当消息中出现"风险""亏损""爆仓"等风险相关词汇时触发', msgInst:'检测风险关键词→检索对应揭示内容→生成风险提示→展示', caseLibId:'risk-warning-kb', regex:'风险关键词正则' }
+  { id:'app-001', name:'知识问答', scope:'不限', status:true, trigger:'始终触发', creator:'梁栋', createTime:'2025-12-15 10:30', priority:1, datasetId:'', triggerMode:'始终触发', desc:'为客户提供业务知识、规则制度、业务咨询、业务办理等各类常见问题的问答服务', ability:'为客户提供业务知识、规则制度、业务咨询、业务办理等各类常见问题的问答服务。', knowledge:'', hitRule:'按会话意图触发', msgInst:'', caseLibId:'product-kb', regex:'' },
+  { id:'app-002', name:'业务办理', scope:'不限', status:true, trigger:'始终触发', creator:'张明', createTime:'2025-12-20 14:15', priority:2, datasetId:'', triggerMode:'始终触发', desc:'为客户提供权限开通、业务办理、功能导航、专题介绍等各类需要链接跳转的页面导航服务', ability:'为客户提供权限开通、业务办理、功能导航、专题介绍等各类需要链接跳转的页面导航服务', knowledge:'', hitRule:'按会话意图触发', msgInst:'', caseLibId:'', regex:'合规风险关键词正则' },
+  { id:'app-003', name:'活动推荐', scope:'客户', status:true, trigger:'按会话意图触发', creator:'梁栋', createTime:'2026-01-05 09:00', priority:3, datasetId:'', triggerMode:'按会话意图触发', desc:'为客户提供各类线上、线下营销活动、专属活动、专题讲座活动、路演活动的推荐', ability:'为客户提供各类线上、线下营销活动、专属活动、专题讲座活动、路演活动的推荐', knowledge:'', hitRule:'按会话意图触发', msgInst:'', caseLibId:'', regex:'' },
+  { id:'app-004', name:'产品推荐', scope:'员工', status:false, trigger:'按会话意图触发', creator:'李芳', createTime:'2026-02-10 11:20', priority:4, datasetId:'', triggerMode:'按会话意图触发', desc:'为客户提供银行产品的推荐', ability:'为客户提供银行产品的推荐', knowledge:'', hitRule:'按会话意图触发', msgInst:'', caseLibId:'', regex:'' },
+  { id:'app-005', name:'合规检测', scope:'客户', status:true, trigger:'按会话意图触发', creator:'王强', createTime:'2026-03-18 16:45', priority:5, datasetId:'', triggerMode:'按会话意图触发', desc:'为客户或投顾提供合规质检服务', ability:'为客户或投顾提供合规质检服务', knowledge:'', hitRule:'按会话意图触发', msgInst:'', caseLibId:'', regex:'' }
 ];
-var appNextId = 7;
+var appNextId = 6;
 var appPage = 1; var appPageSize = 5; var appEditingId; var appFiltered = [];
 
 // ---- 伴随助理管理 ----
 var asstData = [
-  { id:'asst-1', name:'开户咨询助理', code:'KHZX001', appIds:['app-001','app-005'], status:true, strategies:['向量召回'], creator:'梁栋', createTime:'2025-11-22 10:00', desc:'专注于开户咨询场景的智能助理' },
-  { id:'asst-2', name:'合规辅助助理', code:'HGFZ001', appIds:['app-002','app-006'], status:true, strategies:['规则匹配'], creator:'张明', createTime:'2025-12-03 14:30', desc:'合规管理和风险揭示辅助' },
-  { id:'asst-3', name:'营销服务助理', code:'YXFW001', appIds:['app-001','app-003'], status:true, strategies:['向量召回'], creator:'梁栋', createTime:'2026-01-10 09:15', desc:'营销素材展示与客户服务' },
-  { id:'asst-4', name:'通用客服助理', code:'TYKF001', appIds:['app-001','app-002','app-003','app-004','app-005','app-006'], status:false, strategies:['规则匹配','向量召回'], creator:'李芳', createTime:'2026-02-26 16:00', desc:'覆盖全部应用场景的综合助理' },
-  { id:'asst-5', name:'交易咨询助理', code:'JYZX001', appIds:['app-004'], status:true, strategies:['规则匹配'], creator:'王强', createTime:'2026-03-15 11:20', desc:'交易规则快速查询' }
+  { id:'asst-1', name:'通用企微助理', code:'KHZX001', appIds:['app-001','app-005'], status:true, strategies:['大模型推理召回','向量召回'], creator:'梁栋', createTime:'2025-11-22 10:00', desc:'在客服会话中，智能体实时分析对话，推送知识库答案、合规话术、产品推荐。自动检测违禁词，辅助办理业务、引导活动参与，提升服务效率与合规性。' },
+  { id:'asst-2', name:'私人银行部企微助理', code:'HGFZ001', appIds:['app-002'], status:true, strategies:['大模型推理召回','规则匹配'], creator:'张明', createTime:'2025-12-03 14:30', desc:'根据私人银行客户高净值特点，在智能体推送知识库答案、合规话术、产品推荐更加严格与谨慎，提升服务的人性化程度。' },
+  { id:'asst-3', name:'APP助理', code:'YXFW001', appIds:['app-001','app-003'], status:true, strategies:['大模型推理召回','向量召回'], creator:'梁栋', createTime:'2026-01-10 09:15', desc:'根据APP特点，在APP端提供相应的知识库答案、合规话术、产品推荐，并增加指引，引导客户前往APP去办理相关业务。' },
+  { id:'asst-4', name:'飞书助理', code:'TYKF001', appIds:['app-001','app-002','app-003','app-004','app-005'], status:false, strategies:['大模型推理召回','规则匹配','向量召回'], creator:'李芳', createTime:'2026-02-26 16:00', desc:'内嵌入飞书软件的伴随助理，在飞书端提供知识库答案、合规话术、产品推荐。' }
 ];
-var asstNextId = 6;
+var asstNextId = 5;
 var asstPage = 1; var asstPageSize = 5; var asstEditingId; var asstFiltered = [];
 
 // ===== 伴随助理列表 =====
@@ -5466,7 +5592,7 @@ function submitAppRegister() {
   // 召回策略校验：大模型推理为必填项，向量召回和规则召回可选
   var hasLLM = !!(ability || knowledge || hitRule || msgInst);
   if(!hasLLM) {
-    alert('请配置大模型推理召回策略（大模型为必填项）');
+    alert('请配置大模型推理策略（大模型为必填项）');
     return;
   }
 
@@ -6373,10 +6499,9 @@ function loadAnnotation(page) {
 
 // 数据集数据
 var datasetData = [
-  { id:1, name:'客户对话数据集', type:'qa', desc:'收集客户与客服的日常对话数据，用于训练对话理解和意图识别模型', status:'enabled', recordCount:128, creator:'管理员', createTime:'2026-06-01 10:30' },
+  { id:1, name:'FAQ数据集', type:'qa', desc:'收集客户与客服的日常对话数据，用于训练对话理解和意图识别模型', status:'enabled', recordCount:128, creator:'管理员', createTime:'2026-06-01 10:30' },
   { id:2, name:'产品文档知识库', type:'document', desc:'包含产品说明书、操作手册、FAQ等文档数据，支持RAG检索增强', status:'enabled', recordCount:56, creator:'梁栋', createTime:'2026-05-28 14:20' },
   { id:3, name:'合规评测数据集', type:'qa', desc:'用于评测AI模型在合规场景下的回答准确性，包含标准问答对和评分标准', status:'enabled', recordCount:200, creator:'管理员', createTime:'2026-05-20 09:00' },
-  { id:4, name:'FAQ对话数据', type:'qa', desc:'整理常见的客户问题与标准答案，用于快速匹配和自动回复', status:'disabled', recordCount:85, creator:'梁栋', createTime:'2026-05-15 16:00' },
 ];
 
 // 数据记录（按数据集ID组织）
