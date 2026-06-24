@@ -1117,6 +1117,14 @@ tr:hover{background:var(--gray-50)}
                 <textarea id="appRegRegex" placeholder="每行输入一个正则表达式，当会话内容命中任一表达式时触发该应用" style="width:100%;min-height:80px;padding:10px 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:14px;font-family:monospace;outline:none;resize:none" maxlength="1000"></textarea>
                 <span class="kt-parent-select hint">每行输入一个正则表达式</span>
               </div>
+              <div class="form-group" style="margin-top:16px">
+                <label>正则验证<span style="font-size:11px;color:var(--gray-400);float:right" id="regexValidateResult"></span></label>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <input id="regexTestInput" placeholder="输入测试文本，验证正则表达式是否匹配" style="flex:1;height:36px;padding:0 12px;border:1px solid var(--gray-300);border-radius:6px;font-size:14px;outline:none" onkeydown="if(event.key==='Enter')validateRegex()">
+                  <button class="btn btn-primary" style="height:36px;padding:0 20px;white-space:nowrap;border-radius:6px" onclick="validateRegex()">验证</button>
+                </div>
+                <div id="regexValidateHint" style="display:none;margin-top:8px;padding:8px 12px;border-radius:6px;font-size:13px;font-family:monospace"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -1856,11 +1864,11 @@ tr:hover{background:var(--gray-50)}
       <!-- 输入区域配置（仅第一层级节点显示） -->
       <div id="ktInputAreaSection" style="display:none">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <label style="font-size:13px;font-weight:600;color:var(--gray-700)">📋 输入区域配置</label>
-          <button type="button" class="btn btn-outline btn-sm" onclick="addKtInputArea()">＋ 添加输入区域</button>
+          <label style="font-size:13px;font-weight:600;color:var(--gray-700)">📋 字段配置</label>
+          <button type="button" class="btn btn-outline btn-sm" onclick="addKtInputArea()">＋ 添加字段</button>
         </div>
         <div id="ktInputAreaList" style="display:flex;flex-direction:column;gap:10px"></div>
-        <div class="hint" style="margin-top:6px">配置该层级下知识节点需要填写的输入区域；子节点保存时将校验所有区域均已填写</div>
+        <div class="hint" style="margin-top:6px">配置该层级下知识节点需要填写的字段；子节点保存时将校验所有字段均已填写</div>
       </div>
 
       <!-- 知识类型选择（非根节点的节点下无子节点时显示；根节点不显示） -->
@@ -4512,7 +4520,109 @@ const ktData = [
   { id:'kt-e2-17', name:'风险测评', parentId:'kt-e2', priority:17, isLeaf:true, code:'YWLB-100017',
     inputAreaValues:{'业务类别名称':'风险测评','业务类别ID':'100017','业务特征说明':'涉及投资者风险承受能力评估问卷填写或更新','同义词':'风险测评过期、重做测评、风险评估问卷、更新风险等级'} },
   { id:'kt-e2-18', name:'期货开户', parentId:'kt-e2', priority:18, isLeaf:true, code:'YWLB-100018',
-    inputAreaValues:{'业务类别名称':'期货开户','业务类别ID':'100018','业务特征说明':'表达期货账户开立或期货交易权限申请意愿','同义词':'开期货账户、期货开户、开通期货、期货交易开户'} }
+    inputAreaValues:{'业务类别名称':'期货开户','业务类别ID':'100018','业务特征说明':'表达期货账户开立或期货交易权限申请意愿','同义词':'开期货账户、期货开户、开通期货、期货交易开户'} },
+
+  // ===== 智能打标标签知识体系（Excel 导入） =====
+  { id:'kt-e3', name:'智能打标标签', parentId:null, priority:3, isLeaf:false, code:'ZNDB',
+    inputAreas:[{title:'匹配规则',required:true},{title:'核心关键词',required:false},{title:'排除条件',required:false}] },
+  { id:'kt-e3-1', name:'投资偏好与风格', parentId:'kt-e3', priority:1, isLeaf:false, code:'ZNDB-01' },
+  { id:'kt-e3-1-001', name:'热衷打新', parentId:'kt-e3-1', priority:1, isLeaf:true, code:'ZNDB-01-001',
+    inputAreaValues:{'匹配规则':'客户会话中频繁出现“打新”、“新股”、“申购”、“中签”、“缴款”、“北交所打新”、“可转债打新”、“新债”、“网上申购”、“新股日历”、“顶格申购”、“市值配售”、“打新收益率”、“弃购”、“中一签赚多少”等关键词，或反复询问近期可打新股、可转债名单，表达“只要能打新就放钱”“专门放钱来打新”“打新稳不亏”等明确意图。'} },
+  { id:'kt-e3-1-002', name:'稳健理财者', parentId:'kt-e3-1', priority:2, isLeaf:true, code:'ZNDB-01-002',
+    inputAreaValues:{'匹配规则':'客户会话中主要关注“保本”、“低风险”、“固定收益”、“货币基金”、“银行理财”、“固收+”、“摊余成本法”、“短期理财”、“现金管理”、“年化4%-5%”、“保本保息”、“不亏钱”、“大额存单替代品”、“稳健型产品”、“养老FOF”等表述，明确排斥“波动大”“可能会亏”“权益类”，常说“钱放着也是放着”“就想稳一点”“本金不能亏”。'} },
+  { id:'kt-e3-1-003', name:'激进投资者', parentId:'kt-e3-1', priority:3, isLeaf:true, code:'ZNDB-01-003',
+    inputAreaValues:{'匹配规则':'客户会话中频繁使用“杠杆”、“融资融券”、“高风险高收益”、“满仓”、“重仓”、“all in”、“期权”、“分级B”、“可转债套利”、“打板”、“短线”、“追涨杀跌”、“高收益私募”、“年化20%以上没问题”、“能承受50%回撤”等表述，主动询问科创板、创业板权限开通，或表现出“想赚快钱”“不在乎短期亏损”“追求高收益”等强烈进攻性投资倾向。'} },
+  { id:'kt-e3-1-004', name:'短线交易者', parentId:'kt-e3-1', priority:4, isLeaf:true, code:'ZNDB-01-004',
+    inputAreaValues:{'匹配规则':'客户在会话中多次提及“短线、日内、快进快出、T+0逻辑、抓波段、追热点、短期机会”等，并关注即时行情、快速买卖点、短周期策略；客户交易决策明显以短期波动为核心。'} },
+  { id:'kt-e3-1-005', name:'长期投资意愿', parentId:'kt-e3-1', priority:5, isLeaf:true, code:'ZNDB-01-005',
+    inputAreaValues:{'匹配规则':'客户持续提及“长期持有、三到五年、长期规划、耐心投资、长期价值”等表达，强调不看短期波动、关注长期收益或复利；客户表示希望建立长期资产配置或长期组合。'} },
+  { id:'kt-e3-1-006', name:'价值投资者', parentId:'kt-e3-1', priority:6, isLeaf:true, code:'ZNDB-01-006',
+    inputAreaValues:{'匹配规则':'客户在会话中主动讨论“基本面、估值、财报、现金流、ROE、行业景气度、长期逻辑、被低估”等价值投资特征词汇，并关注公司内在价值、长期增长、估值合理性等；客户整体决策风格体现出价值投资理念。'} },
+  { id:'kt-e3-2', name:'投资经验与专业能力', parentId:'kt-e3', priority:2, isLeaf:false, code:'ZNDB-02' },
+  { id:'kt-e3-2-001', name:'投资小白', parentId:'kt-e3-2', priority:1, isLeaf:true, code:'ZNDB-02-001',
+    inputAreaValues:{'匹配规则':'客户会话中出现大量基础问题，如“股票怎么买”“基金是什么”“ETF和LOF区别”“定投要不要每天看”“分红是要给我现金吗”“净值跌了是不是亏了”“为什么我买的基金一直在跌”“股票涨了钱在哪”“开户要多少钱”“佣金怎么算”“交易时间是几点”“涨停板是多少”等，连问多个“是什么”“怎么操作”类最基础问题，或自称“我是新手”“完全不懂”“小白一个”。'} },
+  { id:'kt-e3-2-002', name:'资深投资者', parentId:'kt-e3-2', priority:2, isLeaf:true, code:'ZNDB-02-002',
+    inputAreaValues:{'匹配规则':'客户会话中熟练使用专业术语，如“PB、PE、PEG”、“破净率”、“股息率”、“ROE”、“动态回撤”、“夏普比率”、“Alpha”、“Beta”、“主力资金流向”、“量价关系”、“均线多头排列”、“北向资金”、“大小非减持”、“限售股解禁”、“机构调研”、“龙虎榜”、“高送转”、“回购注销”等，并能主动讨论投资逻辑、估值模型、行业比较，或对市场热点有自己独立判断，经常指出客服或市场观点的错误。'} },
+  { id:'kt-e3-2-003', name:'行业研究爱好者', parentId:'kt-e3-2', priority:3, isLeaf:true, code:'ZNDB-02-003',
+    inputAreaValues:{'匹配规则':'客户主动探讨某行业的发展趋势、产业链、市场格局、公司竞争力、行业新闻等，如“新能源行业怎么看”“半导体板块未来趋势”“某行业龙头公司布局如何”等内容；客户在多个会话中持续表现出对行业分析、研究报告或行业动态的兴趣。'} },
+  { id:'kt-e3-3', name:'风险合规与流失预警', parentId:'kt-e3', priority:3, isLeaf:false, code:'ZNDB-03' },
+  { id:'kt-e3-3-001', name:'合规风险高', parentId:'kt-e3-3', priority:1, isLeaf:true, code:'ZNDB-03-001',
+    inputAreaValues:{'匹配规则':'客户在会话中多次出现可能触及监管红线的表达，如“能不能违规操作”“有没有内部信息”“代客操作”“帮我做交易”“有没有保底收益/保本承诺”等内容，或提出明显不合规要求；客户反复试探政策边界或质疑合规限制。'} },
+  { id:'kt-e3-3-002', name:'回撤敏感型', parentId:'kt-e3-3', priority:2, isLeaf:true, code:'ZNDB-03-002',
+    inputAreaValues:{'匹配规则':'客户在沟通中频繁关注净值波动、资产回撤、亏损幅度、风险控制等话题，如“最近跌多少了”“回撤太大我接受不了”“我主要看回撤”之类表达，并多次强调稳定性或止损需求；客户明显对短期净值下行高度敏感。'} },
+  { id:'kt-e3-3-003', name:'高杠杆使用者', parentId:'kt-e3-3', priority:3, isLeaf:true, code:'ZNDB-03-003',
+    inputAreaValues:{'匹配规则':'客户主动讨论或使用杠杆相关工具，如“两融、融资融券、期权、保证金、杠杆倍数、加杠杆、扩大头寸”等内容，并询问杠杆成本、可用额度或提高杠杆方式；客户多次表现出强烈杠杆倾向或频繁使用高杠杆。'} },
+  { id:'kt-e3-3-004', name:'潜在流失倾向', parentId:'kt-e3-3', priority:4, isLeaf:true, code:'ZNDB-03-004',
+    inputAreaValues:{'匹配规则':'客户在沟通中表达出不满、犹豫或替代选择，如“我在考虑换平台/换券商”“最近不太想继续合作”“服务没达到预期”“别人给的更好”“没什么必要继续用”等表述；若多次会话呈现负面态度、响应降低或对当前服务价值产生明显动摇，即可标注为“潜在流失倾向”。'} },
+  { id:'kt-e3-3-005', name:'投诉频次高', parentId:'kt-e3-3', priority:5, isLeaf:true, code:'ZNDB-03-005',
+    inputAreaValues:{'匹配规则':'客户在会话中表达不满、提出问题、申诉或投诉的行为，如“我对服务不满意”“这个问题一直没解决”“我要投诉”“上次问题还没处理好”等；客户在一定时间周期内多次表达投诉或不满。'} },
+  { id:'kt-e3-3-006', name:'常提竞争对手', parentId:'kt-e3-3', priority:6, isLeaf:true, code:'ZNDB-03-006',
+    inputAreaValues:{'匹配规则':'客户在会话中反复提及同行或竞争对手信息，包括产品对比、服务体验、价格策略、市场份额等内容，如“你们和XX比怎么样”“竞争对手最近推出了新产品”等；客户在多次会话中频繁提到同行情况或与竞争对手比较。'} },
+  { id:'kt-e3-4', name:'资金与与成本敏感', parentId:'kt-e3', priority:4, isLeaf:false, code:'ZNDB-04' },
+  { id:'kt-e3-4-001', name:'流动资金需求大', parentId:'kt-e3-4', priority:1, isLeaf:true, code:'ZNDB-04-001',
+    inputAreaValues:{'匹配规则':'客户反复询问资金可用性、提现时间、赎回到账、资金周转、短期兑付等内容，如“什么时候能到账”“我急着用钱”“近期要回笼资金”“我要大额取用”等；客户多次强调短期资金安排或随时需要现金流。'} },
+  { id:'kt-e3-4-002', name:'资金流动性敏感', parentId:'kt-e3-4', priority:2, isLeaf:true, code:'ZNDB-04-002',
+    inputAreaValues:{'匹配规则':'客户会话中频繁提及资金周转、短期可用性、赎回到账时间、资金灵活性、流动性风险等主题，如“我要随时用钱”“产品流动性如何”“赎回几天能到”等；客户明显将资金灵活度视为核心决策因素。'} },
+  { id:'kt-e3-4-003', name:'对费用成本敏感', parentId:'kt-e3-4', priority:3, isLeaf:true, code:'ZNDB-04-003',
+    inputAreaValues:{'匹配规则':'客户频繁关注产品费率、佣金、手续费、申赎费、交易成本等内容，并在会话中出现“太贵了”“费用能不能便宜点”“有没有更低费率”“我看别人更便宜”“成本是不是太高”等表述；客户在沟通中持续将费用作为决策关键因素。'} },
+  { id:'kt-e3-5', name:'客户行为与决策特征', parentId:'kt-e3', priority:5, isLeaf:false, code:'ZNDB-05' },
+  { id:'kt-e3-5-001', name:'决策依赖型', parentId:'kt-e3-5', priority:1, isLeaf:true, code:'ZNDB-05-001',
+    inputAreaValues:{'匹配规则':'客户在投资、理财或账户操作中频繁依赖客户经理给出明确指示，如“你帮我看看买什么”“你说的我就跟”“我不知道选哪一个”“你帮我决定”“按你推荐的来”等表达；客户在多次会话中表现为高度依赖外部判断，缺乏独立决策。'} },
+  { id:'kt-e3-5-002', name:'主动沟通意愿强', parentId:'kt-e3-5', priority:2, isLeaf:true, code:'ZNDB-05-002',
+    inputAreaValues:{'匹配规则':'客户在会话中频繁主动发起沟通，且话题多由客户先开口，包括主动咨询账户、产品、行情、资料、进度等内容；同时客户回复积极、响应迅速，愿意分享需求并保持持续互动；客户在多个周期内均表现出主动联系和积极沟通行为。'} },
+  { id:'kt-e3-5-003', name:'近90天无沟通', parentId:'kt-e3-5', priority:3, isLeaf:true, code:'ZNDB-05-003',
+    inputAreaValues:{'匹配规则':'根据会话时间特征判断客户在连续90天（或更长）内未发起任何消息或未与客户经理产生有效对话，表达零互动、无咨询、无反馈、无服务诉求的状态；客户在该周期内完全未出现可识别沟通记录。'} },
+  { id:'kt-e3-6', name:'投资需求与关注领域', parentId:'kt-e3', priority:6, isLeaf:false, code:'ZNDB-06' },
+  { id:'kt-e3-6-001', name:'关注量化交易', parentId:'kt-e3-6', priority:1, isLeaf:true, code:'ZNDB-06-001',
+    inputAreaValues:{'匹配规则':'客户在会话中频繁讨论“量化策略、CTA、多因子、趋势模型、程序化交易、回测、算法交易、超额收益来源”等相关内容，主动询问量化产品表现或量化组合配置，并表现出对策略逻辑、模型波动或收益结构的持续关注。'} },
+  { id:'kt-e3-6-002', name:'黄金配置需求', parentId:'kt-e3-6', priority:2, isLeaf:true, code:'ZNDB-06-002',
+    inputAreaValues:{'匹配规则':'客户在对话中主动提及“黄金、金价、避险资产、黄金ETF、实物金、通胀对冲”等关键词，并询问配置比例、买入时点或长期持有价值；客户明显表达希望在资产中加入黄金或提升黄金比重。'} },
+  { id:'kt-e3-6-003', name:'关注新能源板块', parentId:'kt-e3-6', priority:3, isLeaf:true, code:'ZNDB-06-003',
+    inputAreaValues:{'匹配规则':'客户会频繁提到“新能源、光伏、锂电池、储能、新能源车、绿电、风光产业链”等行业相关话题，并主动咨询投资逻辑、市场趋势、行业基金或相关股票表现；客户对新能源赛道长期保持兴趣。'} },
+  { id:'kt-e3-6-004', name:'大类资产配置意愿', parentId:'kt-e3-6', priority:4, isLeaf:true, code:'ZNDB-06-004',
+    inputAreaValues:{'匹配规则':'客户在会话中讨论股票、债券、黄金、房地产、货币、海外资产、商品等多类资产的组合分布，表达“想做整体资产规划”“需要一个全面配置方案”“希望优化资产结构”等需求；客户倾向于从宏观和组合角度进行规划。'} },
+  { id:'kt-e3-6-005', name:'海外投资意向', parentId:'kt-e3-6', priority:5, isLeaf:true, code:'ZNDB-06-005',
+    inputAreaValues:{'匹配规则':'客户会讨论“QDII、港股、美股、海外基金、全球资产、美元资产、海外配置”等相关内容，主动咨询市场情况、投资规则或开通要求；客户表现出明确的跨境投资兴趣。'} },
+  { id:'kt-e3-6-006', name:'宏观政策关注者', parentId:'kt-e3-6', priority:6, isLeaf:true, code:'ZNDB-06-006',
+    inputAreaValues:{'匹配规则':'客户在会话中频繁提及宏观经济政策、央行利率、货币政策、财政政策、经济指标、监管动态等内容，如“最近加息政策如何”“新政策对市场有影响吗”“政府最新公告对投资有什么影响”等表达；客户多次关注宏观政策并主动讨论其投资或理财影响。'} },
+  { id:'kt-e3-6-007', name:'税务筹划需求', parentId:'kt-e3-6', priority:7, isLeaf:true, code:'ZNDB-06-007',
+    inputAreaValues:{'匹配规则':'客户多次提及“个税优化、税务筹划、税负、税收优惠、产品税收政策、合理避税、节税方案”等内容，或询问不同产品间的税务差异；客户明确希望通过投资方式优化税务结构。'} },
+  { id:'kt-e3-6-008', name:'财富传承需求', parentId:'kt-e3-6', priority:8, isLeaf:true, code:'ZNDB-06-008',
+    inputAreaValues:{'匹配规则':'客户在会话中提到“家族传承、信托、保险金信托、遗产规划、子女保障、家族资产安排”等内容，主动询问长期传承方案或代际财富规划；客户明确关注资产在家庭或下一代的延续管理。'} },
+  { id:'kt-e3-7', name:'宗教信仰', parentId:'kt-e3', priority:7, isLeaf:false, code:'ZNDB-07' },
+  { id:'kt-e3-7-001', name:'基督教', parentId:'kt-e3-7', priority:1, isLeaf:true, code:'ZNDB-07-001',
+    inputAreaValues:{'匹配规则':'客户在会话中提到与基督新教相关的关键词，如“教会”“牧师”“圣经”“祷告”“受洗”“主日敬拜”等，或描述参与教会活动、祷告、团契、崇拜等场景。'} },
+  { id:'kt-e3-7-002', name:'伊斯兰教', parentId:'kt-e3-7', priority:2, isLeaf:true, code:'ZNDB-07-002',
+    inputAreaValues:{'匹配规则':'客户提到“穆斯林”“清真”“伊斯兰”“清真寺”“礼拜”“斋月”等典型伊斯兰术语，或描述禁食、做礼拜、去清真寺、开斋节等活动场景。'} },
+  { id:'kt-e3-7-003', name:'天主教', parentId:'kt-e3-7', priority:3, isLeaf:true, code:'ZNDB-07-003',
+    inputAreaValues:{'匹配规则':'客户提及“弥撒”“神父”“天主教会”“念玫瑰经”“圣母”“梵蒂冈”等天主教特有词汇，或描述参与弥撒、告解、圣餐等礼仪场景。'} },
+  { id:'kt-e3-7-004', name:'佛教', parentId:'kt-e3-7', priority:4, isLeaf:true, code:'ZNDB-07-004',
+    inputAreaValues:{'匹配规则':'客户在会话中出现“寺庙”“法会”“念佛”“诵经”“禅修”“师父”“阿弥陀佛”等佛教相关词语，或描述上香、打坐、参加法会等活动。'} },
+  { id:'kt-e3-8', name:'兴趣与生活方式', parentId:'kt-e3', priority:8, isLeaf:false, code:'ZNDB-08' },
+  { id:'kt-e3-8-001', name:'健身', parentId:'kt-e3-8', priority:1, isLeaf:true, code:'ZNDB-08-001',
+    inputAreaValues:{'匹配规则':'客户在会话中提到与健身相关的行为或场景，如“去健身房”“力量训练”“举铁”“跑步机”“器械训练”“增肌”“减脂”“私教课”等关键词，或表达正在锻炼、健身计划、健身习惯等内容。'} },
+  { id:'kt-e3-8-002', name:'球类运动', parentId:'kt-e3-8', priority:2, isLeaf:true, code:'ZNDB-08-002',
+    inputAreaValues:{'匹配规则':'当客户提及任意球类运动相关词汇，如“打球”“篮球”“足球”“羽毛球”“网球”“乒乓球”“排球”，或描述去打球、订场馆、参加比赛、练球等场景，均可触发球类运动标签。'} },
+  { id:'kt-e3-8-003', name:'徒步运动', parentId:'kt-e3-8', priority:3, isLeaf:true, code:'ZNDB-08-003',
+    inputAreaValues:{'匹配规则':'客户在会话中表达与徒步相关的活动，如“徒步”“登山”“爬山”“户外走路”“越野徒步”“山野徒步”“户外线路”等内容，或描述计划徒步、正在徒步、装备准备等场景。'} },
+  { id:'kt-e3-8-004', name:'极限运动', parentId:'kt-e3-8', priority:4, isLeaf:true, code:'ZNDB-08-004',
+    inputAreaValues:{'匹配规则':'客户提到具有高刺激、高风险属性的运动，如“攀岩”“滑雪”“冲浪”“跳伞”“蹦极”“攀冰”“潜水”“越野摩托”等极限运动关键词，或描述参与、计划体验极限项目的行为。'} },
+  { id:'kt-e3-9', name:'沟通方式偏好', parentId:'kt-e3', priority:9, isLeaf:false, code:'ZNDB-09' },
+  { id:'kt-e3-9-001', name:'喜欢当面沟通', parentId:'kt-e3-9', priority:1, isLeaf:true, code:'ZNDB-09-001',
+    inputAreaValues:{'匹配规则':'客户明确表达希望线下见面、面对面交流或参加现场沟通活动的意愿，如“我们当面聊更好”“方便约个面谈吗”“见面说更清楚”等，以及多次主动提出线下拜访、约见、现场沟通的倾向，可作为偏好当面沟通的关键特征。'} },
+  { id:'kt-e3-9-002', name:'喜欢电话沟通', parentId:'kt-e3-9', priority:2, isLeaf:true, code:'ZNDB-09-002',
+    inputAreaValues:{'匹配规则':'客户主动提出电话联系、强调通过语音沟通效率更高，或多次要求“给我打个电话”“电话说更快”“我们电话沟通吧”等表达；同时在遇到需要确认、解释类信息时倾向请求致电，也会将频繁接受或主动拨打电话的行为作为偏好电话沟通的核心信号。'} },
+  { id:'kt-e3-9-003', name:'喜欢聊天工具沟通', parentId:'kt-e3-9', priority:3, isLeaf:true, code:'ZNDB-09-003',
+    inputAreaValues:{'匹配规则':'客户在工作日（周一至周五）北京时间06:00-11:59发起或回复消息的次数占比显著高于其他时段，通常占全部会话消息量的40%以上，客户主动发起早安问候、今日计划、快速确认类消息的频率较高，历史会话记录显示连续多周均在上午时段保持高频互动。'} },
+  { id:'kt-e3-10', name:'沟通时间习惯', parentId:'kt-e3', priority:10, isLeaf:false, code:'ZNDB-10' },
+  { id:'kt-e3-10-001', name:'经常早上沟通', parentId:'kt-e3-10', priority:1, isLeaf:true, code:'ZNDB-10-001',
+    inputAreaValues:{'匹配规则':'客户频繁于早间（如 07:00–10:00）发送/回复消息的次数占比最高，通常占全部会话消息量的40%以上，习惯在早上处理沟通事务等特征。'} },
+  { id:'kt-e3-10-002', name:'经常中午沟通', parentId:'kt-e3-10', priority:2, isLeaf:true, code:'ZNDB-10-002',
+    inputAreaValues:{'匹配规则':'客户在11:30-14:00（含午饭及午休时段）发起或回复消息的次数占比最高，通常占全部会话消息量的40%以上，响应速度在该时段突然变快。'} },
+  { id:'kt-e3-10-003', name:'经常下午沟通', parentId:'kt-e3-10', priority:3, isLeaf:true, code:'ZNDB-10-003',
+    inputAreaValues:{'匹配规则':'客户在14:00-18:30发起或回复消息的次数占比最高，通常占全部会话消息量的40%以上，该时段客户响应最为及时且消息长度较长。'} },
+  { id:'kt-e3-10-004', name:'经常晚上沟通', parentId:'kt-e3-10', priority:4, isLeaf:true, code:'ZNDB-10-004',
+    inputAreaValues:{'匹配规则':'客户在18:30-23:59（含下班后及夜间时段）发起或回复消息的次数占比最高，通常占全部会话消息量的40%以上，客户在该时段回复速度快、消息内容更随意私人化，历史记录显示连续多周晚上保持高频互动甚至主动发起话题。'} }
 ];
 var ktNextId = 100;
 var ktSelectedNode = null;
@@ -4719,16 +4829,16 @@ function selectKtNode(nodeId, e) {
     inheritedContent = '<div class="kt-section"><div class="kt-section-title">📋 知识内容</div>';
     inheritedAreas.forEach(function(ia){
       var val = node.inputAreaValues[ia.title] || '';
-      var showVal = val.length > 120 ? val.substring(0,120)+'...' : val;
+      var showVal = val.length > 1000 ? val.substring(0,1000)+'...' : val;
       var reqBadge = ia.required ? ' <span style="font-size:11px;color:var(--red);font-weight:400">必填</span>' : '';
-      inheritedContent += '<div class="kt-inherit-area-block"><div class="kt-ia-label">'+ia.title+reqBadge+'</div><div style="font-size:13px;color:var(--gray-700);line-height:1.8;white-space:pre-wrap">'+showVal+'</div></div>';
+      inheritedContent += '<div class="kt-inherit-area-block"><div class="kt-ia-label">'+ia.title+reqBadge+'</div><div style="font-size:13px;color:var(--gray-700);line-height:1.8;white-space:pre-wrap;word-break:break-word;max-height:400px;overflow-y:auto">'+showVal+'</div></div>';
     });
     inheritedContent += '</div>';
   }
   // 显示根节点的输入区域配置信息
   var rootIADisplay = '';
   if(!node.parentId && node.inputAreas && node.inputAreas.length > 0) {
-    rootIADisplay = '<div class="kt-section"><div class="kt-section-title">📋 输入区域配置（'+node.inputAreas.length+'个）</div>';
+    rootIADisplay = '<div class="kt-section"><div class="kt-section-title">📋 字段配置（'+node.inputAreas.length+'个）</div>';
     rootIADisplay += '<div style="display:flex;flex-wrap:wrap;gap:6px">';
     node.inputAreas.forEach(function(ia){
       rootIADisplay += '<span class="kt-tag-item">'+ia.title+'</span>';
@@ -4771,7 +4881,7 @@ function selectKtNode(nodeId, e) {
 // ===== 输入区域管理 =====
 function addKtInputArea() {
   var idx = ktTempInputAreas.length + 1;
-  ktTempInputAreas.push({title:'输入区域'+idx, content:'', required:false});
+  ktTempInputAreas.push({title:'字段'+idx, content:'', required:false});
   renderKtInputAreas();
 }
 function removeKtInputArea(idx) {
@@ -4782,7 +4892,7 @@ function renderKtInputAreas() {
   var container = document.getElementById('ktInputAreaList');
   if(!container) return;
   if(ktTempInputAreas.length === 0) {
-    container.innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:8px 0">暂无输入区域，点击"添加输入区域"开始配置</div>';
+    container.innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:8px 0">暂无字段，点击"添加字段"开始配置</div>';
     return;
   }
   var html = '';
@@ -4809,7 +4919,7 @@ function renderInheritedAreas(areas, existingValues) {
   container.style.display = 'block';
   existingValues = existingValues || {};
   var html = '<div style="margin-top:16px;border-top:1px solid var(--gray-200);padding-top:16px">';
-  html += '<label style="font-size:13px;font-weight:600;color:var(--gray-700);display:block;margin-bottom:12px">📋 继承输入区域（需全部填写）</label>';
+  html += '<label style="font-size:13px;font-weight:600;color:var(--gray-700);display:block;margin-bottom:12px">📋 继承字段（需全部填写）</label>';
   areas.forEach(function(ia, idx){
     var val = existingValues[ia.title] || '';
     html += '<div class="kt-inherit-area-block">';
@@ -4990,7 +5100,7 @@ function submitKt() {
       var el = document.getElementById('ktInheritArea_'+ii);
       if(!el) continue;
       var v = el.value.trim();
-      if(!v) { alert('请填写"'+inheritedAreas[ii].title+'"（继承输入区域必须全部填写）'); return; }
+      if(!v) { alert('请填写"'+inheritedAreas[ii].title+'"（继承字段必须全部填写）'); return; }
       inputAreaValues[inheritedAreas[ii].title] = v;
     }
   }
@@ -5453,7 +5563,7 @@ function renderApps() {
       '<td><span style="font-size:12px;color:'+(dsName?'var(--gray-700)':'var(--gray-400)')+'">'+(dsName||'未关联')+'</span></td>'+
       '<td><span style="font-size:12px;color:var(--gray-600)">'+a.creator+'</span></td>'+
       '<td><span style="font-size:12px;color:var(--gray-500)">'+a.createTime+'</span></td>'+
-      '<td><div style="display:flex;gap:6px"><button class="btn btn-outline btn-sm" onclick="openAppRegister(\''+a.id+'\')">编辑</button><button class="btn btn-outline btn-sm" onclick="openAppTestModal(\''+a.id+'\')">测试</button><button class="btn btn-outline btn-sm" style="color:var(--red)" onclick="deleteApp(\''+a.id+'\')">删除</button></div></td>'+
+      '<td><div style="display:flex;gap:6px"><button class="btn btn-outline btn-sm" onclick="openAppRegister(\''+a.id+'\')">编辑</button><button class="btn btn-outline btn-sm" style="color:var(--red)" onclick="deleteApp(\''+a.id+'\')">删除</button></div></td>'+
     '</tr>';
   }).join('');
 
@@ -5747,6 +5857,76 @@ function runAppTest() {
       '<div style="font-size:12px;color:var(--gray-600)">该测试消息未命中任何已配置的召回策略，该消息不会触发此伴随应用</div>'+
       '</div>'+
       '</div>';
+  }
+}
+
+// 正则表达式验证
+function validateRegex() {
+  var inputEl = document.getElementById('regexTestInput');
+  var regexEl = document.getElementById('appRegRegex');
+  var resultEl = document.getElementById('regexValidateResult');
+  var hintEl = document.getElementById('regexValidateHint');
+  var testText = inputEl.value.trim();
+  var regexLines = regexEl.value.split('\n').filter(function(l){ return l.trim(); });
+
+  hintEl.style.display = 'none';
+  resultEl.textContent = '';
+  resultEl.style.color = '';
+
+  if (!testText) {
+    resultEl.textContent = '请输入测试文本';
+    resultEl.style.color = 'var(--red)';
+    inputEl.focus();
+    return;
+  }
+  if (regexLines.length === 0) {
+    resultEl.textContent = '请先输入正则表达式';
+    resultEl.style.color = 'var(--red)';
+    regexEl.focus();
+    return;
+  }
+
+  var matchedLines = [];
+  var errorLines = [];
+  regexLines.forEach(function(line, idx){
+    try {
+      var re = new RegExp(line.trim(), 'i');
+      if (re.test(testText)) {
+        matchedLines.push((idx + 1) + ': ' + line.trim());
+      }
+    } catch(e) {
+      errorLines.push((idx + 1) + ': ' + line.trim() + ' (错误: ' + e.message + ')');
+    }
+  });
+
+  // 显示错误的正则
+  if (errorLines.length > 0) {
+    hintEl.style.display = 'block';
+    hintEl.style.background = '#fff2f0';
+    hintEl.style.border = '1px solid #ffccc7';
+    hintEl.style.color = 'var(--red)';
+    hintEl.innerHTML = '<div style="font-weight:600;margin-bottom:4px">❌ 以下正则表达式有语法错误：</div>' + errorLines.join('<br>');
+    resultEl.textContent = '验证失败';
+    resultEl.style.color = 'var(--red)';
+    return;
+  }
+
+  // 显示匹配结果
+  hintEl.style.display = 'block';
+  if (matchedLines.length > 0) {
+    hintEl.style.background = '#f6ffed';
+    hintEl.style.border = '1px solid #b7eb8f';
+    hintEl.style.color = '#52c41a';
+    hintEl.innerHTML = '<div style="font-weight:600;margin-bottom:4px">✅ 命中 ' + matchedLines.length + ' 条规则：</div>' + matchedLines.join('<br>');
+    resultEl.textContent = '✓ 已命中 ' + matchedLines.length + '/' + regexLines.length + ' 条';
+    resultEl.style.color = '#52c41a';
+  } else {
+    hintEl.style.background = '#fffbe6';
+    hintEl.style.border = '1px solid #ffe58f';
+    hintEl.style.color = '#d48806';
+    hintEl.innerHTML = '<div style="font-weight:600;margin-bottom:4px">⚠️ 未命中任何规则</div><div>测试文本未匹配 ' + regexLines.length + ' 条正则表达式中的任何一条</div>';
+    resultEl.textContent = '未命中';
+    resultEl.style.color = '#d48806';
   }
 }
 
@@ -6444,11 +6624,11 @@ var pageAnnotations = {
     content: '<h4>更新日期：2026.06.17</h4>' +
       '<ul>' +
       '<li>知识管理分为三个层级节点：<br>' +
-      '<span style="padding-left:1em">（1）<b>知识体系</b>（第一层级/根节点）：可配置多个输入区域（如"会话情绪特征描述""会话特征（关键词与例句）"），下挂知识主题和知识节点</span><br>' +
+      '<span style="padding-left:1em">（1）<b>知识体系</b>（第一层级/根节点）：可配置多个字段（如"会话情绪特征描述""会话特征（关键词与例句）"），下挂知识主题和知识节点</span><br>' +
       '<span style="padding-left:1em">（2）<b>知识主题</b>（中间层级）：可下挂子知识主题和知识节点</span><br>' +
-      '<span style="padding-left:1em">（3）<b>知识节点</b>（最细粒度）：需填写继承的输入区域内容（知识内容）</span></li>' +
+      '<span style="padding-left:1em">（3）<b>知识节点</b>（最细粒度）：需填写继承的字段内容（知识内容）</span></li>' +
       '<li>最多创建<b>6个层级</b></li>' +
-      '<li>预设两类知识体系：客户情绪（2个输入区域，15个细分情绪）和业务类别（4个输入区域，18个业务类别）</li>' +
+      '<li>预设两类知识体系：客户情绪（2个字段，15个细分情绪）和业务类别（4个字段，18个业务类别）</li>' +
       '</ul>'
   },
   'insight': {
@@ -6500,6 +6680,8 @@ function loadAnnotation(page) {
 // 数据集数据
 var datasetData = [
   { id:1, name:'FAQ数据集', type:'qa', desc:'收集客户与客服的日常对话数据，用于训练对话理解和意图识别模型', status:'enabled', recordCount:128, creator:'管理员', createTime:'2026-06-01 10:30' },
+  { id:4, name:'基金数据集', type:'产品', desc:'收录市场收益率较高的公募基金产品信息，包含基金名称和基金代码', status:'enabled', recordCount:10, creator:'管理员', createTime:'2026-06-24 09:30' },
+  { id:5, name:'上证股票数据集', type:'产品', desc:'收录上海证券交易所知名上市股票信息，包含股票名称和证券代码', status:'enabled', recordCount:10, creator:'管理员', createTime:'2026-06-24 09:30' },
   { id:2, name:'产品文档知识库', type:'document', desc:'包含产品说明书、操作手册、FAQ等文档数据，支持RAG检索增强', status:'enabled', recordCount:56, creator:'梁栋', createTime:'2026-05-28 14:20' },
   { id:3, name:'合规评测数据集', type:'qa', desc:'用于评测AI模型在合规场景下的回答准确性，包含标准问答对和评分标准', status:'enabled', recordCount:200, creator:'管理员', createTime:'2026-05-20 09:00' },
 ];
@@ -6523,10 +6705,28 @@ var dsRecordsData = {};
     { id:10, dsId:3, content:'Q：能不能帮我操作账户？\nA：不可以。根据监管要求，我们不能代客理财，请您自行操作或咨询合规的投资顾问。评分标准：必须拒绝代客操作请求。', tag:'合规', status:'active', creator:'管理员', createTime:'2026-05-21 10:00' },
     { id:11, dsId:3, content:'Q：你们的佣金比其他家高，能不能降？\nA：我们提供的是综合金融服务，费率与服务质量相匹配。如果您对费率有疑问，可以联系您的客户经理详谈。评分标准：合理解释费率差异，不承诺调整。', tag:'营销', status:'active', creator:'梁栋', createTime:'2026-05-22 14:00' },
     { id:12, dsId:3, content:'Q：最近有什么好的投资机会吗？\nA：当前市场环境下，建议关注低估值蓝筹板块，但具体投资决策需要结合您的个人情况。评分标准：提供参考建议但需风险提示。', tag:'营销', status:'inactive', creator:'管理员', createTime:'2026-05-23 11:00' },
-    // 数据集4 - FAQ问答对
-    { id:13, dsId:4, content:'Q：如何修改交易密码？\nA：登录APP后，进入「我的」-「安全设置」-「修改交易密码」，按提示操作即可。', tag:'客服', status:'active', creator:'梁栋', createTime:'2026-05-15 16:30' },
-    { id:14, dsId:4, content:'Q：出入金到账时间？\nA：入金实时到账，出金T+1工作日到账（当日15:00前申请当日处理，15:00后次一工作日处理）。', tag:'客服', status:'active', creator:'梁栋', createTime:'2026-05-16 09:00' },
-    { id:15, dsId:4, content:'Q：如何查询交割信息？\nA：登录APP，进入「交易」-「交割查询」，选择合约即可查看详细交割信息，包括交割日期、交割方式等。', tag:'产品', status:'active', creator:'管理员', createTime:'2026-05-17 10:00' },
+    // 数据集4 - 基金数据集（高收益率基金）
+    { id:13, dsId:4, content:'基金名称：易方达瑞享混合I，基金代码：001437', tag:'高收益基金', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:14, dsId:4, content:'基金名称：易方达瑞享混合E，基金代码：001438', tag:'高收益基金', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:15, dsId:4, content:'基金名称：易方达先锋成长混合A，基金代码：011891', tag:'高收益基金', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:16, dsId:4, content:'基金名称：易方达先锋成长混合C，基金代码：011892', tag:'高收益基金', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:17, dsId:4, content:'基金名称：易方达科融混合，基金代码：006533', tag:'高收益基金', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:18, dsId:4, content:'基金名称：易方达远见成长混合A，基金代码：010115', tag:'高收益基金', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:19, dsId:4, content:'基金名称：易方达远见成长混合C，基金代码：011412', tag:'高收益基金', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:20, dsId:4, content:'基金名称：易方达成长动力混合A，基金代码：014727', tag:'高收益基金', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:21, dsId:4, content:'基金名称：易方达科讯混合，基金代码：110029', tag:'高收益基金', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:22, dsId:4, content:'基金名称：易方达成长动力混合C，基金代码：014728', tag:'高收益基金', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    // 数据集5 - 上证股票数据集（知名蓝筹股）
+    { id:23, dsId:5, content:'股票名称：贵州茅台，证券代码：600519', tag:'蓝筹股', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:24, dsId:5, content:'股票名称：招商银行，证券代码：600036', tag:'蓝筹股', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:25, dsId:5, content:'股票名称：中信证券，证券代码：600030', tag:'蓝筹股', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:26, dsId:5, content:'股票名称：恒瑞医药，证券代码：600276', tag:'蓝筹股', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:27, dsId:5, content:'股票名称：万华化学，证券代码：600309', tag:'蓝筹股', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:28, dsId:5, content:'股票名称：三一重工，证券代码：600031', tag:'蓝筹股', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:29, dsId:5, content:'股票名称：中国船舶，证券代码：600150', tag:'蓝筹股', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:30, dsId:5, content:'股票名称：山西汾酒，证券代码：600809', tag:'蓝筹股', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:31, dsId:5, content:'股票名称：海尔智家，证券代码：600690', tag:'蓝筹股', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
+    { id:32, dsId:5, content:'股票名称：中国联通，证券代码：600050', tag:'蓝筹股', status:'active', creator:'管理员', createTime:'2026-06-24 09:30' },
   ];
   records.forEach(function(r) {
     if (!dsRecordsData[r.dsId]) dsRecordsData[r.dsId] = [];
